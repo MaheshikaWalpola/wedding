@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>RSVP — Maheshika &amp; Moksha</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='30' fill='%236e2639'/%3E%3Ctext x='32' y='41' font-family='Georgia' font-size='24' fill='%23d4b96a' text-anchor='middle'%3EM%26M%3C/text%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+  <header class="site-header">
+    <a class="monogram" href="index.html">M<span class="amp">&amp;</span>M</a>
+    <button class="nav-toggle" aria-label="Menu">☰</button>
+    <nav class="site-nav">
+      <a href="index.html">Home</a>
+      <a href="info.html">Wedding Info</a>
+      <a href="location.html">Location</a>
+      <a href="seating.html">Find Your Seat</a>
+      <a href="rsvp.html" class="active">RSVP</a>
+    </nav>
+  </header>
+
+  <main class="page">
+    <div class="page-title">
+      <p class="eyebrow">Kindly Respond</p>
+      <h1>RSVP</h1>
+      <p class="lede">
+        Please reply by <strong>21 October 2026</strong> <!-- EDIT: RSVP deadline -->
+        so we can save you the perfect seat.
+      </p>
+    </div>
+
+    <section class="card form-card">
+      <form id="rsvp-form" novalidate>
+        <label for="rsvp-name">Your Name</label>
+        <input type="text" id="rsvp-name" name="name" placeholder="Full name on your invitation" autocomplete="name">
+
+        <label>Will you be joining us?</label>
+        <div class="radio-row">
+          <label><input type="radio" name="attending" value="yes"> Joyfully accept</label>
+          <label><input type="radio" name="attending" value="no"> Regretfully decline</label>
+        </div>
+
+        <label for="rsvp-guests">Number of Guests (including you)</label>
+        <select id="rsvp-guests" name="guests">
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+          <option value="5">5</option>
+        </select>
+
+        <label for="rsvp-meal">Meal Preference</label>
+        <select id="rsvp-meal" name="meal">
+          <option value="Sri Lankan">Sri Lankan</option>
+          <option value="Western">Western</option>
+          <option value="Vegetarian">Vegetarian</option>
+          <option value="Vegan">Vegan</option>
+        </select>
+
+        <label for="rsvp-message">A Note for the Couple <span style="text-transform:none;letter-spacing:0.05em;">(optional)</span></label>
+        <textarea id="rsvp-message" name="message" placeholder="Dietary needs, song requests, or well-wishes…"></textarea>
+
+        <div class="form-actions">
+          <button type="submit" class="btn btn-solid">Send RSVP</button>
+        </div>
+        <p id="rsvp-status" class="form-status"></p>
+      </form>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="monogram">M<span class="amp">&amp;</span>M</div>
+    <p>Maheshika &amp; Moksha · 21 December 2026</p>
+  </footer>
+
+  <script src="js/config.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/rsvp.js"></script>
+</body>
+</html>

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Find Your Seat — Maheshika &amp; Moksha</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='30' fill='%236e2639'/%3E%3Ctext x='32' y='41' font-family='Georgia' font-size='24' fill='%23d4b96a' text-anchor='middle'%3EM%26M%3C/text%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+  <header class="site-header">
+    <a class="monogram" href="index.html">M<span class="amp">&amp;</span>M</a>
+    <button class="nav-toggle" aria-label="Menu">☰</button>
+    <nav class="site-nav">
+      <a href="index.html">Home</a>
+      <a href="info.html">Wedding Info</a>
+      <a href="location.html">Location</a>
+      <a href="seating.html" class="active">Find Your Seat</a>
+      <a href="rsvp.html">RSVP</a>
+    </nav>
+  </header>
+
+  <main class="page">
+    <div class="page-title">
+      <p class="eyebrow">Reception Seating</p>
+      <h1>Find Your Seat</h1>
+      <p class="lede">
+        Type your name as it appears on your invitation and we'll show you
+        your table for the evening.
+      </p>
+    </div>
+
+    <section class="card form-card">
+      <form id="seat-form" novalidate>
+        <label for="seat-name">Your Name</label>
+        <input type="text" id="seat-name" name="name" placeholder="e.g. Nimali Perera" autocomplete="name">
+        <div class="form-actions">
+          <button type="submit" class="btn btn-solid">Find My Table</button>
+        </div>
+        <p id="seat-status" class="form-status"></p>
+      </form>
+
+      <div id="seat-result" class="seat-result">
+        <p class="guest-name"></p>
+        <div class="divider"><span class="gem">◆</span></div>
+        <p class="table-word">You are seated at table</p>
+        <p class="table-num"></p>
+        <p class="note"></p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="monogram">M<span class="amp">&amp;</span>M</div>
+    <p>Maheshika &amp; Moksha · 21 December 2026</p>
+  </footer>
+
+  <script src="js/config.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/seating.js"></script>
+</body>
+</html>
