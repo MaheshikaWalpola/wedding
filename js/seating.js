@@ -28,10 +28,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
       status.textContent = "";
       if (res.found) {
+        const hasTable = res.table !== null && res.table !== undefined && res.table !== "";
         result.querySelector(".guest-name").textContent = res.name;
-        result.querySelector(".table-num").textContent = res.table;
-        result.querySelector(".note").textContent =
-          res.note || "We can't wait to celebrate with you!";
+        result.querySelector(".table-word").style.display = hasTable ? "" : "none";
+        result.querySelector(".table-num").style.display = hasTable ? "" : "none";
+        result.querySelector(".table-num").textContent = hasTable ? res.table : "";
+        result.querySelector(".note").textContent = hasTable
+          ? res.note || "We can't wait to celebrate with you!"
+          : "Your table hasn't been assigned yet — check back closer to the big day!";
         result.classList.add("visible");
       } else if (res.ambiguous) {
         status.classList.add("error");

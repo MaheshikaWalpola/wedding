@@ -34,23 +34,30 @@ python3 -m http.server 8788
 
 ## Connect your Google Sheet (go live)
 
-### 1. Create the Sheet and paste the script
+The backend is built for the "Wedding" planner spreadsheet — it reads
+guests straight from the existing **Guest List & RSVP** tab.
 
-1. Go to [sheets.new](https://sheets.new) and create a blank spreadsheet
-   (name it e.g. *Wedding Guests*).
+### 1. Open the Sheet and paste the script
+
+1. The spreadsheet must be a native Google Sheet, not an uploaded .xlsx.
+   If the title bar shows an `.XLSX` badge: **File → Save as Google
+   Sheets** first, and use the converted copy from then on.
 2. In the menu: **Extensions → Apps Script**.
 3. Delete the placeholder code and paste in the whole of
    [apps-script/Code.gs](apps-script/Code.gs). Save (💾).
 
-### 2. Create the tabs with sample data
+### 2. Run the one-time setup
 
-1. In the Apps Script editor, select the function **`setupSheets`** in the
+1. In the Apps Script editor, select the function **`setupWebsite`** in the
    toolbar dropdown and click **Run**.
 2. Google will ask for permission the first time — click **Review
    permissions → your account → Advanced → Go to … (unsafe) → Allow**.
    (It's your own script reading your own sheet; the warning is standard.)
-3. Your spreadsheet now has a **Guests** tab (GuestID, Name, Table, Note)
-   with the six sample guests, and an empty **RSVPs** tab.
+3. This adds **Table**, **GuestID** and **Seat Note** columns to the
+   Guest List & RSVP tab (existing columns are untouched), generates a
+   unique GuestID for every guest, and creates an **RSVP Responses** tab
+   for website submissions. Safe to re-run any time — e.g. after adding
+   new guests, to give them ids too.
 
 ### 3. Deploy as a web app
 
@@ -74,25 +81,28 @@ const CONFIG = {
 ```
 
 That's it. The seat finder and invitation links now query your Sheet one
-guest at a time (the full list never reaches the browser), and RSVPs appear
-as rows in the **RSVPs** tab.
+guest at a time (the full list never reaches the browser), and website
+RSVPs appear as rows in the **RSVP Responses** tab — your own RSVP and
+Meal Preference columns in the guest list remain yours to manage.
 
 > **Note:** if you later edit `Code.gs`, you must publish the change with
 > **Deploy → Manage deployments → ✏️ Edit → Version: New version → Deploy**.
 > Just saving the file does not update the live web app.
 
-### Replace the sample guests
+### Managing guests
 
-Edit the **Guests** tab directly — one row per guest/party:
+Everything lives in the **Guest List & RSVP** tab:
 
-| GuestID | Name | Table | Note |
-|---|---|---|---|
-| `aunty-k` | Kumari Ratnayake | 6 | So glad you made the trip! |
-
+- **Full Name** is what the seat finder matches against — guests type it,
+  so use the names guests know themselves by.
+- **Table** — fill in as you finalise seating. Until it has a value, the
+  seat finder shows that guest a friendly "not assigned yet" message.
 - **GuestID** is what goes in each personalized link:
-  `https://your-site.pages.dev/?g=aunty-k` — keep them lowercase, no spaces,
-  and hard to guess if you like (e.g. `kumari-x7q2`).
-- **Note** is optional; it shows under the table number in the seat finder.
+  `https://your-site.pages.dev/?g=sonu-brother-x4k2`. Run `setupWebsite`
+  again after adding new guests to generate ids for them. The
+  `listInviteLinks` function prints every guest's link for copy-pasting.
+- **Seat Note** is optional; it shows under the table number in the
+  seat finder.
 
 ## Deploy to Cloudflare Pages
 
