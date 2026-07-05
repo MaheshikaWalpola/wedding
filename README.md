@@ -14,7 +14,7 @@ invitation links.
 | `info.html` | Schedule (poruwa ceremony + reception) and dress code — placeholders marked with `<!-- EDIT: ... -->` |
 | `location.html` | Embedded Google Map to the resort + travel notes |
 | `seating.html` | Seat finder — a guest types their name, sees their table |
-| `rsvp.html` | RSVP form — name, attending, guest count, meal choice |
+| `rsvp.html` | RSVP form — name, attending, guest count |
 
 ## Try it right now (demo mode)
 

@@ -88,7 +88,6 @@ function doPost(e) {
       name,
       String(data.attending || ''),
       Number(data.guests || 1),
-      String(data.meal || ''),
       String(data.message || ''),
     ]);
 
@@ -163,7 +162,7 @@ function setupSheets() {
 
   var rsvps = ss.getSheetByName(RSVP_SHEET) || ss.insertSheet(RSVP_SHEET);
   if (rsvps.getLastRow() === 0) {
-    rsvps.appendRow(['Timestamp', 'Name', 'Attending', 'Guests', 'Meal', 'Message']);
+    rsvps.appendRow(['Timestamp', 'Name', 'Attending', 'Guests', 'Message']);
     rsvps.getRange('1:1').setFontWeight('bold');
   }
 }
