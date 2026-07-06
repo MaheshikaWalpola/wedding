@@ -21,7 +21,7 @@ function setupCountdown() {
   const el = document.querySelector(".countdown");
   if (!el) return;
 
-  const target = new Date("2026-12-21T00:00:00+05:30"); // Sri Lanka time
+  const target = new Date("2026-12-21T17:00:00+05:30"); // 5 PM Sri Lanka time
 
   function render() {
     let diff = Math.max(0, target - new Date());
