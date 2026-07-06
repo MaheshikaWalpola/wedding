@@ -93,9 +93,11 @@ function addTile(src, by, prepend) {
   const fig = document.createElement("figure");
   fig.className = "gallery-tile";
   const img = document.createElement("img");
+  img.referrerPolicy = "no-referrer"; // Google image hosts sometimes block hotlinks with a referrer
   img.src = src;
   img.loading = "lazy";
   img.alt = by ? `Photo shared by ${by}` : "Guest photo";
+  img.addEventListener("error", () => fig.remove(), { once: true });
   const cap = document.createElement("figcaption");
   cap.textContent = by || "A guest";
   fig.append(img, cap);
