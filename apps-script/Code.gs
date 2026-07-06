@@ -47,6 +47,13 @@ var COL_TABLE = 'Table';
 var COL_ID = 'GuestID';
 var COL_NOTE = 'Seat Note';
 
+// Guest photo wall: uploads land in this Drive folder, and each photo
+// gets a row in this sheet tab. Set a row's "Show" cell to "no" to hide
+// that photo from the website.
+var PHOTOS_TAB = 'Guest Photos';
+var PHOTOS_FOLDER_NAME = 'Wedding Guest Photos';
+var MAX_PHOTO_BASE64_CHARS = 9000000; // ~6.5 MB image, far above the ~500 KB the site sends
+
 /* ------------------------------------------------------------------ */
 /* GET — seat finder & invitation lookup                               */
 /* ------------------------------------------------------------------ */
@@ -56,6 +63,7 @@ function doGet(e) {
 
   if (action === 'seat')   return jsonResponse(findSeatByName(e.parameter.name));
   if (action === 'invite') return jsonResponse(findGuestById(e.parameter.g));
+  if (action === 'photos') return jsonResponse(listPhotos());
 
   return jsonResponse({ ok: false, error: 'Unknown action' });
 }
@@ -114,6 +122,8 @@ function doPost(e) {
   try {
     var data = JSON.parse(e.postData.contents);
 
+    if (data.action === 'photo') return jsonResponse(savePhoto(data));
+
     var name = String(data.name || '').trim();
     if (!name) return jsonResponse({ ok: false, error: 'Missing name' });
 
@@ -127,8 +137,72 @@ function doPost(e) {
 
     return jsonResponse({ ok: true });
   } catch (err) {
-    return jsonResponse({ ok: false, error: 'Could not save RSVP' });
+    return jsonResponse({ ok: false, error: 'Could not save' });
   }
+}
+
+/* ------------------------------------------------------------------ */
+/* Guest photo wall                                                    */
+/* ------------------------------------------------------------------ */
+
+/** Saves one uploaded photo to Drive and records it in the sheet. */
+function savePhoto(data) {
+  var b64 = String(data.data || '');
+  if (!b64) return { ok: false, error: 'No image data' };
+  if (b64.length > MAX_PHOTO_BASE64_CHARS) return { ok: false, error: 'Image too large' };
+
+  var mime = String(data.mimeType || 'image/jpeg');
+  if (mime.indexOf('image/') !== 0) return { ok: false, error: 'Not an image' };
+
+  var blob = Utilities.newBlob(
+    Utilities.base64Decode(b64),
+    mime,
+    String(data.filename || 'guest-photo.jpg')
+  );
+  var file = getOrCreatePhotosFolder().createFile(blob);
+  file.setSharing(DriveApp.Access.ANYONE_WITH_LINK, DriveApp.Permission.VIEW);
+
+  getOrCreatePhotosSheet().appendRow([
+    new Date(),
+    String(data.name || 'A guest').trim() || 'A guest',
+    file.getId(),
+    'yes', // Show on the website — change to "no" to hide
+  ]);
+
+  return { ok: true };
+}
+
+/** Returns the visible photos, newest first. */
+function listPhotos() {
+  var values = getOrCreatePhotosSheet().getDataRange().getValues();
+  var photos = [];
+  for (var i = 1; i < values.length; i++) {
+    var fileId = String(values[i][2] || '').trim();
+    if (!fileId) continue;
+    if (String(values[i][3]).toLowerCase().trim() !== 'yes') continue;
+    photos.push({
+      by: String(values[i][1] || 'A guest'),
+      url: 'https://drive.google.com/thumbnail?id=' + fileId + '&sz=w1200',
+    });
+  }
+  photos.reverse();
+  return { ok: true, photos: photos.slice(0, 200) };
+}
+
+function getOrCreatePhotosSheet() {
+  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var sheet = ss.getSheetByName(PHOTOS_TAB);
+  if (!sheet) {
+    sheet = ss.insertSheet(PHOTOS_TAB);
+    sheet.appendRow(['Timestamp', 'Shared By', 'FileID', 'Show']);
+    sheet.getRange('1:1').setFontWeight('bold');
+  }
+  return sheet;
+}
+
+function getOrCreatePhotosFolder() {
+  var it = DriveApp.getFoldersByName(PHOTOS_FOLDER_NAME);
+  return it.hasNext() ? it.next() : DriveApp.createFolder(PHOTOS_FOLDER_NAME);
 }
 
 /* ------------------------------------------------------------------ */
@@ -256,6 +330,8 @@ function setupWebsite() {
   }
 
   getOrCreateRsvpSheet();
+  getOrCreatePhotosSheet();
+  getOrCreatePhotosFolder(); // also triggers the Drive permission prompt once
   Logger.log('setupWebsite done — generated ' + added + ' new GuestIDs.');
 }
 

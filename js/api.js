@@ -70,5 +70,29 @@ const Api = (() => {
     return res.json();
   }
 
-  return { findSeat, getGuest, submitRsvp };
+  /* --- Guest photo wall: list visible photos --- */
+  async function getPhotos() {
+    if (CONFIG.DEMO_MODE) {
+      return demoDelay({ ok: true, photos: [] });
+    }
+    const res = await fetch(`${CONFIG.SCRIPT_URL}?action=photos`);
+    if (!res.ok) throw new Error(`Photo list failed (${res.status})`);
+    return res.json();
+  }
+
+  /* --- Guest photo wall: upload one photo (base64, already resized) --- */
+  async function uploadPhoto(payload) {
+    if (CONFIG.DEMO_MODE) {
+      console.info("[demo] photo that would be uploaded to your Drive:", payload.filename);
+      return demoDelay({ ok: true });
+    }
+    const res = await fetch(CONFIG.SCRIPT_URL, {
+      method: "POST",
+      body: JSON.stringify({ action: "photo", ...payload }),
+    });
+    if (!res.ok) throw new Error(`Upload failed (${res.status})`);
+    return res.json();
+  }
+
+  return { findSeat, getGuest, submitRsvp, getPhotos, uploadPhoto };
 })();

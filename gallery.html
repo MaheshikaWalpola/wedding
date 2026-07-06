@@ -29,47 +29,46 @@
   <main class="page">
     <div class="page-title">
       <p class="eyebrow">Our Moments</p>
-      <h1>Gallery</h1>
+      <h1>Photo Wall</h1>
       <p class="lede">
-        A few glimpses of our journey together — with many more to come
-        after the big day.
+        Share your favourite snaps from the celebration — they'll appear
+        right here for everyone to enjoy.
       </p>
     </div>
 
-    <!-- ==================================================================
-         HOW TO ADD YOUR PHOTOS:
-         1. Put your pictures in a folder called  images/  next to this file
-            (create it if it doesn't exist), e.g. images/us-1.jpg
-         2. Replace a placeholder tile below with:
-              <figure class="gallery-tile">
-                <img src="images/us-1.jpg" alt="Maheshika and Moksha">
-              </figure>
-         3. Add or remove tiles freely — the grid adjusts by itself.
-         ================================================================== -->
-    <section class="gallery-grid">
-      <figure class="gallery-tile">
-        <div class="placeholder"><span class="mono">M&amp;M</span><span class="soon">Photo coming soon</span></div>
-      </figure>
-      <figure class="gallery-tile">
-        <div class="placeholder"><span class="mono">M&amp;M</span><span class="soon">Photo coming soon</span></div>
-      </figure>
-      <figure class="gallery-tile">
-        <div class="placeholder"><span class="mono">M&amp;M</span><span class="soon">Photo coming soon</span></div>
-      </figure>
-      <figure class="gallery-tile">
-        <div class="placeholder"><span class="mono">M&amp;M</span><span class="soon">Photo coming soon</span></div>
-      </figure>
-      <figure class="gallery-tile">
-        <div class="placeholder"><span class="mono">M&amp;M</span><span class="soon">Photo coming soon</span></div>
-      </figure>
-      <figure class="gallery-tile">
-        <div class="placeholder"><span class="mono">M&amp;M</span><span class="soon">Photo coming soon</span></div>
-      </figure>
+    <!-- Upload card: photos are resized in the browser, sent to the
+         Apps Script backend, and stored in the couple's Google Drive. -->
+    <section class="card form-card" style="margin-bottom: 2.5rem;">
+      <form id="photo-form" novalidate>
+        <label for="photo-name">Your Name <span style="text-transform:none;letter-spacing:0.05em;">(optional)</span></label>
+        <input type="text" id="photo-name" name="name" placeholder="So we know who to thank!" autocomplete="name">
+
+        <label for="photo-files">Choose Photos</label>
+        <input type="file" id="photo-files" name="photos" accept="image/*" multiple>
+
+        <div class="form-actions">
+          <button type="submit" class="btn btn-solid">Share Photos</button>
+        </div>
+        <p id="photo-status" class="form-status"></p>
+      </form>
     </section>
 
-    <p class="hint">
-      Photos from the celebration will appear here after 21 December 2026. ✨
-    </p>
+    <section class="gallery-grid" id="gallery-grid"></section>
+
+    <div id="gallery-empty">
+      <section class="gallery-grid">
+        <figure class="gallery-tile">
+          <div class="placeholder"><span class="mono">M&amp;M</span><span class="soon">Your photo here</span></div>
+        </figure>
+        <figure class="gallery-tile">
+          <div class="placeholder"><span class="mono">M&amp;M</span><span class="soon">Your photo here</span></div>
+        </figure>
+        <figure class="gallery-tile">
+          <div class="placeholder"><span class="mono">M&amp;M</span><span class="soon">Your photo here</span></div>
+        </figure>
+      </section>
+      <p class="hint">No photos yet — be the first to share one! ✨</p>
+    </div>
   </main>
 
   <footer class="site-footer">
@@ -80,5 +79,6 @@
   <script src="js/config.js"></script>
   <script src="js/api.js"></script>
   <script src="js/main.js"></script>
+  <script src="js/gallery.js"></script>
 </body>
 </html>

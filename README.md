@@ -14,6 +14,8 @@ invitation links.
 | `info.html` | Schedule (poruwa ceremony + reception) and dress code — placeholders marked with `<!-- EDIT: ... -->` |
 | `location.html` | Embedded Google Map to the resort + travel notes |
 | `seating.html` | Seat finder — a guest types their name, sees their table |
+| `gallery.html` | Guest photo wall — guests upload photos (resized in-browser) that land in a "Wedding Guest Photos" folder in your Drive and appear on the page. Hide any photo by setting its row's **Show** cell to `no` in the **Guest Photos** tab |
+| `contact.html` | Contact cards for the couple's family |
 | `rsvp.html` | RSVP form — name, attending, guest count |
 
 ## Try it right now (demo mode)
