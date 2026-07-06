@@ -7,8 +7,8 @@
    ============================================================ */
 
 const CONFIG = {
-  SCRIPT_URL: "PASTE_YOUR_APPS_SCRIPT_WEB_APP_URL_HERE",
-  DEMO_MODE: true, // true = use the sample guests below, no backend needed
+  SCRIPT_URL: "https://script.google.com/macros/s/AKfycby1MQP6pJmovAYBpL794PmHpWrf8I3HoMHtWS0blxIq0Kfbw8obqfXQZynzMUI1cyy1Gg/exec",
+  DEMO_MODE: false, // live: queries your Google Sheet one guest at a time
 };
 
 /* Sample guests used only while DEMO_MODE is true.

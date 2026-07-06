@@ -35,7 +35,9 @@
  *     columns in the guest list are yours to update as you confirm.
  */
 
-var GUEST_TAB = 'Guest List & RSVP';
+// The guest tab is matched loosely (any tab whose name contains "guest
+// list"), so an emoji prefix like "👥 Guest List & RSVP" still works.
+var GUEST_TAB_MATCH = 'guest list';
 var RSVP_TAB = 'RSVP Responses';
 
 // Header titles in the Guest List & RSVP tab. If you rename a column,
@@ -59,16 +61,21 @@ function doGet(e) {
 }
 
 /**
- * Case-insensitive lookup by name. Matches if the typed name is contained
- * in the guest's name (so "Nimali" finds "Nimali Perera"). If several
- * guests match, asks the visitor to be more specific instead of guessing.
- * A guest without a table yet returns table: null.
+ * Case-insensitive lookup by name. An exact name match always wins (so a
+ * guest literally named "Amma" is found even though "Loku Amma" also
+ * contains it). Otherwise it falls back to "contains" matching, so
+ * "Nimali" finds "Nimali Perera". If several guests still match, it asks
+ * the visitor to be more specific instead of guessing. A guest without a
+ * table yet returns table: null.
  */
 function findSeatByName(name) {
   var query = normalize(name);
   if (query.length < 2) return { found: false };
 
-  var matches = getGuestRows().filter(function (g) {
+  var rows = getGuestRows();
+
+  var exact = rows.filter(function (g) { return normalize(g.name) === query; });
+  var matches = exact.length ? exact : rows.filter(function (g) {
     return normalize(g.name).indexOf(query) !== -1;
   });
 
@@ -148,14 +155,23 @@ function getGuestLayout(values) {
       };
     }
   }
-  throw new Error('Could not find a "' + COL_NAME + '" header in "' + GUEST_TAB + '"');
+  throw new Error('Could not find a "' + COL_NAME + '" header in the guest tab');
+}
+
+/** Finds the guest tab even if its name has an emoji/extra spaces. */
+function getGuestSheet() {
+  var sheets = SpreadsheetApp.getActiveSpreadsheet().getSheets();
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].getName().toLowerCase().indexOf(GUEST_TAB_MATCH) !== -1) {
+      return sheets[i];
+    }
+  }
+  throw new Error('Could not find a tab whose name contains "Guest List"');
 }
 
 /** Reads the guest tab into [{name, table, id, note}, ...]. */
 function getGuestRows() {
-  var sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(GUEST_TAB);
-  if (!sheet) throw new Error('Missing sheet tab: ' + GUEST_TAB);
-
+  var sheet = getGuestSheet();
   var values = sheet.getDataRange().getValues();
   var layout = getGuestLayout(values);
   var c = layout.cols;
@@ -206,8 +222,7 @@ function jsonResponse(obj) {
  * existing values are never overwritten.
  */
 function setupWebsite() {
-  var sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(GUEST_TAB);
-  if (!sheet) throw new Error('Missing sheet tab: ' + GUEST_TAB);
+  var sheet = getGuestSheet();
 
   var values = sheet.getDataRange().getValues();
   var layout = getGuestLayout(values);
