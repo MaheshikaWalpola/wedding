@@ -352,13 +352,41 @@ function makeGuestId(name, used) {
   }
 }
 
+var SITE_URL = 'https://maheshika-moksha.pages.dev';
+
 /**
- * Handy helper: logs every guest's personalized link so you can copy
- * them into invitations. Run it and check View -> Logs (or the
- * Execution log). Set SITE_URL to your Cloudflare Pages address first.
+ * Writes every guest's personalized invitation link into an
+ * "Invite Link" column in the Guest List & RSVP tab, right where you
+ * can copy it when messaging that guest. Safe to run again any time
+ * (e.g. after adding guests — run setupWebsite first for their ids).
+ */
+function writeInviteLinks() {
+  var sheet = getGuestSheet();
+  var values = sheet.getDataRange().getValues();
+  var layout = getGuestLayout(values);
+  var headerRow = layout.rowIndex + 1; // 1-based
+
+  var LINK_COL_TITLE = 'Invite Link';
+  var linkCol = values[layout.rowIndex].indexOf(LINK_COL_TITLE);
+  if (linkCol === -1) {
+    linkCol = sheet.getLastColumn(); // 0-based index of the new column
+    sheet.getRange(headerRow, linkCol + 1).setValue(LINK_COL_TITLE).setFontWeight('bold');
+  }
+
+  var written = 0;
+  for (var r = layout.rowIndex + 1; r < values.length; r++) {
+    var id = String(values[r][layout.cols.id] || '').trim();
+    if (!id) continue;
+    sheet.getRange(r + 1, linkCol + 1).setValue(SITE_URL + '/?g=' + id);
+    written++;
+  }
+  Logger.log('writeInviteLinks done — wrote ' + written + ' links.');
+}
+
+/**
+ * Same links, but printed to the execution log instead of the sheet.
  */
 function listInviteLinks() {
-  var SITE_URL = 'https://your-site.pages.dev'; // EDIT once your site is live
   getGuestRows().forEach(function (g) {
     if (g.id) Logger.log(g.name + ': ' + SITE_URL + '/?g=' + g.id);
   });
