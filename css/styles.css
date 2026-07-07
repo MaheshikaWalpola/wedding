@@ -911,7 +911,7 @@ input[type="file"]::file-selector-button {
     0 10px 24px -12px rgba(76, 24, 39, 0.5),
     inset 0 0 0 1px rgba(184, 145, 47, 0.35);
 }
-.inv-photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.inv-photo img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 22%; display: block; }
 
 /* monogram over the blind-embossed rosette */
 .inv-crest {
