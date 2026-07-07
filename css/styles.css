@@ -789,10 +789,11 @@ input[type="file"]::file-selector-button {
   width: min(86vw, 370px);
   max-height: 86vh;
   overflow: auto;
-  /* ivory stock with a fine paper grain */
+  /* ivory stock: paper grain + blind-embossed damask, pressed edges */
   background-color: #fdf9ef;
   background-image:
     url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='p'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.45 0 0 0 0 0.33 0 0 0 0 0.2 0 0 0 0.05 0'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23p)'/%3E%3C/svg%3E"),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='90' height='90'%3E%3Cg fill='none' stroke='%23ffffff' stroke-width='1' opacity='0.7' transform='translate(-0.7,-0.7)'%3E%3Cpath d='M45 27c-5 7-5 13 0 18 5-5 5-11 0-18z'/%3E%3Cpath d='M45 63c-5-7-5-13 0-18 5 5 5 11 0 18z'/%3E%3Cpath d='M27 45c7-5 13-5 18 0-5 5-11 5-18 0z'/%3E%3Cpath d='M63 45c-7-5-13-5-18 0 5 5 11 5 18 0z'/%3E%3Ccircle cx='45' cy='45' r='2.2'/%3E%3Ccircle cx='0' cy='0' r='1.4'/%3E%3Ccircle cx='90' cy='0' r='1.4'/%3E%3Ccircle cx='0' cy='90' r='1.4'/%3E%3Ccircle cx='90' cy='90' r='1.4'/%3E%3C/g%3E%3Cg fill='none' stroke='%238a6b4e' stroke-width='1' opacity='0.16' transform='translate(0.7,0.7)'%3E%3Cpath d='M45 27c-5 7-5 13 0 18 5-5 5-11 0-18z'/%3E%3Cpath d='M45 63c-5-7-5-13 0-18 5 5 5 11 0 18z'/%3E%3Cpath d='M27 45c7-5 13-5 18 0-5 5-11 5-18 0z'/%3E%3Cpath d='M63 45c-7-5-13-5-18 0 5 5 11 5 18 0z'/%3E%3Ccircle cx='45' cy='45' r='2.2'/%3E%3Ccircle cx='0' cy='0' r='1.4'/%3E%3Ccircle cx='90' cy='0' r='1.4'/%3E%3Ccircle cx='0' cy='90' r='1.4'/%3E%3Ccircle cx='90' cy='90' r='1.4'/%3E%3C/g%3E%3C/svg%3E"),
     linear-gradient(165deg, #fffdf6 0%, #f9f2e0 100%);
   border: 1px solid var(--amber);
   border-radius: 6px;
@@ -800,19 +801,25 @@ input[type="file"]::file-selector-button {
   text-align: center;
   box-shadow:
     0 30px 80px -20px rgba(0, 0, 0, 0.55),
+    inset 0 1.5px 0 rgba(255, 255, 255, 0.85),
+    inset 0 -1.5px 2px rgba(138, 107, 78, 0.28),
     inset 0 0 60px rgba(212, 185, 106, 0.14);
   transform: translate(-50%, -38%) scale(0.5);
   opacity: 0;
   transition: transform 1s cubic-bezier(0.22, 0.8, 0.3, 1), opacity 0.5s ease;
 }
-/* double gold frame */
+/* inner frame, pressed into the paper like a letterpress groove */
 .env-card::before {
   content: "";
   position: absolute;
-  inset: 9px;
-  border: 1px solid var(--gold-line);
+  inset: 10px;
+  border: 1px solid rgba(184, 145, 47, 0.55);
   border-radius: 3px;
   pointer-events: none;
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.75),
+    inset 0 1px 0 rgba(138, 107, 78, 0.14),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.75);
 }
 /* giant faint monogram watermark behind the text */
 .env-card::after {
@@ -851,7 +858,33 @@ input[type="file"]::file-selector-button {
 .risen .env-card { transform: translate(-50%, -72%) scale(0.72); opacity: 1; }
 .presented .env-card { transform: translate(-50%, -50%) scale(1); opacity: 1; z-index: 20; }
 
-.env-card .inv-sprig svg { width: 60px; height: 32px; }
+/* arch locket for the couple's photo (hidden until the photo exists) */
+.inv-photo {
+  width: 118px;
+  height: 150px;
+  margin: 0 auto 1rem;
+  border-radius: 59px 59px 8px 8px;
+  overflow: hidden;
+  border: 3px solid var(--paper);
+  outline: 1px solid var(--amber);
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.8),
+    0 10px 24px -12px rgba(76, 24, 39, 0.5),
+    inset 0 0 0 1px rgba(184, 145, 47, 0.35);
+}
+.inv-photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+/* monogram over the blind-embossed rosette */
+.inv-crest {
+  position: relative;
+  width: 132px;
+  height: 132px;
+  margin: 0 auto 0.3rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.inv-medallion { position: absolute; inset: 0; width: 100%; height: 100%; }
 .env-card .inv-monogram {
   font-family: var(--serif);
   font-size: 1.5rem;
@@ -884,22 +917,19 @@ input[type="file"]::file-selector-button {
 }
 .env-card .btn { margin-top: 1.4rem; }
 
-/* --- falling leaves --- */
-.leaves { position: absolute; inset: 0; pointer-events: none; z-index: 15; }
-.leaves .leaf {
+/* --- static botanical line-art in the backdrop corners --- */
+.orn-vine {
   position: absolute;
-  top: -6vh;
-  width: 26px;
-  height: 26px;
+  width: min(42vw, 240px);
+  height: min(42vw, 240px);
   opacity: 0;
+  pointer-events: none;
+  z-index: 1;
+  animation: vineIn 1.6s ease 0.4s forwards;
 }
-.leaves .leaf svg { width: 100%; height: 100%; }
-.card-overlay .leaves .leaf { animation: leafFall var(--dur, 7s) linear var(--delay, 0s) infinite; }
-@keyframes leafFall {
-  0% { transform: translateY(-6vh) rotate(0deg); opacity: 0; }
-  8% { opacity: 0.9; }
-  100% { transform: translateY(110vh) rotate(340deg); opacity: 0.5; }
-}
+.orn-vine.tl { top: -8px; left: -8px; }
+.orn-vine.br { bottom: -8px; right: -8px; transform: rotate(180deg); }
+@keyframes vineIn { to { opacity: 0.55; } }
 
 /* ---------- Footer ---------- */
 
@@ -945,8 +975,7 @@ input[type="file"]::file-selector-button {
 
 @media (prefers-reduced-motion: reduce) {
   .hero .rise-in, .seat-result.visible { animation: none; }
-  .wax-seal, .tap-hint { animation: none; }
-  .opening .leaves .leaf { animation: none; }
+  .wax-seal, .tap-hint, .orn-vine { animation: none; opacity: 0.55; }
   .env-card, .envelope, .env-flap { transition: none; }
   .opening .env-flap { animation-duration: 0.01s; }
 }
