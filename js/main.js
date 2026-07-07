@@ -37,31 +37,66 @@ function setupCountdown() {
   setInterval(render, 30000);
 }
 
-/* ---------- Personalized invitation (?g=guestid) ---------- */
+/* ---------- The digital invitation card (envelope + wax seal) ----------
+   Every visitor is greeted by a sealed envelope once per visit; a
+   personalized link (?g=guestid) always opens it, with that guest's
+   name on the card. */
 
 function setupInvitation() {
-  const overlay = document.getElementById("invite-overlay");
+  const overlay = document.getElementById("card-overlay");
   if (!overlay) return;
 
   const guestId = new URLSearchParams(location.search).get("g");
-  if (!guestId) {
+
+  let seen = false;
+  try { seen = sessionStorage.getItem("mnm-card-seen") === "1"; } catch (e) {}
+  if (seen && !guestId) {
     overlay.remove();
     return;
   }
 
   const nameEl = overlay.querySelector(".inv-guest");
+  if (guestId) {
+    Api.getGuest(guestId)
+      .then((result) => {
+        nameEl.textContent = result.found ? result.name : "Dear Guest";
+      })
+      .catch(() => {
+        nameEl.textContent = "Dear Guest";
+      });
+  } else {
+    nameEl.textContent = "Our Family & Friends";
+  }
+
   overlay.classList.remove("hidden");
+  document.body.classList.add("no-scroll");
 
-  Api.getGuest(guestId)
-    .then((result) => {
-      nameEl.textContent = result.found ? result.name : "Dear Guest";
-    })
-    .catch(() => {
-      nameEl.textContent = "Dear Guest";
-    });
+  const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-  overlay.querySelector(".inv-enter").addEventListener("click", () => {
-    overlay.classList.add("hidden");
-    setTimeout(() => overlay.remove(), 700);
+  function open(e) {
+    e.stopPropagation();
+    if (overlay.classList.contains("opening")) return;
+    overlay.classList.add("opening");
+    if (reduceMotion) {
+      overlay.classList.add("risen", "presented");
+      return;
+    }
+    setTimeout(() => overlay.classList.add("risen"), 800);
+    setTimeout(() => overlay.classList.add("presented"), 1650);
+  }
+
+  function done() {
+    try { sessionStorage.setItem("mnm-card-seen", "1"); } catch (e) {}
+    overlay.classList.add("leaving");
+    document.body.classList.remove("no-scroll");
+    setTimeout(() => overlay.remove(), 750);
+  }
+
+  overlay.querySelector(".wax-seal").addEventListener("click", open);
+  overlay.querySelector(".envelope").addEventListener("click", open);
+  overlay.querySelector(".inv-enter").addEventListener("click", (e) => {
+    e.stopPropagation();
+    done();
   });
+  overlay.querySelector(".skip-link").addEventListener("click", done);
 }

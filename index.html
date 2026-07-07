@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Maheshika &amp; Moksha — 21 December 2026</title>
   <meta name="description" content="The wedding of Maheshika & Moksha — 21 December 2026, Anantara Kalutara Resort, Sri Lanka.">
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='30' fill='%236e2639'/%3E%3Ctext x='32' y='41' font-family='Georgia' font-size='24' fill='%23d4b96a' text-anchor='middle'%3EM%26M%3C/text%3E%3C/svg%3E">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='30' fill='%23a03d1c'/%3E%3Ctext x='32' y='41' font-family='Georgia' font-size='24' fill='%23e0aa4e' text-anchor='middle'%3EM%26M%3C/text%3E%3C/svg%3E">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
@@ -13,22 +13,60 @@
 </head>
 <body>
 
-  <!-- Personalized invitation overlay — shown only when the URL has ?g=guestid -->
-  <div id="invite-overlay" class="invite-overlay hidden">
-    <div class="invite-card">
-      <div class="inv-monogram">M<span class="amp">&amp;</span>M</div>
-      <div class="divider"><span class="gem">◆</span></div>
-      <p class="inv-copy">Together with their families</p>
-      <p class="inv-names">Maheshika <em>&amp;</em> Moksha</p>
-      <p class="inv-copy">joyfully invite</p>
-      <h2 class="inv-guest">&nbsp;</h2>
-      <p class="inv-copy">to celebrate their poruwa ceremony &amp; reception</p>
-      <p class="inv-detail">
-        Monday · 21 December 2026 · 5 PM onwards<br>
-        Anantara Kalutara Resort · Sri Lanka
-      </p>
-      <button class="btn btn-solid inv-enter">Enter the Celebration</button>
+  <!-- ================= DIGITAL INVITATION CARD =================
+       A sealed envelope greets every visitor; tapping the wax seal
+       opens it and the invitation card rises out. With ?g=guestid
+       the card carries that guest's own name. Shown once per visit
+       (and always on personalized links). ============================ -->
+  <div id="card-overlay" class="card-overlay hidden">
+
+    <div class="leaves" aria-hidden="true">
+      <span class="leaf" style="left: 6%;  --delay: 0s;    --dur: 7.5s; color: #dfa32b;"><svg viewBox="0 0 24 24"><path fill="currentColor" d="M21 3c-9.5.3-15.9 4.6-18 13.6 1.9 1.5 4.3 2.4 7 2.4 8 0 11-8 11-16zM5.5 15.5C9 10 14 6.5 19 5.5c-6.5 2-11 6-13.5 10z"/></svg></span>
+      <span class="leaf" style="left: 16%; --delay: 1.8s;  --dur: 9s;   color: #c96a26;"><svg viewBox="0 0 24 24"><path fill="currentColor" d="M21 3c-9.5.3-15.9 4.6-18 13.6 1.9 1.5 4.3 2.4 7 2.4 8 0 11-8 11-16zM5.5 15.5C9 10 14 6.5 19 5.5c-6.5 2-11 6-13.5 10z"/></svg></span>
+      <span class="leaf" style="left: 27%; --delay: 0.9s;  --dur: 8s;   color: #a63e1e;"><svg viewBox="0 0 24 24"><path fill="currentColor" d="M21 3c-9.5.3-15.9 4.6-18 13.6 1.9 1.5 4.3 2.4 7 2.4 8 0 11-8 11-16zM5.5 15.5C9 10 14 6.5 19 5.5c-6.5 2-11 6-13.5 10z"/></svg></span>
+      <span class="leaf" style="left: 38%; --delay: 3s;    --dur: 10s;  color: #e0aa4e;"><svg viewBox="0 0 24 24"><path fill="currentColor" d="M21 3c-9.5.3-15.9 4.6-18 13.6 1.9 1.5 4.3 2.4 7 2.4 8 0 11-8 11-16zM5.5 15.5C9 10 14 6.5 19 5.5c-6.5 2-11 6-13.5 10z"/></svg></span>
+      <span class="leaf" style="left: 52%; --delay: 1.2s;  --dur: 7s;   color: #c96a26;"><svg viewBox="0 0 24 24"><path fill="currentColor" d="M21 3c-9.5.3-15.9 4.6-18 13.6 1.9 1.5 4.3 2.4 7 2.4 8 0 11-8 11-16zM5.5 15.5C9 10 14 6.5 19 5.5c-6.5 2-11 6-13.5 10z"/></svg></span>
+      <span class="leaf" style="left: 64%; --delay: 2.4s;  --dur: 9.5s; color: #dfa32b;"><svg viewBox="0 0 24 24"><path fill="currentColor" d="M21 3c-9.5.3-15.9 4.6-18 13.6 1.9 1.5 4.3 2.4 7 2.4 8 0 11-8 11-16zM5.5 15.5C9 10 14 6.5 19 5.5c-6.5 2-11 6-13.5 10z"/></svg></span>
+      <span class="leaf" style="left: 76%; --delay: 0.4s;  --dur: 8.5s; color: #a63e1e;"><svg viewBox="0 0 24 24"><path fill="currentColor" d="M21 3c-9.5.3-15.9 4.6-18 13.6 1.9 1.5 4.3 2.4 7 2.4 8 0 11-8 11-16zM5.5 15.5C9 10 14 6.5 19 5.5c-6.5 2-11 6-13.5 10z"/></svg></span>
+      <span class="leaf" style="left: 88%; --delay: 1.5s;  --dur: 7.8s; color: #e0aa4e;"><svg viewBox="0 0 24 24"><path fill="currentColor" d="M21 3c-9.5.3-15.9 4.6-18 13.6 1.9 1.5 4.3 2.4 7 2.4 8 0 11-8 11-16zM5.5 15.5C9 10 14 6.5 19 5.5c-6.5 2-11 6-13.5 10z"/></svg></span>
     </div>
+
+    <button class="skip-link">Skip</button>
+
+    <div class="env-scene">
+
+      <div class="envelope" role="button" aria-label="Open the invitation">
+        <div class="env-back"></div>
+        <div class="env-front"></div>
+        <div class="env-flap"></div>
+        <button class="wax-seal" aria-label="Break the seal and open">M<span class="amp">&amp;</span>M</button>
+      </div>
+
+      <div class="env-card" aria-live="polite">
+        <div class="inv-sprig" aria-hidden="true">
+          <svg viewBox="0 0 120 60" xmlns="http://www.w3.org/2000/svg">
+            <path d="M8 52 C 40 28, 80 28, 112 52" fill="none" stroke="#c27a18" stroke-width="1.4"/>
+            <path d="M34 34 c-8-10-4-20 6-24 6 8 4 18-6 24z" fill="#dfa32b"/>
+            <path d="M60 28 c-6-11 0-20 10-22 4 9-1 18-10 22z" fill="#c96a26"/>
+            <path d="M86 34 c0-12 8-18 18-17 0 10-8 17-18 17z" fill="#a63e1e"/>
+          </svg>
+        </div>
+        <div class="inv-monogram">M<span class="amp">&amp;</span>M</div>
+        <p class="inv-copy">Together with their families</p>
+        <p class="inv-names">Maheshika <em>&amp;</em> Moksha</p>
+        <p class="inv-copy">joyfully invite</p>
+        <h2 class="inv-guest">&nbsp;</h2>
+        <p class="inv-copy">to celebrate their poruwa ceremony &amp; reception</p>
+        <p class="inv-detail">
+          Monday · 21 December 2026 · 5 PM onwards<br>
+          Anantara Kalutara Resort · Sri Lanka
+        </p>
+        <button class="btn btn-solid inv-enter">Enter the Celebration</button>
+      </div>
+
+    </div>
+
+    <p class="tap-hint">Tap the seal to open your invitation</p>
   </div>
 
   <header class="site-header">
@@ -47,20 +85,28 @@
 
   <main>
     <section class="hero">
-      <div class="hero-monogram">M<span class="amp">&amp;</span>M</div>
-      <p class="eyebrow">The Wedding Of</p>
-      <h1 class="names">Maheshika <span class="amp">&amp;</span> Moksha</h1>
-      <div class="divider"><span class="gem">◆</span></div>
-      <p class="date-line">21 · 12 · 2026</p>
-      <p class="venue-line">Anantara Kalutara Resort, Sri Lanka</p>
+      <div class="hero-sprig rise-in" aria-hidden="true">
+        <svg viewBox="0 0 120 60" xmlns="http://www.w3.org/2000/svg">
+          <path d="M8 52 C 40 28, 80 28, 112 52" fill="none" stroke="#c27a18" stroke-width="1.4"/>
+          <path d="M34 34 c-8-10-4-20 6-24 6 8 4 18-6 24z" fill="#dfa32b"/>
+          <path d="M60 28 c-6-11 0-20 10-22 4 9-1 18-10 22z" fill="#c96a26"/>
+          <path d="M86 34 c0-12 8-18 18-17 0 10-8 17-18 17z" fill="#a63e1e"/>
+        </svg>
+      </div>
+      <div class="hero-monogram rise-in">M<span class="amp">&amp;</span>M</div>
+      <p class="eyebrow rise-in">The Wedding Of</p>
+      <h1 class="names rise-in">Maheshika <span class="amp">&amp;</span> Moksha</h1>
+      <div class="divider rise-in"><span class="gem">◆</span></div>
+      <p class="date-line rise-in">21 · 12 · 2026</p>
+      <p class="venue-line rise-in">Anantara Kalutara Resort, Sri Lanka</p>
 
-      <div class="countdown" aria-label="Countdown to the wedding">
+      <div class="countdown rise-in" aria-label="Countdown to the wedding">
         <div class="unit"><span class="num" data-unit="days">–</span><span class="label">Days</span></div>
         <div class="unit"><span class="num" data-unit="hours">–</span><span class="label">Hours</span></div>
         <div class="unit"><span class="num" data-unit="mins">–</span><span class="label">Minutes</span></div>
       </div>
 
-      <div class="btn-row">
+      <div class="btn-row rise-in">
         <a class="btn btn-solid" href="rsvp.html">RSVP</a>
         <a class="btn btn-outline" href="seating.html">Find Your Seat</a>
       </div>
@@ -80,17 +126,17 @@
 
       <div class="detail-strip">
         <div class="card">
-          <div class="icon">◆</div>
+          <div class="icon"><svg viewBox="0 0 24 24"><path fill="currentColor" style="fill: var(--leaf-2);" d="M21 3c-9.5.3-15.9 4.6-18 13.6 1.9 1.5 4.3 2.4 7 2.4 8 0 11-8 11-16zM5.5 15.5C9 10 14 6.5 19 5.5c-6.5 2-11 6-13.5 10z"/></svg></div>
           <h3>The Day</h3>
           <p>Monday, 21 December 2026<br>From 5 PM — poruwa ceremony &amp; reception</p>
         </div>
         <div class="card">
-          <div class="icon">◆</div>
+          <div class="icon"><svg viewBox="0 0 24 24"><path fill="currentColor" style="fill: var(--leaf-1);" d="M21 3c-9.5.3-15.9 4.6-18 13.6 1.9 1.5 4.3 2.4 7 2.4 8 0 11-8 11-16zM5.5 15.5C9 10 14 6.5 19 5.5c-6.5 2-11 6-13.5 10z"/></svg></div>
           <h3>The Place</h3>
           <p>Anantara Kalutara Resort<br>Kalutara, Sri Lanka</p>
         </div>
         <div class="card">
-          <div class="icon">◆</div>
+          <div class="icon"><svg viewBox="0 0 24 24"><path fill="currentColor" style="fill: var(--leaf-3);" d="M21 3c-9.5.3-15.9 4.6-18 13.6 1.9 1.5 4.3 2.4 7 2.4 8 0 11-8 11-16zM5.5 15.5C9 10 14 6.5 19 5.5c-6.5 2-11 6-13.5 10z"/></svg></div>
           <h3>The Party</h3>
           <p>Dinner, dancing &amp; joy<br>until late in the evening</p>
         </div>
