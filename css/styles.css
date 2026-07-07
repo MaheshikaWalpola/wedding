@@ -738,9 +738,36 @@ input[type="file"]::file-selector-button {
   z-index: 4;
   transform-origin: top center;
   clip-path: polygon(0 0, 100% 0, 50% 100%);
-  background: linear-gradient(190deg, #f1e6cc, #ddcba1 80%);
+  /* blind-embossed floral spray pressed into the flap */
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='430' height='170' viewBox='0 0 430 170'%3E%3Cdefs%3E%3Cg id='fl'%3E%3Cellipse cx='0' cy='-8' rx='3.4' ry='6'/%3E%3Cellipse cx='0' cy='-8' rx='3.4' ry='6' transform='rotate(72)'/%3E%3Cellipse cx='0' cy='-8' rx='3.4' ry='6' transform='rotate(144)'/%3E%3Cellipse cx='0' cy='-8' rx='3.4' ry='6' transform='rotate(216)'/%3E%3Cellipse cx='0' cy='-8' rx='3.4' ry='6' transform='rotate(288)'/%3E%3Ccircle r='2.6'/%3E%3C/g%3E%3Cg id='spray'%3E%3Cpath d='M215 160 C 190 115, 155 85, 105 62'/%3E%3Cpath d='M215 160 C 214 110, 210 72, 202 44'/%3E%3Cpath d='M215 160 C 240 115, 275 85, 325 62'/%3E%3Cpath d='M160 96 q-20-2-26-19 17-3 26 10z'/%3E%3Cpath d='M268 100 q20-6 24-23 -17-1-26 13z'/%3E%3Cpath d='M226 84 q14-10 12-27 -15 5-16 22z'/%3E%3Cuse href='%23fl' x='105' y='56'/%3E%3Cuse href='%23fl' x='202' y='38'/%3E%3Cuse href='%23fl' x='325' y='56'/%3E%3C/g%3E%3C/defs%3E%3Cg stroke='%23fffdf5' stroke-width='1.3' fill='none' opacity='0.95' transform='translate(-0.8,-0.8)'%3E%3Cuse href='%23spray'/%3E%3C/g%3E%3Cg stroke='%238a6b4e' stroke-width='1.3' fill='none' opacity='0.2' transform='translate(0.8,0.8)'%3E%3Cuse href='%23spray'/%3E%3C/g%3E%3C/svg%3E"),
+    linear-gradient(190deg, #f1e6cc, #ddcba1 80%);
+  background-size: 92% auto, cover;
+  background-position: center 12%, center;
+  background-repeat: no-repeat, no-repeat;
   box-shadow: inset 0 -2px 4px rgba(76, 24, 39, 0.12);
 }
+
+/* debossed note on the envelope front */
+.env-note {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 7%;
+  z-index: 3;
+  text-align: center;
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: clamp(0.8rem, 2.4vw, 0.95rem);
+  letter-spacing: 0.14em;
+  line-height: 1.7;
+  color: #d9c9a2;
+  text-shadow:
+    0 -1px 0 rgba(122, 92, 60, 0.32),
+    0 1px 0 rgba(255, 255, 252, 0.9);
+  pointer-events: none;
+}
+.env-note span { font-size: 0.85em; letter-spacing: 0.3em; }
 .opening .env-flap { animation: flapOpen 0.85s cubic-bezier(0.6, 0, 0.3, 1) forwards; }
 @keyframes flapOpen {
   0% { transform: rotateX(0deg); z-index: 4; }
@@ -755,9 +782,9 @@ input[type="file"]::file-selector-button {
   top: 58%;
   transform: translate(-50%, -50%);
   z-index: 5;
-  width: 84px;
-  height: 84px;
-  border-radius: 50%;
+  width: 86px;
+  height: 86px;
+  border-radius: 47% 53% 48% 52% / 51% 47% 53% 49%; /* organic hand-pressed wax */
   border: none;
   cursor: pointer;
   font-family: var(--serif);
@@ -774,6 +801,18 @@ input[type="file"]::file-selector-button {
   transition: transform 0.3s, opacity 0.3s;
 }
 .wax-seal .amp { font-style: italic; font-weight: 400; color: var(--amber-soft); }
+/* embossed ring stamped inside the wax */
+.wax-seal::before {
+  content: "";
+  position: absolute;
+  inset: 8px;
+  border-radius: inherit;
+  border: 1px solid rgba(255, 226, 236, 0.28);
+  box-shadow:
+    inset 0 1px 2px rgba(255, 220, 232, 0.3),
+    inset 0 -1px 2px rgba(35, 8, 16, 0.45);
+  pointer-events: none;
+}
 @keyframes sealPulse {
   0%, 100% { box-shadow: inset 0 3px 6px rgba(255,214,224,0.3), inset 0 -4px 8px rgba(35,8,16,0.55), 0 6px 16px rgba(0,0,0,0.35), 0 0 0 0 rgba(212, 185, 106, 0.5); }
   50% { box-shadow: inset 0 3px 6px rgba(255,214,224,0.3), inset 0 -4px 8px rgba(35,8,16,0.55), 0 6px 16px rgba(0,0,0,0.35), 0 0 0 16px rgba(212, 185, 106, 0); }
@@ -931,6 +970,26 @@ input[type="file"]::file-selector-button {
 .orn-vine.br { bottom: -8px; right: -8px; transform: rotate(180deg); }
 @keyframes vineIn { to { opacity: 0.55; } }
 
+/* --- cute flowers drifting down after the seal is opened --- */
+.flowers { position: absolute; inset: 0; pointer-events: none; z-index: 15; }
+.flower {
+  position: absolute;
+  top: -7vh;
+  opacity: 0;
+}
+.flower svg { width: 100%; height: 100%; display: block; }
+.opening .flower { animation: flowerFall var(--dur, 8s) linear var(--delay, 0s) infinite; }
+.opening .flower svg { animation: flowerSway 2.8s ease-in-out infinite alternate; }
+@keyframes flowerFall {
+  0% { transform: translateY(-7vh); opacity: 0; }
+  6% { opacity: 0.95; }
+  100% { transform: translateY(112vh); opacity: 0.7; }
+}
+@keyframes flowerSway {
+  from { transform: translateX(-16px) rotate(-24deg); }
+  to { transform: translateX(16px) rotate(24deg); }
+}
+
 /* ---------- Footer ---------- */
 
 .site-footer {
@@ -976,6 +1035,7 @@ input[type="file"]::file-selector-button {
 @media (prefers-reduced-motion: reduce) {
   .hero .rise-in, .seat-result.visible { animation: none; }
   .wax-seal, .tap-hint, .orn-vine { animation: none; opacity: 0.55; }
+  .opening .flower, .opening .flower svg { animation: none; }
   .env-card, .envelope, .env-flap { transition: none; }
   .opening .env-flap { animation-duration: 0.01s; }
 }
