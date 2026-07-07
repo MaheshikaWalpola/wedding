@@ -81,8 +81,8 @@ function setupInvitation() {
       overlay.classList.add("risen", "presented");
       return;
     }
-    setTimeout(() => overlay.classList.add("risen"), 800);
-    setTimeout(() => overlay.classList.add("presented"), 1650);
+    setTimeout(() => overlay.classList.add("risen"), 450);
+    setTimeout(() => overlay.classList.add("presented"), 1150);
   }
 
   function done() {
@@ -93,7 +93,7 @@ function setupInvitation() {
   }
 
   overlay.querySelector(".wax-seal").addEventListener("click", open);
-  overlay.querySelector(".envelope").addEventListener("click", open);
+  overlay.querySelector(".cover").addEventListener("click", open);
   overlay.querySelector(".inv-enter").addEventListener("click", (e) => {
     e.stopPropagation();
     done();
