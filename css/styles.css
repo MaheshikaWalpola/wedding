@@ -74,7 +74,30 @@ h1, h2, h3 { font-family: var(--serif); font-weight: 500; color: var(--rust-deep
 }
 .divider::after { background: linear-gradient(90deg, var(--gold-line), transparent); }
 .divider .gem { display: inline-flex; }
-.divider .gem svg { width: 15px; height: 15px; fill: var(--amber); transform: rotate(40deg); }
+/* the little loving-swans mark */
+.divider .gem svg {
+  width: 42px;
+  height: 23px;
+  fill: none;
+  stroke: var(--amber);
+  stroke-width: 2;
+  stroke-linecap: round;
+}
+
+/* "like fire & water" line with flame and wave marks */
+.fw-line {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.55rem;
+  margin-top: 0.7rem;
+  font-family: var(--serif);
+  font-size: 1rem;
+  color: var(--ink-soft);
+  letter-spacing: 0.06em;
+}
+.fw-line svg { width: 15px; height: 15px; flex: none; }
+.fw-line.inv-fw { margin: 0.15rem 0 0.35rem; font-size: 0.88rem; color: #a08a63; }
 
 /* Small leaf ornament used in dividers & titles */
 .leaf-orn { display: inline-flex; }
@@ -654,11 +677,11 @@ input[type="file"]::file-selector-button {
 .bg-photo {
   position: absolute;
   inset: 0;
-  background: url("../images/couple.jpg") center 20% / cover no-repeat;
-  opacity: 0.14;
-  filter: sepia(0.3) saturate(0.65) blur(1.5px);
-  -webkit-mask-image: radial-gradient(ellipse 75% 70% at 50% 40%, #000 35%, transparent 78%);
-  mask-image: radial-gradient(ellipse 75% 70% at 50% 40%, #000 35%, transparent 78%);
+  background: url("../images/couple.jpg") center 22% / cover no-repeat;
+  opacity: 0.11;
+  filter: sepia(0.32) saturate(0.6) blur(2px);
+  -webkit-mask-image: radial-gradient(ellipse 62% 68% at 50% 42%, #000 30%, transparent 74%);
+  mask-image: radial-gradient(ellipse 62% 68% at 50% 42%, #000 30%, transparent 74%);
   pointer-events: none;
 }
 .card-overlay.hidden { display: none; }
@@ -731,8 +754,8 @@ input[type="file"]::file-selector-button {
   transform-origin: left center;
   backface-visibility: hidden;
   transition:
-    transform 1.15s cubic-bezier(0.55, 0.06, 0.28, 0.99),
-    opacity 0.3s ease 0.5s; /* vanish just past 90°, works even without backface support */
+    transform 1.15s cubic-bezier(0.55, 0.06, 0.28, 0.99) 0.55s, /* let the fire-water glow play first */
+    opacity 0.3s ease 1.05s; /* vanish just past 90°, works even without backface support */
 }
 /* pressed inner frame — tone-on-tone, no ink */
 .cover::before {
@@ -821,6 +844,33 @@ input[type="file"]::file-selector-button {
   transition: transform 0.3s, opacity 0.3s;
 }
 .wax-seal .amp { font-weight: 400; color: #c2a061; }
+/* fire meets water: a glow that completes around the seal on opening */
+.wax-seal::after {
+  content: "";
+  position: absolute;
+  inset: -16px;
+  border-radius: 50%;
+  background: conic-gradient(from 250deg,
+    rgba(226, 150, 70, 0) 0deg,
+    rgba(226, 150, 70, 0.9) 70deg,
+    rgba(240, 196, 120, 0.95) 165deg,
+    rgba(150, 190, 195, 0.9) 195deg,
+    rgba(127, 179, 189, 0.85) 290deg,
+    rgba(127, 179, 189, 0) 360deg);
+  filter: blur(5px);
+  opacity: 0;
+  -webkit-mask: radial-gradient(circle, transparent 55%, #000 63%, #000 78%, transparent 86%);
+  mask: radial-gradient(circle, transparent 55%, #000 63%, #000 78%, transparent 86%);
+  pointer-events: none;
+}
+.opening .wax-seal::after { animation: fireWaterGlow 1.15s ease-out forwards; }
+@keyframes fireWaterGlow {
+  0% { opacity: 0; transform: rotate(-130deg) scale(0.8); }
+  35% { opacity: 1; }
+  70% { opacity: 1; transform: rotate(0deg) scale(1.03); }
+  100% { opacity: 0; transform: rotate(25deg) scale(1.18); }
+}
+
 /* embossed ring stamped inside the wax */
 .wax-seal::before {
   content: "";
@@ -1054,7 +1104,7 @@ input[type="file"]::file-selector-button {
 @media (prefers-reduced-motion: reduce) {
   .hero .rise-in, .seat-result.visible { animation: none; }
   .wax-seal, .tap-hint, .orn-vine { animation: none; opacity: 0.55; }
-  .opening .flower, .opening .flower svg { animation: none; }
+  .opening .flower, .opening .flower svg, .opening .wax-seal::after { animation: none; }
   .env-card, .cover { transition: none; }
   .opening .cover { display: none; }
 }

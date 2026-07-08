@@ -81,8 +81,8 @@ function setupInvitation() {
       overlay.classList.add("risen", "presented");
       return;
     }
-    setTimeout(() => overlay.classList.add("risen"), 450);
-    setTimeout(() => overlay.classList.add("presented"), 1150);
+    setTimeout(() => overlay.classList.add("risen"), 950);
+    setTimeout(() => overlay.classList.add("presented"), 1700);
   }
 
   function done() {
