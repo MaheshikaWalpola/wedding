@@ -37,10 +37,11 @@ function setupCountdown() {
   setInterval(render, 30000);
 }
 
-/* ---------- The digital invitation card (envelope + wax seal) ----------
-   Every visitor is greeted by a sealed envelope once per visit; a
-   personalized link (?g=guestid) always opens it, with that guest's
-   name on the card. */
+/* ---------- The digital invitation card (cover + wax seal) ----------
+   The sealed invitation greets every visit to the home page; it is
+   skipped only when arriving via the site's own navigation, so browsing
+   back to Home doesn't replay it. A personalized link (?g=guestid)
+   always opens it, with that guest's name on the card. */
 
 function setupInvitation() {
   const overlay = document.getElementById("card-overlay");
@@ -48,9 +49,8 @@ function setupInvitation() {
 
   const guestId = new URLSearchParams(location.search).get("g");
 
-  let seen = false;
-  try { seen = sessionStorage.getItem("mnm-card-seen") === "1"; } catch (e) {}
-  if (seen && !guestId) {
+  const cameFromInside = document.referrer.startsWith(location.origin);
+  if (cameFromInside && !guestId) {
     overlay.remove();
     return;
   }
@@ -86,7 +86,6 @@ function setupInvitation() {
   }
 
   function done() {
-    try { sessionStorage.setItem("mnm-card-seen", "1"); } catch (e) {}
     overlay.classList.add("leaving");
     document.body.classList.remove("no-scroll");
     setTimeout(() => overlay.remove(), 750);
