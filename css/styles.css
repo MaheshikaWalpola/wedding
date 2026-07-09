@@ -65,14 +65,15 @@ h1, h2, h3 { font-family: var(--serif); font-weight: 500; color: var(--rust-deep
   margin: 1.4rem auto;
   color: var(--amber);
 }
+/* every divider: fire warming the left, water cooling the right */
 .divider::before,
 .divider::after {
   content: "";
-  height: 1px;
+  height: 1.5px;
   width: 72px;
-  background: linear-gradient(90deg, transparent, var(--gold-line));
+  background: linear-gradient(90deg, transparent, rgba(199, 133, 74, 0.75));
 }
-.divider::after { background: linear-gradient(90deg, var(--gold-line), transparent); }
+.divider::after { background: linear-gradient(90deg, rgba(127, 179, 189, 0.75), transparent); }
 .divider .gem { display: inline-flex; }
 /* the little loving-swans mark */
 .divider .gem svg {
@@ -82,6 +83,78 @@ h1, h2, h3 { font-family: var(--serif); font-weight: 500; color: var(--rust-deep
   stroke: var(--amber);
   stroke-width: 2;
   stroke-linecap: round;
+}
+
+/* ---------- Fire & Water: living element marks ---------- */
+
+/* small marks beside the names in the hero */
+.name-el { display: inline-block; vertical-align: baseline; margin: 0 0.12em; }
+.name-el svg { width: 0.42em; height: 0.52em; overflow: visible; }
+.name-el .f-outer { transform-origin: 50% 100%; animation: flick 1.6s ease-in-out infinite; }
+.name-el .f-inner { transform-origin: 50% 100%; animation: flick 1.6s ease-in-out -0.8s infinite; }
+.name-el .w-move { animation: waveShift 2.6s linear infinite; }
+
+@keyframes flick {
+  0%, 100% { transform: scaleY(1) rotate(-2.5deg); }
+  50% { transform: scaleY(1.14) rotate(2.5deg); }
+}
+@keyframes waveShift {
+  from { transform: translateX(0); }
+  to { transform: translateX(-22px); }
+}
+
+/* the fire-meets-water set piece on the home page */
+.elements {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: clamp(1.2rem, 4vw, 2.5rem);
+  max-width: 920px;
+  margin: clamp(3rem, 8vh, 5rem) auto 0;
+  padding: clamp(1.8rem, 5vw, 2.8rem) clamp(1.2rem, 4vw, 2.5rem);
+  border: 1px solid var(--gold-line);
+  border-radius: 10px;
+  text-align: center;
+  background:
+    linear-gradient(90deg, rgba(217, 154, 91, 0.13), rgba(255, 255, 255, 0) 40%,
+                            rgba(255, 255, 255, 0) 60%, rgba(127, 179, 189, 0.15)),
+    var(--paper);
+  box-shadow: 0 14px 34px -22px rgba(120, 95, 80, 0.35);
+}
+.el .el-mark { height: 54px; display: flex; align-items: center; justify-content: center; }
+.el .el-mark svg { height: 100%; overflow: visible; }
+.el .f-outer { transform-origin: 50% 100%; animation: flick 1.7s ease-in-out infinite; }
+.el .f-inner { transform-origin: 50% 100%; animation: flick 1.7s ease-in-out -0.85s infinite; }
+.el .w-move { animation: waveShift 2.6s linear infinite; }
+.el h3 { font-size: 1.35rem; margin-top: 0.6rem; }
+.el p { font-size: 0.88rem; color: var(--ink-soft); font-style: italic; margin-top: 0.2rem; }
+.el-center .inv-monogram-circle {
+  width: 74px;
+  height: 74px;
+  margin: 0 auto 0.7rem;
+  border: 1px solid var(--gold-line);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--serif);
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: var(--rust);
+  background: var(--ivory);
+}
+.el-center .inv-monogram-circle .amp { font-style: italic; color: var(--amber); font-weight: 400; }
+.el-center p {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 1.05rem;
+  color: var(--ink-soft);
+  max-width: 220px;
+  margin: 0 auto;
+}
+@media (max-width: 680px) {
+  .elements { grid-template-columns: 1fr; gap: 1.6rem; }
+  .elements .el-center { order: -1; }
 }
 
 /* "like fire & water" line with flame and wave marks */
@@ -343,7 +416,9 @@ h1, h2, h3 { font-family: var(--serif); font-weight: 500; color: var(--rust-deep
   border: 1px solid var(--rust-deep);
   box-shadow: 0 12px 26px -14px rgba(141, 101, 112, 0.7);
 }
-.btn-solid:hover { background: var(--rust-deep); }
+.btn-solid:hover {
+  background: linear-gradient(100deg, #b57e56 0%, var(--rust) 45%, #79a5ad 115%);
+}
 .btn-outline {
   background: transparent;
   color: var(--rust);
@@ -1193,6 +1268,8 @@ input[type="file"]::file-selector-button {
   .wax-seal, .tap-hint, .orn-vine { animation: none; opacity: 0.55; }
   .opening .flower, .opening .flower svg, .opening .wax-seal::after { animation: none; }
   .hero-petals span, .hero-petals svg { animation: none; }
+  .name-el .f-outer, .name-el .f-inner, .name-el .w-move,
+  .el .f-outer, .el .f-inner, .el .w-move { animation: none; }
   .env-card, .cover { transition: none; }
   .opening .cover { display: none; }
 }
