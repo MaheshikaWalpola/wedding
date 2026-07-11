@@ -960,6 +960,17 @@ input[type="file"]::file-selector-button {
   pointer-events: none;
 }
 
+/* gift note on the invitation card */
+.inv-gift {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 0.82rem;
+  line-height: 1.6;
+  color: #a08a63;
+  max-width: 34ch;
+  margin: 0.7rem auto 0;
+}
+
 /* the printed script line on the bottom flap */
 .env-note {
   position: absolute;
