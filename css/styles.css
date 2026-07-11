@@ -4,20 +4,26 @@
    ============================================================ */
 
 :root {
-  /* Light palette: white-ivory, dusty rose, champagne gold */
-  --ivory: #fbf8f2;
-  --cream: #f4eee0;
-  --paper: #fffefa;
-  --ink: #4a3f3a;
-  --ink-soft: #857468;
-  --rust: #a06b78;          /* primary — dusty rose */
-  --rust-deep: #7c4f5c;
-  --amber: #c7a763;         /* champagne gold */
-  --amber-soft: #ddcb9c;
-  --gold-line: #e8dcbf;
-  --leaf-1: #ddcb9c;        /* botanical accents in soft gold tones */
-  --leaf-2: #c7a763;
-  --leaf-3: #ab8d4e;
+  /* v12 "Ember & Lagoon" — cream canvas, sage panels, ink-teal text;
+     terracotta = fire (Moksha) · lagoon = water (Maheshika) · gold hairlines.
+     Discipline: the accents live only in small, fixed roles. */
+  --ivory: #faf8f3;         /* warm-white canvas */
+  --cream: #eaece2;         /* sage panel */
+  --paper: #fffefb;
+  --ink: #2e3f41;           /* ink-teal text */
+  --ink-soft: #5e7173;
+  --rust: #c4744c;          /* terracotta — the fire */
+  --rust-deep: #a85a38;
+  --ember-soft: #e5a671;
+  --lagoon: #7fa3a3;        /* eucalyptus — the water */
+  --lagoon-deep: #557e80;
+  --lagoon-soft: #a8c4c4;
+  --amber: #b49a5a;         /* antique gold — hairlines & dotted spines only */
+  --amber-soft: #d4c29a;
+  --gold-line: #e2d8bd;
+  --leaf-1: #b9c4ab;        /* engraved-botanical greens */
+  --leaf-2: #9aa88f;
+  --leaf-3: #7f8f75;
   --serif: "Cormorant Garamond", Georgia, serif;
   --sans: "Jost", "Avenir Next", "Segoe UI", sans-serif;
 }
@@ -46,7 +52,16 @@ img { max-width: 100%; }
 
 /* ---------- Type helpers ---------- */
 
-h1, h2, h3 { font-family: var(--serif); font-weight: 500; color: var(--rust-deep); }
+/* Editorial hierarchy: airy spaced capitals for page/section titles,
+   serif kept for small romantic accents and card headings */
+h1, h2 {
+  font-family: var(--sans);
+  font-weight: 300;
+  text-transform: uppercase;
+  letter-spacing: 0.24em;
+  color: var(--ink);
+}
+h3 { font-family: var(--serif); font-weight: 500; color: var(--ink); }
 
 .eyebrow {
   font-family: var(--sans);
@@ -1171,6 +1186,14 @@ input[type="file"]::file-selector-button {
   font-size: 1.5rem;
   font-weight: 600;
   color: var(--rust);
+}
+/* the card itself stays romantic serif — exempt from editorial capitals */
+.env-card .inv-guest {
+  font-family: var(--serif);
+  font-weight: 500;
+  text-transform: none;
+  letter-spacing: 0.02em;
+  color: var(--rust-deep);
 }
 .env-card .inv-monogram .amp { font-style: italic; color: var(--amber); font-weight: 400; }
 .env-card p.inv-copy { font-size: 0.9rem; color: var(--ink-soft); }
