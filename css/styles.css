@@ -7,23 +7,25 @@
   /* v12 "Ember & Lagoon" — cream canvas, sage panels, ink-teal text;
      terracotta = fire (Moksha) · lagoon = water (Maheshika) · gold hairlines.
      Discipline: the accents live only in small, fixed roles. */
-  --ivory: #faf8f3;         /* warm-white canvas */
-  --cream: #eaece2;         /* sage panel */
-  --paper: #fffefb;
-  --ink: #2e3f41;           /* ink-teal text */
-  --ink-soft: #5e7173;
-  --rust: #c4744c;          /* terracotta — the fire */
-  --rust-deep: #a85a38;
-  --ember-soft: #e5a671;
-  --lagoon: #7fa3a3;        /* eucalyptus — the water */
-  --lagoon-deep: #557e80;
-  --lagoon-soft: #a8c4c4;
-  --amber: #b49a5a;         /* antique gold — hairlines & dotted spines only */
-  --amber-soft: #d4c29a;
-  --gold-line: #e2d8bd;
-  --leaf-1: #b9c4ab;        /* engraved-botanical greens */
-  --leaf-2: #9aa88f;
-  --leaf-3: #7f8f75;
+  /* v13 "Bright Autumn" — white canvas, vivid terracotta/marigold/berry,
+     warm brown ink; lagoon kept as the water accent */
+  --ivory: #fffdf9;         /* bright white canvas */
+  --cream: #faf1e6;         /* warm blush panel */
+  --paper: #ffffff;
+  --ink: #43382e;           /* warm brown ink */
+  --ink-soft: #8a7767;
+  --rust: #c95d2c;          /* bright terracotta — the fire */
+  --rust-deep: #a8441c;
+  --ember-soft: #eda45e;
+  --lagoon: #6fa3ad;        /* water accent */
+  --lagoon-deep: #4f8791;
+  --lagoon-soft: #a9cdd3;
+  --amber: #e09a3a;         /* marigold gold */
+  --amber-soft: #f0c983;
+  --gold-line: #eedcbb;
+  --leaf-1: #e3b34c;        /* bright autumn leaves */
+  --leaf-2: #c07a35;
+  --leaf-3: #9a5c28;
   --serif: "Cormorant Garamond", Georgia, serif;
   --sans: "Jost", "Avenir Next", "Segoe UI", sans-serif;
 }
@@ -1094,9 +1096,9 @@ input[type="file"]::file-selector-button {
   right: 1.4rem;
   z-index: 30;
   background: none;
-  border: 1px solid rgba(240, 228, 205, 0.4);
+  border: 1px solid rgba(138, 119, 103, 0.4);
   border-radius: 3px;
-  color: rgba(243, 234, 216, 0.85);
+  color: var(--ink-soft);
   font-family: var(--sans);
   font-size: 0.7rem;
   letter-spacing: 0.22em;
@@ -1114,7 +1116,7 @@ input[type="file"]::file-selector-button {
   right: 0;
   bottom: clamp(2rem, 8vh, 4rem);
   text-align: center;
-  color: rgba(240, 228, 205, 0.85);
+  color: var(--ink-soft);
   font-size: 0.75rem;
   letter-spacing: 0.34em;
   text-transform: uppercase;
@@ -1489,6 +1491,127 @@ input[type="file"]::file-selector-button {
   text-transform: uppercase;
   margin-top: 0.6rem;
 }
+
+/* ---------- v13 Bright Autumn: wreath hero ---------- */
+
+.hero-wreath {
+  position: relative;
+  min-height: 100svh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  overflow: hidden;
+  padding: 6.5rem 1.5rem 5rem;
+  background:
+    radial-gradient(ellipse at 15% 8%, rgba(232, 161, 60, 0.10), transparent 50%),
+    radial-gradient(ellipse at 88% 90%, rgba(201, 93, 44, 0.08), transparent 50%),
+    var(--ivory);
+}
+.wreath-big {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: min(128vw, 940px);
+  height: min(128vw, 940px);
+  transform: translate(-50%, -50%);
+  animation: wreathBreath 9s ease-in-out infinite alternate;
+  pointer-events: none;
+}
+@keyframes wreathBreath {
+  from { transform: translate(-50%, -50%) scale(1); }
+  to { transform: translate(-50%, -50%) scale(1.025); }
+}
+.hero-wreath .hero-content { position: relative; z-index: 1; max-width: 540px; }
+.hero-wreath .hero-script { color: var(--ink-soft); }
+.hero-wreath .names {
+  color: var(--rust);
+  font-size: clamp(1.7rem, 5.6vw, 3rem);
+  letter-spacing: 0.18em;
+  margin-top: 0.5rem;
+}
+.hero-wreath .names .amp { color: var(--amber); }
+.hero-wreath .date-line { color: var(--ink-soft); }
+.hero-wreath .venue-line { color: var(--rust-deep); }
+.hero-wreath .scroll-cue { color: var(--rust); }
+
+/* ---------- v13: wreath invitation cover ---------- */
+
+.card-overlay {
+  background:
+    radial-gradient(ellipse at 12% 0%, rgba(232, 161, 60, 0.14), transparent 55%),
+    radial-gradient(ellipse at 90% 100%, rgba(201, 93, 44, 0.12), transparent 55%),
+    #fffdf9;
+}
+.cover {
+  aspect-ratio: 1 / 1.22;
+  border-radius: 22px;
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='p'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.45 0 0 0 0 0.33 0 0 0 0 0.2 0 0 0 0.035 0'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23p)'/%3E%3C/svg%3E"),
+    linear-gradient(170deg, #ffffff 0%, #fff8ee 100%);
+}
+.cover-wreath {
+  position: absolute;
+  inset: 4%;
+  width: 92%;
+  height: 92%;
+  animation: wreathBreath2 9s ease-in-out infinite alternate;
+  pointer-events: none;
+}
+@keyframes wreathBreath2 { from { transform: scale(1); } to { transform: scale(1.02); } }
+.cover-center {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 0 18%;
+}
+.cover-swans { width: 62%; max-width: 210px; }
+.cover-script {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: clamp(1rem, 3vw, 1.2rem);
+  color: #b5652f;
+  margin-top: 0.3rem;
+}
+.cover-date {
+  font-size: 0.8rem;
+  letter-spacing: 0.34em;
+  color: var(--ink-soft);
+  margin-top: 0.35rem;
+}
+/* the seal sits in the flow at the wreath's heart, recast in terracotta */
+.cover .wax-seal {
+  position: static;
+  transform: none;
+  margin-top: 1rem;
+  color: #fff4e6;
+  text-shadow: 0 1px 2px rgba(120, 40, 10, 0.4);
+  background: radial-gradient(circle at 34% 30%, #e08a5c, #c95d2c 58%, #a8441c);
+  box-shadow:
+    inset 0 3px 6px rgba(255, 230, 205, 0.45),
+    inset 0 -4px 8px rgba(120, 40, 10, 0.45),
+    0 6px 16px rgba(150, 70, 30, 0.3);
+}
+.cover .wax-seal .amp { color: #ffd9a8; }
+.cover .wax-seal::before {
+  border-color: rgba(255, 236, 214, 0.45);
+  box-shadow:
+    inset 0 1px 2px rgba(255, 236, 214, 0.45),
+    inset 0 -1px 2px rgba(110, 35, 8, 0.5);
+}
+
+/* story photo replaced by a bouquet illustration */
+.story-art {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--cream);
+  min-height: 320px;
+}
+.story-art svg { width: 82%; height: auto; }
 
 /* ---------- Privacy gate ---------- */
 
