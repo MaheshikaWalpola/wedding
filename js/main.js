@@ -4,7 +4,37 @@ document.addEventListener("DOMContentLoaded", () => {
   setupNav();
   setupCountdown();
   setupInvitation();
+  setupMotion();
 });
+
+/* ---------- Scroll-driven motion: glass header + section reveals ---------- */
+
+function setupMotion() {
+  // glass header solidifies once the hero is scrolled past
+  const glass = document.querySelector(".site-header.glass");
+  if (glass) {
+    const onScroll = () => glass.classList.toggle("scrolled", window.scrollY > 40);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+  }
+
+  // sections fade up as they enter the viewport (once each)
+  const revealed = document.querySelectorAll(".reveal");
+  if (!revealed.length) return;
+  if (matchMedia("(prefers-reduced-motion: reduce)").matches || !("IntersectionObserver" in window)) {
+    revealed.forEach((el) => el.classList.add("in"));
+    return;
+  }
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach((e) => {
+      if (e.isIntersecting) {
+        e.target.classList.add("in");
+        io.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.12 });
+  revealed.forEach((el) => io.observe(el));
+}
 
 /* ---------- Mobile nav ---------- */
 

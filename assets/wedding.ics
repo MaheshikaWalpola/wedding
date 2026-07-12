@@ -1,0 +1,21 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Maheshika and Moksha//Wedding//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+UID:mnm-wedding-20261221@maheshika-moksha.pages.dev
+DTSTAMP:20260710T000000Z
+DTSTART:20261221T113000Z
+DTEND:20261221T180000Z
+SUMMARY:Maheshika & Moksha — Wedding 💍
+LOCATION:Anantara Kalutara Resort\, Katukurunda\, Kalutara\, Sri Lanka
+DESCRIPTION:Poruwa ceremony & reception\, 5 PM onwards.\nAll details: https://maheshika-moksha.pages.dev
+URL:https://maheshika-moksha.pages.dev
+BEGIN:VALARM
+TRIGGER:-P1D
+ACTION:DISPLAY
+DESCRIPTION:Maheshika & Moksha's wedding is tomorrow!
+END:VALARM
+END:VEVENT
+END:VCALENDAR
