@@ -666,6 +666,91 @@ h3 { font-family: var(--serif); font-weight: 500; color: var(--ink); }
 .detail-strip p { font-size: 0.9rem; color: var(--ink-soft); }
 .detail-strip .icon svg { width: 26px; height: 26px; fill: var(--leaf-2); }
 
+/* ---------- Zigzag illustrated timeline (Wedding Day) ---------- */
+
+.tl2 { position: relative; max-width: 780px; margin: 0 auto; padding: 1rem 0 2rem; }
+/* dotted gold spine; the inner span grows with scroll */
+.tl2-spine {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 2px;
+  transform: translateX(-50%);
+}
+.tl2-spine span {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background-image: repeating-linear-gradient(180deg, var(--amber) 0 4px, transparent 4px 12px);
+  transform-origin: top;
+  transform: scaleY(var(--spine, 0));
+}
+.tl2-event {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(1.4rem, 5vw, 3rem);
+  align-items: center;
+  padding: 1.6rem 0;
+}
+/* gold node where each event meets the spine */
+.tl2-event::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--amber);
+  transform: translate(-50%, -50%);
+}
+/* dashed icon ring, hand-drawn feel */
+.tl2-icon {
+  justify-self: end;
+  width: clamp(86px, 14vw, 116px);
+  height: clamp(86px, 14vw, 116px);
+  border: 1.5px dashed var(--amber-soft);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--paper);
+  color: var(--lagoon-deep);
+}
+.tl2-icon svg { width: 56%; height: 56%; }
+.tl2-body { text-align: left; }
+.tl2-body .time {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 1.05rem;
+  color: var(--amber);
+}
+.tl2-body h3 {
+  font-family: var(--sans);
+  font-weight: 300;
+  text-transform: uppercase;
+  letter-spacing: 0.22em;
+  font-size: clamp(0.95rem, 2.6vw, 1.15rem);
+  color: var(--ink);
+  margin: 0.3rem 0 0.4rem;
+}
+.tl2-body p:not(.time) { color: var(--ink-soft); font-size: 0.93rem; max-width: 34ch; }
+/* zigzag: even events flip sides */
+.tl2-event:nth-child(even) .tl2-icon { justify-self: end; }
+.tl2-event:nth-child(odd) .tl2-icon { order: 2; justify-self: start; }
+.tl2-event:nth-child(odd) .tl2-body { order: 1; text-align: right; justify-self: end; }
+.tl2-event:nth-child(odd) .tl2-body p:not(.time) { margin-left: auto; }
+@media (max-width: 620px) {
+  .tl2-spine { left: 22px; }
+  .tl2-event { grid-template-columns: auto 1fr; gap: 1.1rem; padding-left: 46px; }
+  .tl2-event::before { left: 22px; }
+  .tl2-event:nth-child(odd) .tl2-icon { order: 0; }
+  .tl2-event:nth-child(odd) .tl2-body { order: 0; text-align: left; justify-self: start; }
+  .tl2-icon { width: 72px; height: 72px; justify-self: start !important; }
+}
+
 /* ---------- Schedule timeline ---------- */
 
 .timeline { position: relative; margin: 0 auto; max-width: 620px; padding-left: 2rem; }

@@ -37,41 +37,101 @@
       </p>
     </div>
 
-    <!-- ===== SCHEDULE — edit the times and details below ===== -->
-    <section class="card">
-      <div class="timeline">
-        <div class="event">
+    <!-- ===== SCHEDULE — zigzag timeline; edit times & details below =====
+         Each event: dashed icon ring · italic gold time · spaced title.
+         The gold dotted spine draws itself as you scroll. -->
+    <section class="tl2">
+      <div class="tl2-spine" aria-hidden="true"><span></span></div>
+
+      <div class="tl2-event reveal">
+        <div class="tl2-icon" aria-hidden="true">
+          <!-- drums -->
+          <svg viewBox="0 0 40 40"><g fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><ellipse cx="20" cy="14" rx="11" ry="4.5"/><path d="M9 14 v12 c0 2.5 5 4.5 11 4.5 s11 -2 11 -4.5 v-12"/><path d="M13 17 l6 10 M27 17 l-6 10"/></g></svg>
+        </div>
+        <div class="tl2-body">
           <p class="time">5:00 PM <!-- EDIT: arrival time --></p>
           <h3>Guest Arrival &amp; Welcome Drinks</h3>
-          <p>
-            Arrive at the resort's garden pavilion and enjoy a refreshing
-            welcome drink as the drummers begin. <!-- EDIT: arrival details -->
-          </p>
+          <p>Arrive at the resort's garden pavilion and enjoy a refreshing
+          welcome drink as the magul bera drummers begin. <!-- EDIT --></p>
         </div>
-        <div class="event">
+      </div>
+
+      <div class="tl2-event reveal">
+        <div class="tl2-icon" aria-hidden="true">
+          <!-- oil lamp — the fire -->
+          <svg viewBox="0 0 40 40"><g fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M20 12 C18 9 18 7 20 4 C22 7 22 9 20 12 Z" fill="currentColor" stroke="none" opacity="0.85"/><path d="M12 18 h16 l-2.5 5 h-11 z"/><path d="M17 23 h6 v3 h-6 z M14 30 h12 M16 33 h8"/></g></svg>
+        </div>
+        <div class="tl2-body">
           <p class="time">5:30 PM <!-- EDIT: ceremony time --></p>
           <h3>Poruwa Ceremony</h3>
-          <p>
-            The traditional Sri Lankan ceremony on the poruwa — with the
-            blessing of the ashtaka, the tying of the pirith noola, and the
-            breaking of the coconut. <!-- EDIT: ceremony details -->
-          </p>
+          <p>The oil lamp is lit, the ashtaka blessed — the traditional
+          ceremony on the poruwa, with the tying of the pirith noola and
+          the breaking of the coconut. <!-- EDIT --></p>
         </div>
-        <div class="event">
+      </div>
+
+      <div class="tl2-event reveal">
+        <div class="tl2-icon" aria-hidden="true">
+          <!-- rings -->
+          <svg viewBox="0 0 40 40"><g fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><circle cx="15" cy="24" r="8"/><circle cx="25" cy="24" r="8"/><path d="M20 9 l-2.5 4 h5 z M20 13 v3"/></g></svg>
+        </div>
+        <div class="tl2-body">
+          <p class="time">6:30 PM <!-- EDIT --></p>
+          <h3>Blessings &amp; Register</h3>
+          <p>Rings, signatures and the first married photographs as the
+          light turns golden. <!-- EDIT --></p>
+        </div>
+      </div>
+
+      <div class="tl2-event reveal">
+        <div class="tl2-icon" aria-hidden="true">
+          <!-- glass -->
+          <svg viewBox="0 0 40 40"><g fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M13 6 h14 l-2 10 a5 5 0 0 1 -10 0 z M20 21 v10 M14 34 h12"/><path d="M15 11 h10" opacity="0.6"/></g></svg>
+        </div>
+        <div class="tl2-body">
           <p class="time">7:00 PM <!-- EDIT: cocktail time --></p>
-          <h3>Cocktails &amp; Photographs</h3>
-          <p>
-            Sunset cocktails by the lagoon while the couple steals away for
-            photographs. <!-- EDIT: cocktail details -->
-          </p>
+          <h3>Sunset Cocktails</h3>
+          <p>Cocktails by the lagoon as the sun goes down over the water —
+          while the couple steals away for photographs. <!-- EDIT --></p>
         </div>
-        <div class="event">
+      </div>
+
+      <div class="tl2-event reveal">
+        <div class="tl2-icon" aria-hidden="true">
+          <!-- dinner -->
+          <svg viewBox="0 0 40 40"><g fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><circle cx="20" cy="22" r="9"/><circle cx="20" cy="22" r="4.5" opacity="0.6"/><path d="M6 13 v8 M4 13 v4 c0 2 4 2 4 0 v-4 M34 12 c-2 0 -3 3 -3 6 v9 M34 12 v15"/></g></svg>
+        </div>
+        <div class="tl2-body">
           <p class="time">8:00 PM <!-- EDIT: reception time --></p>
           <h3>Reception &amp; Dinner</h3>
-          <p>
-            The newlyweds' grand entrance, dinner, toasts, the first dance —
-            and dancing late into the night. <!-- EDIT: reception details -->
-          </p>
+          <p>The newlyweds' grand entrance, dinner and toasts under the
+          palms. <!-- EDIT --></p>
+        </div>
+      </div>
+
+      <div class="tl2-event reveal">
+        <div class="tl2-icon" aria-hidden="true">
+          <!-- cake -->
+          <svg viewBox="0 0 40 40"><g fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M12 20 h16 v6 c0 2 -16 2 -16 0 z M14 26.5 v6 c0 2 12 2 12 0 v-6" transform="translate(0 -1)"/><path d="M20 12 v5 M20 12 C19 10.5 19 9.5 20 8 C21 9.5 21 10.5 20 12 Z"/></g></svg>
+        </div>
+        <div class="tl2-body">
+          <p class="time">9:30 PM <!-- EDIT --></p>
+          <h3>Cake &amp; First Dance</h3>
+          <p>Something sweet, then the floor is theirs — and right after,
+          it's yours. <!-- EDIT --></p>
+        </div>
+      </div>
+
+      <div class="tl2-event reveal">
+        <div class="tl2-icon" aria-hidden="true">
+          <!-- music -->
+          <svg viewBox="0 0 40 40"><g fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M15 28 V10 l14 -3 v18"/><circle cx="12" cy="28" r="3.5"/><circle cx="26" cy="25" r="3.5"/></g></svg>
+        </div>
+        <div class="tl2-body">
+          <p class="time">10:00 PM <!-- EDIT --></p>
+          <h3>Dancing Until Late</h3>
+          <p>Baila, hits and bare feet on the lawn — dance until the stars
+          give up before you do. <!-- EDIT --></p>
         </div>
       </div>
     </section>

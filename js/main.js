@@ -34,6 +34,19 @@ function setupMotion() {
     });
   }, { threshold: 0.12 });
   revealed.forEach((el) => io.observe(el));
+
+  // the timeline's dotted spine draws itself as the page scrolls
+  const spine = document.querySelector(".tl2");
+  if (spine) {
+    const draw = () => {
+      const r = spine.getBoundingClientRect();
+      const progress = Math.min(1, Math.max(0, (window.innerHeight * 0.8 - r.top) / r.height));
+      spine.querySelector(".tl2-spine span").style.setProperty("--spine", progress.toFixed(3));
+      spine.querySelector(".tl2-spine span").style.transform = `scaleY(${progress.toFixed(3)})`;
+    };
+    draw();
+    window.addEventListener("scroll", draw, { passive: true });
+  }
 }
 
 /* ---------- Mobile nav ---------- */
