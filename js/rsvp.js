@@ -14,6 +14,7 @@ document.addEventListener("DOMContentLoaded", () => {
       name: (data.get("name") || "").trim(),
       attending: data.get("attending"),
       guests: Number(data.get("guests") || 1),
+      song: (data.get("song") || "").trim(),
       message: (data.get("message") || "").trim(),
     };
 

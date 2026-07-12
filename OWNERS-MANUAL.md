@@ -68,15 +68,15 @@ Tell Claude what to change — e.g. *"change the poruwa time to 6 PM"*, *"replac
 
 ### Do-it-yourself way (GitHub website)
 1. Go to https://github.com/MaheshikaWalpola/wedding
-2. Click the file (e.g. `info.html`) → click the **✏️ pencil** icon.
+2. Click the file (e.g. `info.html` (Wedding Day)) → click the **✏️ pencil** icon.
 3. Make your change → green **Commit changes** button.
 4. Wait ~1 minute — the live site updates by itself.
 
 ### What lives where
 | Change this… | …in this file |
 |---|---|
-| Schedule times & descriptions | `info.html` (look for `<!-- EDIT: ... -->`) |
-| Dress code | `info.html` |
+| Schedule times & descriptions | `info.html` (Wedding Day) (look for `<!-- EDIT: ... -->`) |
+| Dress code | `info.html` (Wedding Day) |
 | RSVP deadline (21 October 2026) | `rsvp.html` |
 | Travel note | `location.html` |
 | Contact names/numbers | `contact.html` |

@@ -133,6 +133,7 @@ function doPost(e) {
       String(data.attending || ''),
       Number(data.guests || 1),
       String(data.message || ''),
+      String(data.song || ''), // the guest's dance-floor request
     ]);
 
     return jsonResponse({ ok: true });
@@ -269,7 +270,7 @@ function getOrCreateRsvpSheet() {
   var sheet = ss.getSheetByName(RSVP_TAB);
   if (!sheet) {
     sheet = ss.insertSheet(RSVP_TAB);
-    sheet.appendRow(['Timestamp', 'Name', 'Attending', 'Guests', 'Message']);
+    sheet.appendRow(['Timestamp', 'Name', 'Attending', 'Guests', 'Message', 'Song']);
     sheet.getRange('1:1').setFontWeight('bold');
   }
   return sheet;

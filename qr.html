@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Photo Wall QR — print me for the tables</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='30' fill='%23c4744c'/%3E%3Ctext x='32' y='41' font-family='Georgia' font-size='24' fill='%23b49a5a' text-anchor='middle'%3EM%26M%3C/text%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;1,400&family=Jost:wght@300;400&display=swap" rel="stylesheet">
+  <style>
+    /* Printable table card: open this page and press Print (A5/A6 works
+       beautifully). Not linked from the site navigation on purpose. */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: "Jost", sans-serif;
+      background: #eaece2;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem 1rem;
+    }
+    .qr-card {
+      background: #fffefb;
+      border: 1px solid #d4c29a;
+      border-radius: 14px;
+      padding: 3rem 2.6rem;
+      text-align: center;
+      max-width: 420px;
+      box-shadow: 0 24px 60px -30px rgba(70, 60, 40, 0.4);
+    }
+    .mono { font-family: "Cormorant Garamond", serif; font-size: 1.6rem; font-weight: 500; color: #c4744c; }
+    .mono span { font-style: italic; color: #b49a5a; }
+    h1 {
+      font-weight: 300;
+      text-transform: uppercase;
+      letter-spacing: 0.28em;
+      font-size: 1rem;
+      color: #2e3f41;
+      margin: 0.9rem 0 0.4rem;
+    }
+    p.script { font-family: "Cormorant Garamond", serif; font-style: italic; font-size: 1.1rem; color: #5e7173; margin-bottom: 1.6rem; }
+    img.qr { width: 220px; height: 220px; }
+    p.url { margin-top: 1.2rem; font-size: 0.78rem; letter-spacing: 0.12em; color: #5e7173; }
+    .print-hint { margin-top: 2rem; font-size: 0.8rem; color: #5e7173; }
+    .print-hint button {
+      font-family: inherit; letter-spacing: 0.2em; text-transform: uppercase; font-size: 0.72rem;
+      background: #c4744c; color: #fff; border: 0; border-radius: 3px; padding: 0.7rem 1.6rem; cursor: pointer;
+    }
+    @media print {
+      body { background: #fff; padding: 0; }
+      .qr-card { border: 0; box-shadow: none; }
+      .print-hint { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="qr-card">
+    <div class="mono">M<span>&amp;</span>M</div>
+    <h1>Share Your Photos</h1>
+    <p class="script">scan to add your snaps of tonight<br>to our photo wall 📸</p>
+    <img class="qr" src="images/qr-photowall.svg" alt="QR code to the photo wall">
+    <p class="url">maheshika-moksha.pages.dev/gallery</p>
+    <div class="print-hint">
+      <button onclick="print()">Print this card</button>
+      <p style="margin-top:0.6rem;">A5 or A6 paper looks lovely on reception tables.</p>
+    </div>
+  </div>
+</body>
+</html>
