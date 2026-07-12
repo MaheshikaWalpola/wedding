@@ -1033,9 +1033,10 @@ input[type="file"]::file-selector-button {
   position: fixed;
   inset: 0;
   z-index: 100;
+  /* dusk: the sealed card floats in candlelight before the site's daylight */
   background:
-    radial-gradient(ellipse at 50% 20%, rgba(255, 253, 246, 0.8), transparent 60%),
-    linear-gradient(165deg, #f5efe3, #e7dcc7);
+    radial-gradient(ellipse 70% 50% at 50% 58%, rgba(228, 164, 92, 0.22), transparent 70%),
+    linear-gradient(180deg, #232b34 0%, #2e3a42 55%, #46504f 100%);
   opacity: 1;
   transition: opacity 0.7s ease;
   overflow: hidden;
@@ -1046,8 +1047,8 @@ input[type="file"]::file-selector-button {
   position: absolute;
   inset: 0;
   background: url("../images/couple.jpg") center 22% / cover no-repeat;
-  opacity: 0.11;
-  filter: sepia(0.32) saturate(0.6) blur(2px);
+  opacity: 0.09;
+  filter: grayscale(0.5) brightness(1.35) blur(2px); /* moonlit at dusk */
   -webkit-mask-image: radial-gradient(ellipse 62% 68% at 50% 42%, #000 30%, transparent 74%);
   mask-image: radial-gradient(ellipse 62% 68% at 50% 42%, #000 30%, transparent 74%);
   pointer-events: none;
@@ -1069,9 +1070,9 @@ input[type="file"]::file-selector-button {
   right: 1.4rem;
   z-index: 30;
   background: none;
-  border: 1px solid rgba(122, 104, 83, 0.4);
+  border: 1px solid rgba(240, 228, 205, 0.4);
   border-radius: 3px;
-  color: rgba(110, 92, 70, 0.85);
+  color: rgba(243, 234, 216, 0.85);
   font-family: var(--sans);
   font-size: 0.7rem;
   letter-spacing: 0.22em;
@@ -1089,7 +1090,7 @@ input[type="file"]::file-selector-button {
   right: 0;
   bottom: clamp(2rem, 8vh, 4rem);
   text-align: center;
-  color: rgba(110, 92, 70, 0.8);
+  color: rgba(240, 228, 205, 0.85);
   font-size: 0.75rem;
   letter-spacing: 0.34em;
   text-transform: uppercase;
