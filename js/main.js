@@ -1,11 +1,73 @@
 /* Shared behaviour: mobile nav, countdown, personalized invitation overlay. */
 
 document.addEventListener("DOMContentLoaded", () => {
+  setupPinGate();
   setupNav();
   setupCountdown();
   setupInvitation();
   setupMotion();
 });
+
+/* ---------- Privacy gate ----------
+   Guests with a personal ?g= link walk straight in (the link is the key).
+   Everyone else is asked once for the 4-digit code from the invitation;
+   the device remembers. Wedding-grade privacy, not bank-grade security. */
+
+const PIN_HASH = "44c59909f17c296d6f2ec4a53efac3a951add75aa67616d9c5d9d2f5fbb44f04";
+
+function setupPinGate() {
+  let unlocked = false;
+  try {
+    if (new URLSearchParams(location.search).get("g")) {
+      localStorage.setItem("mnm-key", "1");
+      return;
+    }
+    unlocked = localStorage.getItem("mnm-key") === "1";
+  } catch (e) {
+    return; // storage unavailable — never lock a guest out
+  }
+  if (unlocked || !window.crypto || !crypto.subtle) return;
+
+  const gate = document.createElement("div");
+  gate.className = "pin-gate";
+  gate.innerHTML =
+    '<div class="pin-box">' +
+    '<div class="pin-mono">M<span>&amp;</span>M</div>' +
+    '<p class="pin-title">A Private Celebration</p>' +
+    '<p class="pin-sub">enter the code from your invitation</p>' +
+    '<input class="pin-input" inputmode="numeric" pattern="[0-9]*" maxlength="4" aria-label="4 digit code" autofocus>' +
+    '<p class="pin-err" aria-live="polite"></p>' +
+    "</div>";
+  document.body.appendChild(gate);
+  document.body.classList.add("no-scroll");
+
+  const input = gate.querySelector(".pin-input");
+  const err = gate.querySelector(".pin-err");
+
+  async function sha256(text) {
+    const buf = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(text));
+    return [...new Uint8Array(buf)].map((b) => b.toString(16).padStart(2, "0")).join("");
+  }
+
+  input.addEventListener("input", async () => {
+    err.textContent = "";
+    const v = input.value.replace(/\D/g, "");
+    input.value = v;
+    if (v.length !== 4) return;
+    if ((await sha256(v)) === PIN_HASH) {
+      try { localStorage.setItem("mnm-key", "1"); } catch (e) {}
+      gate.classList.add("open");
+      document.body.classList.remove("no-scroll");
+      setTimeout(() => gate.remove(), 600);
+    } else {
+      input.value = "";
+      gate.querySelector(".pin-box").classList.add("shake");
+      err.textContent = "That's not it — try the code on your invitation";
+      setTimeout(() => gate.querySelector(".pin-box").classList.remove("shake"), 500);
+    }
+  });
+  setTimeout(() => input.focus(), 100);
+}
 
 /* ---------- Scroll-driven motion: glass header + section reveals ---------- */
 
