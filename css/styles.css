@@ -796,6 +796,30 @@ h3 { font-family: var(--serif); font-weight: 500; color: var(--ink); }
 .two-col h3 { font-size: 1.35rem; margin-bottom: 0.4rem; }
 .two-col p { color: var(--ink-soft); font-size: 0.95rem; }
 
+/* ---------- Quick-jump chips (Travel page) ---------- */
+
+.chip-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  justify-content: center;
+  margin: -0.6rem auto 0;
+  max-width: 640px;
+}
+.chip-nav a {
+  font-size: 0.72rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: var(--lagoon-deep);
+  border: 1px solid var(--lagoon-soft);
+  border-radius: 999px;
+  padding: 0.42rem 0.95rem;
+  background: var(--paper);
+  transition: background 0.2s, color 0.2s, border-color 0.2s;
+}
+.chip-nav a:hover { background: var(--lagoon); border-color: var(--lagoon); color: #fff; }
+
 /* ---------- Map ---------- */
 
 .map-frame {
