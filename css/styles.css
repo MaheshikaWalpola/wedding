@@ -1580,7 +1580,9 @@ input[type="file"]::file-selector-button {
 }
 /* the seal sits in the flow at the wreath's heart, recast in terracotta */
 .cover .wax-seal {
-  position: static;
+  position: relative; /* in flow, but ::before/::after must size against the seal */
+  left: auto;
+  top: auto;
   transform: none;
   margin-top: 1rem;
   color: #fff4e6;
@@ -1670,7 +1672,13 @@ input[type="file"]::file-selector-button {
 .cov-follow { font-family: var(--serif); font-style: italic; color: var(--rust); font-size: 0.92rem; }
 /* small gold wax seal, like the reference photo */
 .cover .wax-seal {
-  position: static;
+  /* relative, not static: the absolutely-positioned ::before ring and
+     ::after fire-water glow must size against this 62px seal — with a
+     static seal they stretched over the whole text column and painted
+     a giant oval ring across the cover */
+  position: relative;
+  left: auto;
+  top: auto;
   transform: none;
   width: 62px;
   height: 62px;
