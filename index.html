@@ -135,10 +135,10 @@
   </svg>
 
   <!-- ================= DIGITAL INVITATION CARD =================
-       A sealed envelope greets every visitor; tapping the wax seal
-       opens it and the invitation card rises out. With ?g=guestid
-       the card carries that guest's own name. Shown once per visit
-       (and always on personalized links). ============================ -->
+       A sealed cover greets every visitor by name ("Hello, …" via
+       ?g=guestid); tapping the wax seal opens it and the invitation
+       card rises out with the full details. Shown once per visit
+       (and always on personalized links). ========================= -->
   <div id="card-overlay" class="card-overlay hidden">
 
     <!-- Wildflower sprays framing the backdrop corners -->
@@ -159,15 +159,12 @@
             <use href="#eswans" transform="translate(1.1 1.1)" fill="#9a7c58" opacity="0.2" stroke="none"/>
             <use href="#eswans" transform="translate(-0.7 -0.7)" fill="#fffdf6" stroke="#d3bd93" stroke-width="0.6"/>
           </svg>
+          <h2 class="cov-hello">&nbsp;</h2>
           <p class="cov-eyebrow">Together with their families</p>
           <p class="cov-name">Maheshika</p>
           <p class="cov-and">and</p>
           <p class="cov-name">Moksha</p>
           <p class="cov-line">joyfully invite you to their wedding</p>
-          <span class="cov-rule" aria-hidden="true"></span>
-          <p class="cov-when">Monday, December 21, 2026<br><em>at five o'clock in the evening</em></p>
-          <p class="cov-where">Anantara Kalutara Resort<br>Kalutara · Sri Lanka</p>
-          <p class="cov-follow">dinner &amp; dancing to follow</p>
           <button class="wax-seal" aria-label="Break the seal and open">M<span class="amp">&amp;</span>M</button>
         </div>
       </div>
@@ -199,7 +196,7 @@
 
         <!-- Monogram crest over a blind-embossed rosette medallion -->
         <div class="inv-crest">
-          <svg class="inv-medallion" viewBox="0 0 400 480" aria-hidden="true"><use href="#bwreath"/></svg>
+          <svg class="inv-medallion" viewBox="0 0 400 480" preserveAspectRatio="none" aria-hidden="true"><use href="#bwreath"/></svg>
           <div class="inv-monogram">M<span class="amp">&amp;</span>M</div>
         </div>
         <p class="inv-copy">Together with their families</p>

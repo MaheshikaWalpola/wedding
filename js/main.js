@@ -143,10 +143,12 @@ function setupCountdown() {
 }
 
 /* ---------- The digital invitation card (cover + wax seal) ----------
-   The sealed invitation greets every visit to the home page; it is
-   skipped only when arriving via the site's own navigation, so browsing
-   back to Home doesn't replay it. A personalized link (?g=guestid)
-   always opens it, with that guest's name on the card. */
+   The sealed cover greets every visit to the home page with a
+   personal "Hello, …"; tapping the wax seal opens it and the
+   invitation card rises out. Skipped only when arriving via the
+   site's own navigation, so browsing back to Home doesn't replay it.
+   A personalized link (?g=guestid) always opens it, with that
+   guest's name on both the cover and the card. */
 
 function setupInvitation() {
   const overlay = document.getElementById("card-overlay");
@@ -161,16 +163,22 @@ function setupInvitation() {
   }
 
   const nameEl = overlay.querySelector(".inv-guest");
+  const helloEl = overlay.querySelector(".cov-hello");
+  function setGuest(hello, name) {
+    helloEl.textContent = hello;
+    nameEl.textContent = name;
+  }
   if (guestId) {
     Api.getGuest(guestId)
       .then((result) => {
-        nameEl.textContent = result.found ? result.name : "Dear Guest";
+        if (result.found) setGuest("Hello, " + result.name, result.name);
+        else setGuest("Hello, dear guest", "Dear Guest");
       })
       .catch(() => {
-        nameEl.textContent = "Dear Guest";
+        setGuest("Hello, dear guest", "Dear Guest");
       });
   } else {
-    nameEl.textContent = "Our Family & Friends";
+    setGuest("Hello, family & friends", "Our Family & Friends");
   }
 
   overlay.classList.remove("hidden");
