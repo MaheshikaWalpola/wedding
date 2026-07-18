@@ -154,10 +154,12 @@ function setupInvitation() {
   const overlay = document.getElementById("card-overlay");
   if (!overlay) return;
 
-  const guestId = new URLSearchParams(location.search).get("g");
+  const params = new URLSearchParams(location.search);
+  const guestId = params.get("g");
+  const previewName = params.get("name"); // ?name=… previews any greeting without the sheet
 
   const cameFromInside = document.referrer.startsWith(location.origin);
-  if (cameFromInside && !guestId) {
+  if (cameFromInside && !guestId && !previewName) {
     overlay.remove();
     return;
   }
@@ -166,19 +168,22 @@ function setupInvitation() {
   const helloEl = overlay.querySelector(".cov-hello");
   function setGuest(hello, name) {
     helloEl.textContent = hello;
+    helloEl.classList.toggle("long", hello.length > 20);
     nameEl.textContent = name;
   }
-  if (guestId) {
+  if (previewName) {
+    setGuest("Dear " + previewName, previewName);
+  } else if (guestId) {
     Api.getGuest(guestId)
       .then((result) => {
-        if (result.found) setGuest("Hello, " + result.name, result.name);
-        else setGuest("Hello, dear guest", "Dear Guest");
+        if (result.found) setGuest("Dear " + result.name, result.name);
+        else setGuest("Dear guest", "Dear Guest");
       })
       .catch(() => {
-        setGuest("Hello, dear guest", "Dear Guest");
+        setGuest("Dear guest", "Dear Guest");
       });
   } else {
-    setGuest("Hello, family & friends", "Our Family & Friends");
+    setGuest("Dear family & friends", "Our Family & Friends");
   }
 
   overlay.classList.remove("hidden");
