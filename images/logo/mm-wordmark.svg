@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 300" font-family="'Cormorant Garamond', Georgia, 'Times New Roman', serif">
+<style>@import url("https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&amp;family=Jost:wght@400&amp;display=swap");</style>
+  <g text-anchor="middle">
+    <text x="450" y="150" font-size="86" font-weight="500" fill="#2a251e" letter-spacing="2">Maheshika <tspan font-style="italic" fill="#b96a45" font-size="96" dy="4">&amp;</tspan><tspan dy="-4"> Moksha</tspan></text>
+    <!-- flourish under names -->
+    <path d="M 250 186 C 340 176 400 196 450 186 C 500 176 560 196 650 186"
+          fill="none" stroke="#c9973f" stroke-width="1.4" stroke-linecap="round"/>
+    <ellipse cx="238" cy="187" rx="9" ry="3.4" fill="#a9814e" transform="rotate(-14 238 187)"/>
+    <ellipse cx="662" cy="187" rx="9" ry="3.4" fill="#c07a45" transform="rotate(14 662 187)"/>
+    <circle cx="450" cy="187" r="3.4" fill="#b96a45"/>
+    <text x="450" y="232" font-size="24" letter-spacing="7" fill="#55492f"
+          font-family="Jost, 'Avenir Next', sans-serif">DECEMBER 21ST 2026</text>
+    <text x="450" y="266" font-size="19" letter-spacing="5" fill="#6fa3ad"
+          font-family="Jost, 'Avenir Next', sans-serif">ANANTARA KALUTARA · SRI LANKA</text>
+  </g>
+</svg>
