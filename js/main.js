@@ -252,7 +252,7 @@ function setupReveals() {
 function setupCountdown() {
   const box = document.getElementById("countdown");
   if (!box) return;
-  const target = new Date("2026-12-21T17:00:00+05:30"); // guests arrive, 5 PM Sri Lanka time, Monday 21 December
+  const target = new Date("2026-12-21T16:00:00+05:30"); // guests are welcomed from 4 PM Sri Lanka time, Monday 21 December
   const f = (sel) => box.querySelector(`[data-cd="${sel}"]`);
   const pad = (n) => String(n).padStart(2, "0");
   const set = (sel, v) => {
