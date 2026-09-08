@@ -609,22 +609,22 @@ html.covered .img-reveal img { transform: scale(1.08); transition: none; }
 }
 .card-overlay.hidden { display: none; }
 .card-overlay.leaving { opacity: 0; pointer-events: none; }
-.env-scene { position: absolute; inset: 0; display: grid; place-items: center; }
+/* the cover and, under it with a fixed gap, the tap hint */
+.env-scene { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1.4rem; padding: 1rem 0; }
 /* the wildflower sprays in the backdrop corners */
 .ovl-spray { position: absolute; pointer-events: none; opacity: .5; }
 .ovl-spray.bl { left: -2%; bottom: -2%; height: 92vh; width: auto; }
 .ovl-spray.tr { right: -2%; top: -2%; height: 82vh; width: auto; transform: rotate(180deg); }
 .skip-link { position: absolute; top: max(1.1rem, env(safe-area-inset-top)); right: 1.4rem; z-index: 30; background: none; border: 1px solid var(--gold-line); border-radius: 999px; color: var(--ink-soft); font-family: var(--sans); font-weight: 600; font-size: .7rem; letter-spacing: .22em; text-transform: uppercase; padding: .55rem 1rem; min-height: 40px; cursor: pointer; transition: border-color var(--t-fast), color var(--t-fast); }
 .skip-link:hover { color: var(--royal); border-color: var(--gold); }
-.tap-hint { display: none; position: absolute; left: 0; right: 0; bottom: clamp(2rem, 8vh, 4rem); margin: 0; text-align: center; color: var(--ink-soft); font-family: var(--sans); font-weight: 600; font-size: .72rem; letter-spacing: .34em; text-transform: uppercase; animation: hint 2.4s ease-in-out infinite; transition: opacity .4s; }
+.tap-hint { position: relative; z-index: 3; margin: 0; padding: 0 1rem; text-align: center; color: var(--ink-soft); font-family: var(--sans); font-weight: 600; font-size: .72rem; letter-spacing: .34em; text-transform: uppercase; animation: hint 2.4s ease-in-out infinite; transition: opacity .4s; }
 @keyframes hint { 0%, 100% { opacity: .55; } 50% { opacity: 1; } }
-@media (min-height: 760px) { .tap-hint { display: block; } } /* only when it clears the cover */
 .opening .tap-hint { animation: none; opacity: 0; }
 
 /* the cover: white card, wildflower spray climbing the left side, the text beside it, a small gold wax seal */
 .cover {
-  position: relative; grid-area: 1 / 1; z-index: 3;
-  width: min(94vw, 460px); aspect-ratio: 1 / 1.42; max-height: 88vh; border-radius: 8px; cursor: pointer;
+  position: relative; z-index: 3; flex: none;
+  width: min(94vw, 460px); aspect-ratio: 1 / 1.42; max-height: 78vh; border-radius: 8px; cursor: pointer;
   background-color: var(--paper);
   background-image:
     url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='p'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.45 0 0 0 0 0.33 0 0 0 0 0.2 0 0 0 0.035 0'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23p)'/%3E%3C/svg%3E"),
@@ -639,7 +639,7 @@ html.covered .img-reveal img { transform: scale(1.08); transition: none; }
 .cov-spray { position: absolute; left: -7%; bottom: -1%; height: 96%; width: auto; pointer-events: none; }
 /* the text column starts right of the spray's reach, so no flower crosses a letter */
 .cov-text { position: absolute; top: 50%; left: 33%; right: 4%; transform: translateY(-50%); display: flex; flex-direction: column; align-items: center; gap: .35rem; text-align: center; padding: 0; }
-.cov-swans { width: 96px; opacity: .95; }
+.cov-swans { width: 62%; max-width: 230px; height: auto; margin-bottom: .2rem; opacity: .95; }
 .cov-hello { font-family: var(--serif); font-style: italic; font-weight: 500; font-size: clamp(1.6rem, 6vw, 2.1rem); line-height: 1.25; text-wrap: balance; letter-spacing: .02em; color: var(--royal); margin: 0 0 .5rem; width: 100%; }
 .cov-hello.long { font-size: clamp(1.25rem, 4.6vw, 1.6rem); } /* long guest names step down so they never crowd the card */
 .cov-eyebrow { font-family: var(--sans); font-weight: 600; font-size: .78rem; letter-spacing: .3em; text-transform: uppercase; color: var(--ink-soft); margin: .5rem 0 0; }

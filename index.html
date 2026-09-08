@@ -122,20 +122,6 @@
 <g fill="#816421"><circle cx="8.4" cy="1.6" r=".85"/><circle cx="5.5" cy="6.6" r=".8"/><circle cx="-.3" cy="8.6" r=".85"/><circle cx="-5.6" cy="6.5" r=".8"/><circle cx="-8.5" cy="1.2" r=".85"/><circle cx="-7.1" cy="-4.7" r=".8"/><circle cx="-2.8" cy="-8.1" r=".85"/><circle cx="3.1" cy="-8" r=".8"/><circle cx="7" cy="-4.9" r=".85"/></g>
 </g>
       </g>
-      <!-- loving swans, embossed: filled silhouette + feather plumes -->
-      <g id="eswansil">
-        <path d="M4 62 C 0 56 2 50 10 47 C 16 45 24 44 30 45 C 36 40 37 30 33 22 C 30 15 30 9 34 5 C 36 2 40 2 41 5 L 47 9 L 40 10 C 38 12 36 16 36 22 C 36 30 38 36 42 42 C 46 48 46 56 40 62 C 32 68 12 68 4 62 Z"/>
-        <g fill="none" stroke-width="1.1">
-          <path d="M11 51 q4.5 -4.5 9 0 M20 51 q4.5 -4.5 9 0 M29 51 q4 -4 8 0"/>
-          <path d="M9 56.5 q4.5 -4.5 9 0 M18 56.5 q4.5 -4.5 9 0 M27 56.5 q4.5 -4.5 9 0 M36 56 q3 -3 5.5 0.5"/>
-          <path d="M12 62 q4.5 -4.5 9 0 M21 62 q4.5 -4.5 9 0 M30 62 q4 -4 8 0.5"/>
-        </g>
-      </g>
-      <g id="eswans">
-        <use href="#eswansil" transform="translate(100 98) scale(1.05)"/>
-        <use href="#eswansil" transform="translate(240 98) scale(-1.05 1.05)"/>
-        <path d="M170 104 c -3 -5 -9 -3 -9 2 c 0 4 9 9 9 9 c 0 0 9 -5 9 -9 c 0 -5 -6 -7 -9 -2 Z"/>
-      </g>
       <!-- the brass oil lamp lit at the poruwa -->
       <symbol id="lamp" viewBox="-26 -30 52 44">
         <path d="M-22 0Q0 16 22 0Q0-7-22 0Z" fill="#b8963f"/>
@@ -217,10 +203,7 @@
       <div class="cover" role="button" tabindex="0" aria-label="Open the invitation">
         <svg class="cov-spray" viewBox="0 0 300 520" aria-hidden="true"><use href="#bspray"/></svg>
         <div class="cov-text">
-          <svg class="cov-swans" viewBox="86 84 168 106" aria-hidden="true">
-            <use href="#eswans" transform="translate(1.1 1.1)" fill="#816421" opacity="0.2" stroke="none"/>
-            <use href="#eswans" transform="translate(-0.7 -0.7)" fill="#fffdf8" stroke="#d4b978" stroke-width="0.6"/>
-          </svg>
+          <img class="cov-swans" src="images/swans-gold.png" alt="" width="900" height="500">
           <h2 class="cov-hello" id="cov-hello">Dear family &amp; friends</h2>
           <p class="cov-name">Maheshika</p>
           <p class="cov-and">and</p>
@@ -253,9 +236,9 @@
         <span class="flower" style="left: 93%; --delay: 3.4s;  --dur: 8.8s; width: 20px; height: 20px; color: #1c3fa0;"><svg viewBox="0 0 24 24"><g fill="currentColor"><ellipse cx="12" cy="5.5" rx="3" ry="4.5"/><ellipse cx="12" cy="5.5" rx="3" ry="4.5" transform="rotate(72 12 12)"/><ellipse cx="12" cy="5.5" rx="3" ry="4.5" transform="rotate(144 12 12)"/><ellipse cx="12" cy="5.5" rx="3" ry="4.5" transform="rotate(216 12 12)"/><ellipse cx="12" cy="5.5" rx="3" ry="4.5" transform="rotate(288 12 12)"/><circle cx="12" cy="12" r="2.4" fill="#816421"/></g></svg></span>
       </div>
 
+      <p class="tap-hint">Tap the seal to open your invitation</p>
     </div>
 
-    <p class="tap-hint">Tap the seal to open your invitation</p>
   </div>
 
   <div class="progress" id="progress" aria-hidden="true"></div>
