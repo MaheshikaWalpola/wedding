@@ -6,7 +6,8 @@ invitation links and the guest photo album.
 
 **Monday 21 December 2026 · Anantara Kalutara Resort, Sri Lanka**
 
-The facts that change (URLs, deployment, open questions) live in `../SYSTEM.md`.
+The facts that change (URLs, deployment, the PIN, open questions) live in `../SYSTEM.md`,
+which sits outside this repository on purpose and is not published.
 
 ## Pages
 
@@ -31,7 +32,7 @@ The facts that change (URLs, deployment, open questions) live in `../SYSTEM.md`.
 
 ```bash
 python3 -m http.server 8788
-# open http://localhost:8788 — the PIN is in ../SYSTEM.md
+# open http://localhost:8788 — the PIN is on the invitation and in ../SYSTEM.md (not in this repo)
 ```
 
 - **Personal link:** `http://localhost:8788/?g=<GuestID>` (from the Sheet), or

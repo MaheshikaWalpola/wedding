@@ -124,16 +124,19 @@ function doPost(e) {
 
     if (data.action === 'photo') return jsonResponse(savePhoto(data));
 
-    var name = String(data.name || '').trim();
+    // Bounded, plain-text values only: the sheet is the couple's, not the guest's.
+    var name = String(data.name || '').trim().slice(0, 120);
     if (!name) return jsonResponse({ ok: false, error: 'Missing name' });
+    var attending = String(data.attending || '').toLowerCase() === 'no' ? 'no' : 'yes';
+    var guests = Math.min(20, Math.max(1, Math.round(Number(data.guests) || 1)));
 
     getOrCreateRsvpSheet().appendRow([
       new Date(),
       name,
-      String(data.attending || ''),
-      Number(data.guests || 1),
-      String(data.message || ''),
-      String(data.song || ''), // the guest's dance-floor request
+      attending,
+      guests,
+      String(data.message || '').slice(0, 2000),
+      String(data.song || '').slice(0, 200), // kept for older forms; the current site sends nothing here
     ]);
 
     return jsonResponse({ ok: true });
@@ -158,7 +161,7 @@ function savePhoto(data) {
   // The guest's name (optional on the site) goes into the file name and the Drive
   // description, so the Drive folder itself shows who added each photo.
   var by = String(data.name || '').replace(/[\/\\:*?"<>|]/g, ' ').replace(/\s+/g, ' ').trim() || 'A guest';
-  var original = String(data.filename || 'guest-photo.jpg');
+  var original = String(data.filename || 'guest-photo.jpg').replace(/[\/\\:*?"<>|]/g, ' ').slice(0, 100) || 'guest-photo.jpg';
   var blob = Utilities.newBlob(Utilities.base64Decode(b64), mime, by + ' - ' + original);
   var file = getOrCreatePhotosFolder().createFile(blob);
   file.setDescription('Added by ' + by + ' via the wedding website');
@@ -166,7 +169,7 @@ function savePhoto(data) {
 
   getOrCreatePhotosSheet().appendRow([
     new Date(),
-    String(data.name || 'A guest').trim() || 'A guest',
+    by,
     file.getId(),
     'yes', // Show on the website — change to "no" to hide
   ]);

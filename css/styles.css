@@ -449,7 +449,6 @@ ul.plain li:last-child { border-bottom: 0; }
 .travel-block h3 { font-size: 1.5rem; color: var(--royal); margin-bottom: 1rem; padding-bottom: .7rem; border-bottom: 1px solid var(--gold-line); display: flex; align-items: center; gap: .6rem; }
 .travel-block h3 .ic { color: var(--gold); width: 22px; height: 22px; }
 .travel-block li strong { font-weight: 600; color: var(--ink); }
-.travel-block a.inline { color: var(--royal); text-decoration: underline; text-decoration-color: rgba(28,63,160,.35); text-underline-offset: .2em; }
 ul.hotels { list-style: none; padding: 0; margin: 0 0 1rem; }
 ul.hotels li + li { margin-top: .6rem; }
 ul.hotels a, .contact a {

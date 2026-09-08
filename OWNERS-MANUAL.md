@@ -19,7 +19,7 @@ Data: your **"Wedding" Google Sheet** (the one WITHOUT the .XLSX badge)
 ## Everyday things
 
 ### 🔎 Test that everything works (5-minute health check)
-1. Open https://maheshika-moksha.pages.dev — code `2112` → sealed cover → page, countdown ticking?
+1. Open https://maheshika-moksha.pages.dev — the code (kept in `../SYSTEM.md`, outside this repo) → sealed cover → page, countdown ticking?
 2. Open https://maheshika-moksha.pages.dev/?g=amma-gqjr — cover says "Dear Amma", no code asked?
 3. Find your seat (on the page) → type `Amma` → result appears?
 4. RSVP (on the page) → send a test reply → appears as a new row in the **RSVP Responses** tab? (Delete the row after.)
@@ -111,7 +111,7 @@ Functions you might run from the dropdown:
 | Invite link shows "Dear family & friends" | The `?g=...` code doesn't match a **GuestID** — copy the link fresh from the Invite Link column |
 | RSVP says "didn't go through" | Check Apps Script deployment: **Who has access** must be **Anyone** |
 | Photo uploaded but not in the album | Check the **Show** cell is `yes`; give Drive a minute for new photos |
-| Guest asks for the code | It is `2112`, or send them their personal link instead |
+| Guest asks for the code | It is on the printed invitation and in `../SYSTEM.md` (outside this repo); or send them their personal link, which needs no code |
 | Site not updating after a change | Website changes need a GitHub push; sheet changes are instant |
 
 ---

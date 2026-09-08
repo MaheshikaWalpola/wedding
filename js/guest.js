@@ -55,7 +55,7 @@ function setupRsvp() {
       song: (data.get("song") || "").trim(),
       message: (data.get("message") || "").trim(),
     };
-    if (payload.name.length < 2) { say("Please tell us your name.", "error"); form.name.focus(); return; }
+    if (payload.name.length < 2) { say("Please tell us your name.", "error"); document.getElementById("rsvp-name").focus(); return; }
     if (!payload.attending) { say("Please let us know if you can make it.", "error"); return; }
 
     button.disabled = true;
