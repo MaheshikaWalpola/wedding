@@ -145,7 +145,7 @@ ul.plain li:last-child { border-bottom: 0; }
 .burger[aria-expanded="true"] span:nth-child(1) { transform: translateY(3.75px) rotate(45deg); }
 .burger[aria-expanded="true"] span:nth-child(2) { transform: translateY(-3.75px) rotate(-45deg); }
 
-@media (max-width: 1000px) {
+@media (max-width: 1100px) {
   .burger { display: flex; }
   .links {
     position: fixed; inset: var(--nav-h) 0 0 0;
@@ -263,14 +263,14 @@ ul.plain li:last-child { border-bottom: 0; }
 .skyline { position: absolute; left: 50%; bottom: 0; transform: translateX(-50%) translateY(var(--py, 0px)); width: 100vw; height: clamp(170px, 16vw, 420px); z-index: 1; pointer-events: none; color: var(--gold); will-change: transform; }
 
 /* laptop viewports up to 940px tall: keep the countdown and buttons above the fold */
-@media (min-width: 1001px) and (max-height: 940px) {
+@media (min-width: 1101px) and (max-height: 940px) {
   .hero { padding-top: calc(var(--nav-h) + 4.6rem); padding-bottom: 10rem; }
   .names { font-size: clamp(3rem, 6vw, 5rem); }
   .hero-lead { margin: .7rem 0 1.1rem; }
   .hero-dates { margin-bottom: 1.1rem; }
   .cd-label { margin: .5rem 0 1rem; }
 }
-@media (max-width: 1000px) {
+@media (max-width: 1100px) {
   .hero { grid-template-columns: 1fr; text-align: center; padding-top: calc(var(--nav-h) + 5.2rem); padding-bottom: 11rem; gap: 2.4rem; }
   .hero-photo { order: 1; width: min(76vw, 340px); }
   .hero-inner { order: 2; }
@@ -686,7 +686,7 @@ html.covered .img-reveal img { transform: scale(1.08); transition: none; }
 
 /* ============================================================ QUICK ACTIONS (phones) */
 .quick-bar { display: none; }
-@media (max-width: 1000px) {
+@media (max-width: 1100px) {
   body { padding-bottom: calc(66px + env(safe-area-inset-bottom)); }
   .quick-bar {
     position: fixed; left: 0; right: 0; bottom: 0; z-index: 48;
