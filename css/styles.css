@@ -463,11 +463,12 @@ ul.hotels small, .contact small { font-size: .82rem; color: var(--ink-mute); let
 .info h4 { font-size: 1.15rem; color: var(--ink); margin-bottom: .4rem; }
 .info p { font-size: .95rem; color: var(--ink-soft); margin: 0; }
 .info a { color: var(--royal); text-decoration: underline; text-decoration-color: rgba(28,63,160,.35); text-underline-offset: .2em; }
-.tip { margin-top: 3rem; padding: 1.6rem 1.8rem; background: var(--royal-mist); border-radius: var(--r-card); }
+.tip { display: grid; grid-template-columns: 250px 1fr; gap: 1.6rem; align-items: center; margin-top: 3rem; padding: 1.6rem 1.8rem; background: var(--royal-mist); border-radius: var(--r-card); }
+.tip-art { width: 250px; height: auto; opacity: .95; }
 .tip h4 { color: var(--royal-deep); font-size: 1.2rem; margin-bottom: .3rem; }
 .tip p { margin: 0; color: var(--ink-soft); }
 @media (max-width: 900px) { .info-grid { grid-template-columns: 1fr 1fr; } }
-@media (max-width: 760px) { .travel-grid { grid-template-columns: 1fr; } }
+@media (max-width: 760px) { .travel-grid { grid-template-columns: 1fr; } .tip { grid-template-columns: 1fr; text-align: center; } .tip-art { width: min(100%, 320px); margin: 0 auto; } }
 @media (max-width: 560px) { .info-grid { grid-template-columns: 1fr; } }
 
 /* ============================================================ Q & A */
@@ -738,7 +739,7 @@ html.covered .img-reveal img { transform: scale(1.08); transition: none; }
   .countdown b { font-size: 1.6rem; }
   .countdown span { font-size: .7rem; letter-spacing: .14em; }
   .hero-cta { flex-direction: column; align-items: stretch; }
-  .hero-photo { width: min(90vw, 400px); }
+  .hero-photo { width: min(80vw, 340px); }
   .hero-inner { margin-top: 1.2rem; }
   .hero-photo::before { inset: -12px 12px 12px -12px; }
   .hero-photo::after { inset: 12px -12px -12px 12px; }
