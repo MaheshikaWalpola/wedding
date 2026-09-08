@@ -79,6 +79,7 @@ Tell Claude what to change — e.g. *"change the poruwa time to 6 PM"*, *"replac
 | Dress code | `index.html`, "Celebrations" section |
 | RSVP deadline (15 October 2026) | `index.html`: invitation card, RSVP section, Q&A |
 | Travel, hotels, Q&A | `index.html` |
+| The guest guide (itinerary, hotels, tips) | `guide.html` |
 | Contact names/numbers | `index.html`, closing section (WhatsApp links) |
 | Colours & fonts | `css/styles.css` (top `:root` block) |
 | Countdown target time | `js/main.js` |

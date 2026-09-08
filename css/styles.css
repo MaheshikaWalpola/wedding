@@ -471,6 +471,7 @@ ul.hotels small, .contact small { font-size: .82rem; color: var(--ink-mute); let
 .info h4 { font-size: 1.15rem; color: var(--ink); margin-bottom: .4rem; }
 .info p { font-size: .95rem; color: var(--ink-soft); margin: 0; }
 .info a { color: var(--royal); text-decoration: underline; text-decoration-color: rgba(28,63,160,.35); text-underline-offset: .2em; }
+.tip .btn { margin-top: 1rem; }
 .tip { display: grid; grid-template-columns: 250px 1fr; gap: 1.6rem; align-items: center; margin-top: 3rem; padding: 1.6rem 1.8rem; background: var(--royal-mist); border-radius: var(--r-card); }
 .tip-art { width: 250px; height: auto; opacity: .95; }
 .tip h4 { color: var(--royal-deep); font-size: 1.2rem; margin-bottom: .3rem; }
@@ -732,6 +733,37 @@ html.covered .img-reveal img { transform: scale(1.08); transition: none; }
 .wall-empty[hidden] { display: none; }
 .page-foot { text-align: center; padding: 3rem var(--gutter) 4rem; }
 .page-foot a { display: inline-flex; align-items: center; gap: .6rem; text-decoration: none; font-family: var(--sans); font-weight: 600; font-size: .74rem; letter-spacing: .2em; text-transform: uppercase; color: var(--royal); }
+
+/* ============================================================ GUEST GUIDE PAGE */
+.page-guide .photos-hero { padding-bottom: clamp(3rem, 6vw, 5rem); }
+.guide-alt { background: var(--cream); }
+.glance { display: grid; gap: .6rem; margin: 2.5rem auto 1rem; max-width: 640px; text-align: left; }
+.glance div { display: grid; grid-template-columns: 120px 1fr; gap: 1rem; align-items: baseline; padding: .8rem 1.1rem; background: var(--paper); border: 1px solid var(--gold-line); border-radius: var(--r-sm); }
+.glance span { font-family: var(--sans); font-weight: 600; font-size: .7rem; letter-spacing: .2em; text-transform: uppercase; color: var(--gold-deep); }
+.glance strong { font-weight: 400; color: var(--ink); }
+.glance a, .days a, .guide-grid a, .famous a, .stay-list a { color: var(--royal); text-decoration: underline; text-decoration-color: rgba(28,63,160,.35); text-underline-offset: .2em; }
+.days { list-style: none; margin: 3rem 0 0; padding: 0; display: grid; gap: 0; }
+.days li { display: grid; grid-template-columns: 110px 1fr; gap: 1.2rem; padding: 1.4rem 0; border-top: 1px solid var(--gold-line); }
+.days li:last-child { border-bottom: 1px solid var(--gold-line); }
+.day-n { font-family: var(--serif); font-style: italic; font-weight: 300; color: var(--gold-deep); font-size: 1.15rem; padding-top: .15rem; }
+.days h3 { font-size: 1.3rem; color: var(--royal); margin-bottom: .4rem; }
+.days p { color: var(--ink-soft); font-size: .98rem; margin: 0; }
+.days .is-wedding { background: var(--royal-mist); border-radius: var(--r-sm); padding: 1.4rem 1.2rem; border-top: 0; margin: .4rem 0; }
+.days .is-wedding + li { border-top: 0; }
+.guide-grid { margin-top: 2.5rem; }
+.guide-grid.two { grid-template-columns: 1fr 1fr; }
+.guide-grid .info p + p { margin-top: .6rem; }
+.guide-grid .info ul.plain li { padding: .45rem 0; font-size: .95rem; }
+.guide-sub { margin-top: 3rem; }
+ul.famous { max-width: 760px; margin: 0 auto; }
+ul.famous li { font-size: .98rem; color: var(--ink-soft); }
+.stay { margin-top: 2rem; padding-top: 1.4rem; border-top: 1px solid var(--gold-line); }
+.stay h3 { font-size: 1.35rem; color: var(--royal); margin-bottom: .6rem; }
+.stay-list { color: var(--ink-soft); line-height: 2; margin: 0; }
+.stay-list small { color: var(--ink-mute); font-size: .85em; }
+.closing-line { font-family: var(--serif); font-size: 1.3rem; color: var(--royal); margin: 3rem 0 0; line-height: 1.6; }
+.closing-line em { font-style: italic; color: var(--ink-soft); font-size: .85em; }
+@media (max-width: 760px) { .guide-grid.two { grid-template-columns: 1fr; } .days li { grid-template-columns: 1fr; gap: .3rem; } .glance div { grid-template-columns: 1fr; gap: .2rem; } }
 
 /* ============================================================ PHONES */
 @media (max-width: 560px) {
