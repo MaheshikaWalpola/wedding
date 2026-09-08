@@ -6,11 +6,11 @@ METHOD:PUBLISH
 BEGIN:VEVENT
 UID:mnm-wedding-20261221@maheshika-moksha.pages.dev
 DTSTAMP:20260908T000000Z
-DTSTART;TZID=Asia/Colombo:20261221T170000
+DTSTART;TZID=Asia/Colombo:20261221T160000
 DTEND;TZID=Asia/Colombo:20261221T233000
 SUMMARY:Maheshika & Moksha · Wedding 💍
 LOCATION:Anantara Kalutara Resort\, St. Sebastian's Road\, Katukurunda\, Kalutara\, Sri Lanka
-DESCRIPTION:Guests welcome from 5 PM\, poruwa ceremony at 5:30 PM\, reception and dinner to follow.\nAll details: https://maheshika-moksha.pages.dev
+DESCRIPTION:Tea from 4 PM\, the ceremony begins at 5 PM\, poruwa at 5:25 PM\, registration at 6:15 PM\, then the hall: cake\, speeches\, dinner and dancing until around 11 PM.\nAll details: https://maheshika-moksha.pages.dev
 URL:https://maheshika-moksha.pages.dev
 BEGIN:VALARM
 TRIGGER:-P1D

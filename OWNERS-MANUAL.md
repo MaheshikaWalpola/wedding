@@ -19,7 +19,7 @@ Data: your **"Wedding" Google Sheet** (the one WITHOUT the .XLSX badge)
 ## Everyday things
 
 ### 🔎 Test that everything works (5-minute health check)
-1. Open https://maheshika-moksha.pages.dev — code `2112` → sealed cover → card → page, countdown ticking?
+1. Open https://maheshika-moksha.pages.dev — code `2112` → sealed cover → page, countdown ticking?
 2. Open https://maheshika-moksha.pages.dev/?g=amma-gqjr — cover says "Dear Amma", no code asked?
 3. Find your seat (on the page) → type `Amma` → result appears?
 4. RSVP (on the page) → send a test reply → appears as a new row in the **RSVP Responses** tab? (Delete the row after.)
@@ -75,9 +75,9 @@ Tell Claude what to change — e.g. *"change the poruwa time to 6 PM"*, *"replac
 ### What lives where
 | Change this… | …in this file |
 |---|---|
-| Schedule times & descriptions | `index.html`, "The Day" section (and the cover card near the top, and `assets/wedding.ics`) |
-| Dress code | `index.html`, "The Day" section |
-| RSVP deadline (21 October 2026) | `index.html`: invitation card, cover card, RSVP section, Q&A |
+| Programme times & descriptions | `index.html`, "Celebrations" section (and the invitation card, and `assets/wedding.ics`) |
+| Dress code | `index.html`, "Celebrations" section |
+| RSVP deadline (15 October 2026) | `index.html`: invitation card, RSVP section, Q&A |
 | Travel, hotels, Q&A | `index.html` |
 | Contact names/numbers | `index.html`, closing section (WhatsApp links) |
 | Colours & fonts | `css/styles.css` (top `:root` block) |

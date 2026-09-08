@@ -19,6 +19,7 @@ document.addEventListener("DOMContentLoaded", () => {
   setupReveals();
   setupCountdown();
   setupInvitation();
+  setupSpine();
   setupProgress();
   setupParallax();
   setupTilt();
@@ -285,11 +286,12 @@ function setupCountdown() {
   });
 }
 
-/* ---------- The sealed invitation (cover + wax seal) ----------
-   Greets every visit to the main page once the PIN gate is down: tapping the seal opens
-   the cover and the card rises out. Skipped when arriving from the site's own navigation
-   (the photos page), so browsing back does not replay it. A personal link (?g=guestid)
-   always shows it, with the guest's name filled in by guest.js. */
+/* ---------- The sealed invitation cover (wax seal) ----------
+   Greets every visit to the main page once the PIN gate is down: tapping the seal lifts
+   the cover, the flowers fall, and the page is there (its invitation section carries the
+   card). Skipped when arriving from the site's own navigation (the photos page), so
+   browsing back does not replay it. A personal link (?g=guestid) always shows it, with
+   the guest's name filled in by guest.js. */
 
 function setupInvitation() {
   const overlay = document.getElementById("card-overlay");
@@ -309,9 +311,7 @@ function setupInvitation() {
     e.stopPropagation();
     if (overlay.classList.contains("opening")) return;
     overlay.classList.add("opening");
-    if (REDUCED) { overlay.classList.add("risen", "presented"); return; }
-    setTimeout(() => overlay.classList.add("risen"), 950);
-    setTimeout(() => overlay.classList.add("presented"), 1700);
+    setTimeout(done, REDUCED ? 0 : 1700); // the glow, then the lift, then the page
   }
   function done() {
     overlay.classList.add("leaving");
@@ -324,10 +324,26 @@ function setupInvitation() {
   cover.addEventListener("click", open);
   cover.addEventListener("keydown", (e) => { if (e.key === "Enter" || e.key === " ") open(e); });
   overlay.querySelector(".wax-seal").addEventListener("click", open);
-  overlay.querySelector(".inv-enter").addEventListener("click", (e) => { e.stopPropagation(); done(); });
   overlay.querySelector(".skip-link").addEventListener("click", done);
-  // the RSVP link on the card closes the overlay first, then the nav handler scrolls to the form
-  overlay.querySelector(".ovl-rsvp-link").addEventListener("click", done, { capture: true });
+}
+
+/* ---------- The programme's dotted spine draws itself as the page scrolls ---------- */
+
+function setupSpine() {
+  const tl = document.querySelector(".tl2");
+  if (!tl) return;
+  const span = tl.querySelector(".tl2-spine span");
+  if (REDUCED) { span.style.setProperty("--spine", "1"); return; }
+  let raf = 0;
+  const draw = () => {
+    raf = 0;
+    const r = tl.getBoundingClientRect();
+    span.style.setProperty("--spine", Math.min(1, Math.max(0, (innerHeight * 0.8 - r.top) / r.height)).toFixed(3));
+  };
+  const onScroll = () => { if (!raf) raf = requestAnimationFrame(draw); };
+  draw();
+  addEventListener("scroll", onScroll, { passive: true });
+  addEventListener("resize", onScroll);
 }
 
 /* ---------- Scroll progress line ---------- */

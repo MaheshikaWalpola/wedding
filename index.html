@@ -10,7 +10,7 @@
   <meta property="og:type" content="website">
   <meta property="og:title" content="Maheshika &amp; Moksha · Kalutara, December 2026">
   <meta property="og:description" content="Poruwa ceremony &amp; reception · Monday 21st December 2026 · Anantara Kalutara Resort, Sri Lanka">
-  <meta property="og:image" content="https://maheshika-moksha.pages.dev/images/couple-full.jpg">
+  <meta property="og:image" content="https://maheshika-moksha.pages.dev/images/hero.jpg">
   <meta name="twitter:card" content="summary_large_image">
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='30' fill='%231c3fa0'/%3E%3Cpath d='M32 14l6 14 14 4-14 4-6 14-6-14-14-4 14-4z' fill='%23d4b978'/%3E%3C/svg%3E">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -183,10 +183,10 @@
     </defs>
   </svg>
 
-  <!-- ================= DIGITAL INVITATION CARD =================
-       A sealed cover greets every visitor by name ("Hello, …" via
-       ?g=guestid); tapping the wax seal opens it and the invitation
-       card rises out with the full details. Shown once per visit
+  <!-- ================= SEALED INVITATION COVER =================
+       A sealed cover greets every visitor by name ("Dear …" via
+       ?g=guestid); tapping the wax seal opens it onto the page, where
+       the invitation section carries the card. Shown once per visit
        (and always on personalized links), after the PIN gate. ========================= -->
   <div id="card-overlay" class="card-overlay hidden">
 
@@ -231,43 +231,6 @@
         <span class="flower" style="left: 93%; --delay: 3.4s;  --dur: 8.8s; width: 20px; height: 20px; color: #1c3fa0;"><svg viewBox="0 0 24 24"><g fill="currentColor"><ellipse cx="12" cy="5.5" rx="3" ry="4.5"/><ellipse cx="12" cy="5.5" rx="3" ry="4.5" transform="rotate(72 12 12)"/><ellipse cx="12" cy="5.5" rx="3" ry="4.5" transform="rotate(144 12 12)"/><ellipse cx="12" cy="5.5" rx="3" ry="4.5" transform="rotate(216 12 12)"/><ellipse cx="12" cy="5.5" rx="3" ry="4.5" transform="rotate(288 12 12)"/><circle cx="12" cy="12" r="2.4" fill="#816421"/></g></svg></span>
       </div>
 
-      <div class="env-card" aria-live="polite">
-        <span class="inv-corner c1" aria-hidden="true"></span>
-        <span class="inv-corner c2" aria-hidden="true"></span>
-        <span class="inv-corner c3" aria-hidden="true"></span>
-        <span class="inv-corner c4" aria-hidden="true"></span>
-        <!-- Couple photo in an arch locket — appears automatically once
-             images/couple.jpg exists; stays hidden until then. -->
-        <div class="inv-photo">
-          <img src="images/couple.jpg" alt="Maheshika and Moksha"
-               onerror="this.parentElement.style.display='none'">
-        </div>
-
-        <!-- Monogram crest over a blind-embossed rosette medallion -->
-        <div class="inv-crest">
-          <svg class="inv-medallion" viewBox="0 0 400 480" preserveAspectRatio="none" aria-hidden="true"><use href="#bwreath"/></svg>
-          <div class="inv-monogram">M<span class="amp">&amp;</span>M</div>
-        </div>
-        <p class="inv-host">Mr. &amp; Mrs. Walpola</p>
-        <p class="inv-host-mid">together with</p>
-        <p class="inv-host">Mr. &amp; Mrs. Bodaka</p>
-        <p class="inv-host">warmly request the presence of</p>
-        <h2 class="inv-guest" id="ovl-guest">Our Family &amp; Friends</h2>
-        <p class="inv-copy">to witness the marriage of their loving children</p>
-        <p class="inv-names">Maheshika <em>&amp;</em> Moksha</p>
-        <p class="inv-detail">
-          <span class="d-line">Monday, December 21st 2026</span>
-          <span class="d-line d-time">5.00 PM onwards · Poruwa ceremony at 5.30 PM</span>
-          <span class="d-line"><a href="https://www.google.com/maps?q=Anantara+Kalutara+Resort,+Kalutara,+Sri+Lanka" target="_blank" rel="noopener">Anantara Kalutara Resort</a></span>
-        </p>
-        <p class="inv-rsvp"><a href="#rsvp" class="ovl-rsvp-link">RSVP</a> by October 21st 2026</p>
-        <p class="inv-gift">
-          Your presence, your love, and your blessings are the greatest gifts of all.<br>
-          Should you wish to give more, a small envelope is warmly treasured.
-        </p>
-        <button class="btn btn-primary inv-enter" type="button"><span>Enter the Celebration</span></button>
-      </div>
-
     </div>
 
     <p class="tap-hint">Tap the seal to open your invitation</p>
@@ -283,7 +246,7 @@
     <nav class="links" id="links" aria-label="Sections">
       <a href="#invitation">Invitation</a>
       <a href="#story">Our Story</a>
-      <a href="#day">The Day</a>
+      <a href="#celebrations">Celebrations</a>
       <a href="#rituals">Traditions</a>
       <a href="#travel">Travel &amp; Stay</a>
       <a href="#faq">Q&amp;A</a>
@@ -312,7 +275,7 @@
 
     <figure class="hero-photo">
       <div class="img-reveal tilt" data-parallax="0.04">
-        <img src="images/couple-full.jpg" alt="Maheshika and Moksha in Chemnitz" width="900" height="1200" fetchpriority="high">
+        <img src="images/hero.jpg" alt="Maheshika and Moksha in cream traditional dress at the stupa" width="1122" height="1402" fetchpriority="high">
       </div>
     </figure>
 
@@ -327,7 +290,7 @@
       <p class="hero-lead rise">are getting married, and we would love to have you there.</p>
 
       <div class="hero-dates rise" role="group" aria-label="When and where">
-        <a href="#day"><b>21<sup>st</sup></b>December 2026 · Monday</a>
+        <a href="#celebrations"><b>21<sup>st</sup></b>December 2026 · Monday</a>
         <a href="#travel"><b>5 PM</b>Anantara Kalutara Resort</a>
       </div>
 
@@ -337,10 +300,10 @@
         <div><b data-cd="m">00</b><span>minutes</span></div>
         <div><b data-cd="s">00</b><span>seconds</span></div>
       </div>
-      <p class="cd-label rise">until we welcome you on Monday 21st December</p>
+      <p class="cd-label rise">until the ceremony on Monday 21st December</p>
 
       <div class="hero-cta rise">
-        <a class="btn btn-ghost" href="#day"><span>The day</span><svg class="ic" aria-hidden="true"><use href="#ic-arrow"/></svg></a>
+        <a class="btn btn-ghost" href="#celebrations"><span>The celebrations</span><svg class="ic" aria-hidden="true"><use href="#ic-arrow"/></svg></a>
         <a class="btn btn-primary" href="#rsvp"><span>RSVP</span><svg class="ic" aria-hidden="true"><use href="#ic-arrow"/></svg></a>
         <a class="btn btn-ghost" href="assets/wedding.ics" download="Maheshika-Moksha-Wedding.ics"><span>Add to calendar</span></a>
       </div>
@@ -365,28 +328,33 @@
       <p class="inv-sub reveal">Poruwa ceremony &amp; reception</p>
       <svg class="flourish reveal" aria-hidden="true"><use href="#flourish"/></svg>
 
-      <div class="card reveal">
-        <svg class="inv-lamp" aria-hidden="true"><use href="#lamp"/></svg>
-        <p class="inv-hosts">Mrs. P.D.C. Geethgaya Walpola <em>&amp;</em> Mr. Mahi Jayanatha Walpola<br><small>Colombo, Sri Lanka</small></p>
-        <p class="inv-line">together with<br>Mrs. Y. Nagalakshmi <em>&amp;</em> Mr. Bodaka Sreenivasulu<br><small>Tirupati, India</small></p>
-        <p class="inv-line">request the pleasure of the company of</p>
-        <p class="inv-guest" id="inv-guest">you, your family and friends</p>
-        <p class="inv-line">at the marriage of their children</p>
-        <p class="inv-name">Maheshika Hansamalee Walpola</p>
-        <p class="inv-with">and</p>
-        <p class="inv-name">Moksha Prashanth Bodaka</p>
-
-        <div class="inv-grid">
-          <div>
-            <h4>Poruwa Ceremony</h4>
-            <p><strong>Monday, 21st December 2026</strong><br>5:30 PM · guests welcome from 5:00 PM<br>Anantara Kalutara Resort</p>
-          </div>
-          <div>
-            <h4>Reception &amp; Dinner</h4>
-            <p><strong>The same evening</strong><br>dinner and dancing to follow<br>St. Sebastian's Road, Katukurunda, Kalutara</p>
-          </div>
+      <div class="card inv-card reveal">
+        <span class="inv-corner c1" aria-hidden="true"></span>
+        <span class="inv-corner c2" aria-hidden="true"></span>
+        <span class="inv-corner c3" aria-hidden="true"></span>
+        <span class="inv-corner c4" aria-hidden="true"></span>
+        <div class="inv-photo"><img src="images/couple.jpg" alt="Maheshika and Moksha" width="675" height="900" loading="lazy"></div>
+        <div class="inv-crest">
+          <svg class="inv-medallion" viewBox="0 0 400 480" preserveAspectRatio="none" aria-hidden="true"><use href="#bwreath"/></svg>
+          <div class="inv-monogram">M<span class="amp">&amp;</span>M</div>
         </div>
-        <p class="inv-rsvp">Kindly <a href="#rsvp">reply</a> by 21st October 2026</p>
+        <p class="inv-host">Mr. &amp; Mrs. Walpola</p>
+        <p class="inv-host-mid">together with</p>
+        <p class="inv-host">Mr. &amp; Mrs. Bodaka</p>
+        <p class="inv-host">warmly request the presence of</p>
+        <p class="inv-guest" id="inv-guest">Our Family &amp; Friends</p>
+        <p class="inv-copy">to witness the marriage of their loving children</p>
+        <p class="inv-names">Maheshika <em>&amp;</em> Moksha</p>
+        <p class="inv-detail">
+          <span class="d-line">Monday, December 21st 2026</span>
+          <span class="d-line d-time">5.00 PM onwards · Poruwa ceremony at 5.25 PM</span>
+          <span class="d-line"><a href="https://www.google.com/maps?q=Anantara+Kalutara+Resort,+Kalutara,+Sri+Lanka" target="_blank" rel="noopener">Anantara Kalutara Resort</a></span>
+        </p>
+        <p class="inv-rsvp"><a href="#rsvp">RSVP</a> by October 15th 2026</p>
+        <p class="inv-gift">
+          Your presence, your love, and your blessings are the greatest gifts of all.<br>
+          Should you wish to give more, a small envelope is warmly treasured.
+        </p>
       </div>
     </div>
   </section>
@@ -438,73 +406,86 @@
   </section>
 
   <!-- ============================================================ THE DAY -->
-  <section class="section celebrations" id="day">
+  <section class="section celebrations" id="celebrations">
     <div class="wrap">
       <p class="eyebrow center on-dark reveal">The Day</p>
       <h2 class="center on-dark reveal" data-split>Monday 21st December 2026</h2>
       <p class="center lede reveal">A traditional poruwa ceremony where the Kalu Ganga meets the sea, and an evening of dinner and dancing under the palms. Here is how the day unfolds.</p>
 
-      <div class="scenes">
-        <article class="scene reveal">
-          <div class="scene-date"><b>5:00</b><span>PM</span></div>
-          <div class="scene-body">
-            <h3>Arrival &amp; welcome drinks</h3>
-            <p class="scene-meta"><span><svg class="ic" aria-hidden="true"><use href="#ic-pin"/></svg>Anantara Kalutara Resort, garden pavilion</span></p>
-            <p>Arrive at the resort, take a welcome drink, and settle in as the magul bera drummers begin.</p>
+      <div class="tl2">
+        <div class="tl2-spine" aria-hidden="true"><span></span></div>
+        <div class="tl2-event reveal">
+          <div class="tl2-icon" aria-hidden="true"><svg viewBox="0 0 40 40"><g fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 15h18v7a8 8 0 0 1-16 0v-7z"/><path d="M27 17h3a3.5 3.5 0 0 1 0 7h-3"/><path d="M8 32h22"/><path d="M15 10c0-2 2-2 2-4M20 10c0-2 2-2 2-4"/></g></svg></div>
+          <div class="tl2-body">
+            <p class="time">4:00 PM</p>
+            <h3>Tea &amp; snacks</h3>
+            <p>The tea table opens with tea and snacks for everyone, while the bride and groom are away for their photo shoot.</p>
           </div>
-        </article>
-
-        <article class="scene scene-main reveal">
-          <div class="scene-date"><b>5:30</b><span>PM</span></div>
-          <div class="scene-body">
-            <span class="tag tag-gold">The ceremony</span>
+        </div>
+        <div class="tl2-event reveal">
+          <div class="tl2-icon" aria-hidden="true"><svg viewBox="0 0 40 40"><g fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 26v-8a8 8 0 0 1 16 0v8l3 3H9z"/><path d="M17 31a3 3 0 0 0 6 0"/><path d="M20 8V5"/></g></svg></div>
+          <div class="tl2-body">
+            <p class="time">5:00 PM</p>
+            <h3>The ceremony begins</h3>
+            <p>The bride and the groom arrive.</p>
+          </div>
+        </div>
+        <div class="tl2-event reveal">
+          <div class="tl2-icon" aria-hidden="true"><svg viewBox="0 0 40 40"><g fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M20 12 C18 9 18 7 20 4 C22 7 22 9 20 12 Z" fill="currentColor" stroke="none" opacity="0.85"/><path d="M12 18 h16 l-2.5 5 h-11 z"/><path d="M17 23 h6 v3 h-6 z M14 30 h12 M16 33 h8"/></g></svg></div>
+          <div class="tl2-body">
+            <p class="time">5:25 PM</p>
             <h3>Poruwa ceremony</h3>
-            <p class="scene-meta"><span><svg class="ic" aria-hidden="true"><use href="#ic-cal"/></svg>Monday 21st December · 5:30 PM</span></p>
-            <p>The oil lamp is lit and the couple step onto the poruwa. The tying of the little fingers, the betel leaves, the milk rice and the Jayamangala Gatha: the traditional Sri Lankan ceremony, explained a little further down the page.</p>
+            <p>The coconut is broken, the Jayamangala Gatha is sung, the parents receive their gifts, rings are exchanged, and all the small rituals in between.</p>
           </div>
-        </article>
-
-        <article class="scene reveal">
-          <div class="scene-date"><b>6:30</b><span>PM</span></div>
-          <div class="scene-body">
-            <h3>Blessings, register &amp; photographs</h3>
-            <p>Rings, signatures and the first married photographs as the light turns golden.</p>
+        </div>
+        <div class="tl2-event reveal">
+          <div class="tl2-icon" aria-hidden="true"><svg viewBox="0 0 40 40"><g fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><circle cx="15" cy="24" r="8"/><circle cx="25" cy="24" r="8"/><path d="M20 9 l-2.5 4 h5 z M20 13 v3"/></g></svg></div>
+          <div class="tl2-body">
+            <p class="time">6:15 PM</p>
+            <h3>Marriage registration</h3>
+            <p>The marriage is signed and registered.</p>
           </div>
-        </article>
-
-        <article class="scene reveal">
-          <div class="scene-date"><b>7:00</b><span>PM</span></div>
-          <div class="scene-body">
-            <h3>Sunset cocktails</h3>
-            <p class="scene-meta"><span><svg class="ic" aria-hidden="true"><use href="#ic-pin"/></svg>By the lagoon</span></p>
-            <p>Cocktails by the water as the sun goes down, while the couple steal away for photographs.</p>
+        </div>
+        <div class="tl2-event reveal">
+          <div class="tl2-icon" aria-hidden="true"><svg viewBox="0 0 40 40"><g fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><ellipse cx="20" cy="14" rx="11" ry="4.5"/><path d="M9 14 v12 c0 2.5 5 4.5 11 4.5 s11 -2 11 -4.5 v-12"/><path d="M13 17 l6 10 M27 17 l-6 10"/></g></svg></div>
+          <div class="tl2-body">
+            <p class="time">to follow</p>
+            <h3>Into the hall</h3>
+            <p>Drummers and Kandyan dancers lead the way to the hall, where the oil lamp is lit with close family.</p>
           </div>
-        </article>
-
-        <article class="scene reveal">
-          <div class="scene-date"><b>8:00</b><span>PM</span></div>
-          <div class="scene-body">
-            <span class="tag">Everyone</span>
-            <h3>Reception &amp; dinner</h3>
-            <p>The newlyweds' entrance, dinner and toasts under the palms. Your table is in the seating plan below.</p>
+        </div>
+        <div class="tl2-event reveal">
+          <div class="tl2-icon" aria-hidden="true"><svg viewBox="0 0 40 40"><g fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M12 20 h16 v6 c0 2 -16 2 -16 0 z M14 26.5 v6 c0 2 12 2 12 0 v-6" transform="translate(0 -1)"/><path d="M20 12 v5 M20 12 C19 10.5 19 9.5 20 8 C21 9.5 21 10.5 20 12 Z"/></g></svg></div>
+          <div class="tl2-body">
+            <p class="time">to follow</p>
+            <h3>Cake, memories &amp; speeches</h3>
+            <p>The cake is cut, then a few memories on slides and the speeches.</p>
           </div>
-        </article>
-
-        <article class="scene reveal">
-          <div class="scene-date"><b>9:30</b><span>PM</span></div>
-          <div class="scene-body">
-            <h3>Cake &amp; first dance</h3>
-            <p>Something sweet, then the floor is theirs. Right after, it is yours.</p>
+        </div>
+        <div class="tl2-event reveal">
+          <div class="tl2-icon" aria-hidden="true"><svg viewBox="0 0 40 40"><g fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><circle cx="20" cy="22" r="9"/><circle cx="20" cy="22" r="4.5" opacity="0.6"/><path d="M6 13 v8 M4 13 v4 c0 2 4 2 4 0 v-4 M34 12 c-2 0 -3 3 -3 6 v9 M34 12 v15"/></g></svg></div>
+          <div class="tl2-body">
+            <p class="time">to follow</p>
+            <h3>Dinner &amp; the group photo</h3>
+            <p>The food table opens, and everyone gathers for one group picture of all our guests.</p>
           </div>
-        </article>
-
-        <article class="scene reveal">
-          <div class="scene-date"><b>10:00</b><span>PM</span></div>
-          <div class="scene-body">
-            <h3>Dancing until late</h3>
-            <p>Baila, the hits and bare feet on the lawn. Dance until the stars give up before you do.</p>
+        </div>
+        <div class="tl2-event reveal">
+          <div class="tl2-icon" aria-hidden="true"><svg viewBox="0 0 40 40"><g fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M15 28 V10 l14 -3 v18"/><circle cx="12" cy="28" r="3.5"/><circle cx="26" cy="25" r="3.5"/></g></svg></div>
+          <div class="tl2-body">
+            <p class="time">to follow</p>
+            <h3>Dancing</h3>
+            <p>Until we are all too tired.</p>
           </div>
-        </article>
+        </div>
+        <div class="tl2-event reveal">
+          <div class="tl2-icon" aria-hidden="true"><svg viewBox="0 0 40 40"><g fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M24 7a12 12 0 1 0 9 19 10 10 0 0 1-9-19z"/><path d="M29 8l1 2 2 1-2 1-1 2-1-2-2-1 2-1z"/></g></svg></div>
+          <div class="tl2-body">
+            <p class="time">around 11 PM</p>
+            <h3>Going away</h3>
+            <p>Goodnight, and thank you.</p>
+          </div>
+        </div>
       </div>
 
       <div class="day-panel reveal">
@@ -534,7 +515,7 @@
 
       <div class="card form-card reveal">
         <p class="rsvp-kicker">Kindly let us know by</p>
-        <h3 class="rsvp-date">21<sup>st</sup> October 2026</h3>
+        <h3 class="rsvp-date">15<sup>th</sup> October 2026</h3>
         <p class="rsvp-text">One reply per family or couple is plenty. It takes a minute, and it helps us plan your seat and your plate.</p>
 
         <form id="rsvp-form" class="form" novalidate>
@@ -682,7 +663,7 @@
       <div class="faq-list reveal">
         <details open>
           <summary>When should I reply by?</summary>
-          <p>Please reply by <strong>21st October 2026</strong> through the <a href="#rsvp">RSVP form</a>. It takes less than a minute, and it helps us plan your seat and your plate.</p>
+          <p>Please reply by <strong>15th October 2026</strong> through the <a href="#rsvp">RSVP form</a>. It takes less than a minute, and it helps us plan your seat and your plate.</p>
         </details>
         <details>
           <summary>What should I wear?</summary>
