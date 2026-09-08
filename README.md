@@ -59,4 +59,6 @@ Version: New version → Deploy**. Saving alone does not go live.
 - The countdown target is in `js/main.js`; the calendar file is `assets/wedding.ics`.
 - Colours and fonts live in the `:root` block at the top of `css/styles.css`.
 - Photos: `images/hero.jpg` (hero, image 8 of the numbered set), `images/couple.jpg`
-  (couple section, image 1), `images/band.jpg`, `images/gallery-1.jpg` to `gallery-6.jpg`.
+  (couple section, image 1), `images/band.jpg`, `images/gallery-1.jpg` to `gallery-6.jpg`,
+  `images/island-gold.png` (the gold Sri Lanka picture under the hero; source
+  `Wedding_pics/SriLankan-pic.PNG`, see `../SYSTEM.md` for how it was made).
