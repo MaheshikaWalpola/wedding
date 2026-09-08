@@ -317,15 +317,17 @@
     </div>
 
     <!-- the shoreline under the hero: Sri Lanka in gold (Maheshika's island picture, images/island-gold.png) between coconut palms, over a line of surf -->
-    <svg class="skyline" data-parallax="-0.12" viewBox="0 0 1440 320" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
+    <!-- the box is 2000 x 320 and the CSS height is 16vw, so up to 2000px wide the whole box is on screen and the
+         island is never cropped; narrower screens keep the height and crop the palms at the sides instead -->
+    <svg class="skyline" data-parallax="-0.12" viewBox="0 0 2000 320" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
       <g opacity=".3">
         <use href="#palm" x="30" y="160" width="120" height="160"/>
         <use href="#palm" x="150" y="200" width="90" height="120"/>
-        <image href="images/island-gold.png" x="430" y="96" width="580" height="298"/>
-        <use href="#palm" x="1230" y="190" width="100" height="130"/>
-        <use href="#palm" x="1300" y="150" width="125" height="170"/>
-        <path d="M0 306q30-8 60 0t60 0 60 0 60 0 60 0 60 0 60 0 60 0 60 0 60 0 60 0 60 0 60 0 60 0 60 0 60 0 60 0 60 0 60 0 60 0 60 0 60 0 60 0 60 0" fill="none" stroke="currentColor" stroke-width="1.2"/>
-        <path d="M-30 314q30-8 60 0t60 0 60 0 60 0 60 0 60 0 60 0 60 0 60 0 60 0 60 0 60 0 60 0 60 0 60 0 60 0 60 0 60 0 60 0 60 0 60 0 60 0 60 0 60 0 60 0" fill="none" stroke="currentColor" stroke-width=".8"/>
+        <image href="images/island-gold.png" x="710" y="8" width="580" height="298"/>
+        <use href="#palm" x="1790" y="190" width="100" height="130"/>
+        <use href="#palm" x="1860" y="150" width="125" height="170"/>
+        <path d="M0 306q30-8 60 0t60 0 60 0 60 0 60 0 60 0 60 0 60 0 60 0 60 0 60 0 60 0 60 0 60 0 60 0 60 0 60 0 60 0 60 0 60 0 60 0 60 0 60 0 60 0 60 0 60 0 60 0 60 0 60 0 60 0 60 0 60 0 60 0 60 0" fill="none" stroke="currentColor" stroke-width="1.2"/>
+        <path d="M-30 314q30-8 60 0t60 0 60 0 60 0 60 0 60 0 60 0 60 0 60 0 60 0 60 0 60 0 60 0 60 0 60 0 60 0 60 0 60 0 60 0 60 0 60 0 60 0 60 0 60 0 60 0 60 0 60 0 60 0 60 0 60 0 60 0 60 0 60 0 60 0" fill="none" stroke="currentColor" stroke-width=".8"/>
       </g>
     </svg>
   </section>
@@ -398,7 +400,7 @@
 
   <!-- ============================================================ CINEMATIC BAND -->
   <section class="band" aria-label="Photograph of the couple">
-    <div class="band-img" data-parallax="-0.08"><img src="images/band.jpg" alt="Maheshika and Moksha watching the sunset" width="1448" height="1086" loading="lazy"></div>
+    <div class="band-img"><img src="images/band.jpg" alt="Maheshika and Moksha watching the sunset" width="1448" height="1086" loading="lazy"></div>
   </section>
 
   <!-- ============================================================ THE DAY -->
