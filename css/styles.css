@@ -754,7 +754,9 @@ html.covered .img-reveal img { transform: scale(1.08); transition: none; }
   .hero .eyebrow { flex-direction: column; gap: .35rem; }
   .hero .eyebrow .sep { display: none; }
   .skyline { height: 170px; }
-  .strands { width: 64px; height: min(28vh, 220px); }
+  /* phones: the strings hang beside the photo, level with its top, inside the side margins */
+  .strands { width: 44px; height: min(46vh, 360px); top: calc(var(--nav-h) + 4.6rem); }
+  .hero-photo { width: min(70vw, 300px); }
   .flourish { width: 78%; height: 46px; }
   .card { padding: 2rem 1.1rem; }
   .inv-name { font-size: 1.9rem; }

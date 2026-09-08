@@ -307,7 +307,9 @@ function drawStrands(svg) {
     lastKey = key;
     svg.setAttribute("viewBox", `0 0 ${W} ${H}`);
     svg.innerHTML = "";
-    const lanes = W >= 120 ? [[28, 0.62], [74, 0.92], [120, 0.76]] : [[W * 0.45, 0.95]];
+    const wide = W >= 120; // three lanes on wide screens; one slim lane in the phone margins
+    const lanes = wide ? [[28, 0.62], [74, 0.92], [120, 0.76]] : [[W * 0.36, 0.95]];
+    const k1 = wide ? 1 : 0.75; // flower scale on the slim lane
     lanes.forEach(([x, f], j) => {
       const len = H * f;
       const pos = el("g", { transform: `translate(${x} 0)` });
@@ -317,12 +319,12 @@ function drawStrands(svg) {
       g.appendChild(el("path", { d: `M0 0 C ${j % 2 ? 8 : -8} ${len * 0.35}, ${j % 2 ? -6 : 6} ${len * 0.7}, 0 ${len}`, fill: "none", stroke: "#b8963f", "stroke-width": 0.8 }));
       // buds and jasmine along the thread, a blush araliya every few flowers, an araliya cluster at the tip
       for (let y = 12, k = 0; y < len - 14; y += 13, k++) {
-        const dx = (j % 2 ? 1 : -1) * Math.sin((y / len) * Math.PI) * 7;
-        if (k % 5 === 4) g.appendChild(use("araliya", dx, y - 8, 16, 16, { transform: `rotate(${(k * 40) % 360} ${dx} ${y})` }));
-        else if (k % 3 === 2) g.appendChild(use("jasmine", dx, y - 5.5, 11, 11));
-        else g.appendChild(use("bud", dx, y - 1, 7, 12, { transform: `rotate(${k % 2 ? 22 : -22} ${dx} ${y})` }));
+        const dx = (j % 2 ? 1 : -1) * Math.sin((y / len) * Math.PI) * 7 * k1;
+        if (k % 5 === 4) g.appendChild(use("araliya", dx, y - 8 * k1, 16 * k1, 16 * k1, { transform: `rotate(${(k * 40) % 360} ${dx} ${y})` }));
+        else if (k % 3 === 2) g.appendChild(use("jasmine", dx, y - 5.5 * k1, 11 * k1, 11 * k1));
+        else g.appendChild(use("bud", dx, y - 1, 7 * k1, 12 * k1, { transform: `rotate(${k % 2 ? 22 : -22} ${dx} ${y})` }));
       }
-      g.appendChild(use("jasmine", -6, len - 10, 11, 11)); g.appendChild(use("jasmine", 6, len - 7, 10, 10)); g.appendChild(use("araliya", 0, len - 6, 18, 18));
+      g.appendChild(use("jasmine", -6 * k1, len - 10, 11 * k1, 11 * k1)); g.appendChild(use("jasmine", 6 * k1, len - 7, 10 * k1, 10 * k1)); g.appendChild(use("araliya", 0, len - 6, 18 * k1, 18 * k1));
       svg.appendChild(pos);
     });
   }
