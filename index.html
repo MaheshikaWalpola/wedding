@@ -151,6 +151,17 @@
         </g>
         <g fill="currentColor"><circle cx="60" cy="56" r="3.2"/><circle cx="67" cy="58" r="3.2"/><circle cx="63" cy="62" r="3"/></g>
       </symbol>
+      <!-- jasmine for the hero strings: an open flower and a closed bud -->
+      <symbol id="jasmine" viewBox="-7 -7 14 14">
+        <g fill="#fbf7ee" stroke="#d8c58f" stroke-width=".35">
+          <ellipse cx="0" cy="-3.6" rx="2.1" ry="3.4"/><ellipse cx="0" cy="-3.6" rx="2.1" ry="3.4" transform="rotate(72)"/><ellipse cx="0" cy="-3.6" rx="2.1" ry="3.4" transform="rotate(144)"/><ellipse cx="0" cy="-3.6" rx="2.1" ry="3.4" transform="rotate(216)"/><ellipse cx="0" cy="-3.6" rx="2.1" ry="3.4" transform="rotate(288)"/>
+        </g>
+        <circle r="1.1" fill="#e9c96a"/>
+      </symbol>
+      <symbol id="bud" viewBox="-4 -1 8 14">
+        <path d="M0 0C2.6 2 3.2 6 0 12C-3.2 6-2.6 2 0 0Z" fill="#fbf7ee" stroke="#d8c58f" stroke-width=".4"/>
+        <path d="M0 1.5V10.5" stroke="#e5d8b8" stroke-width=".5"/>
+      </symbol>
       <!-- floral flourish: lotus at the centre, vines and leaves either side -->
       <symbol id="flourish" viewBox="-130 -26 260 52">
         <g fill="none" stroke="currentColor" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round">
@@ -277,6 +288,8 @@
 
   <!-- ============================================================ HERO -->
   <section class="hero" id="home">
+    <svg class="strands strands-l" id="strands-l" aria-hidden="true"></svg>
+    <svg class="strands strands-r" id="strands-r" aria-hidden="true"></svg>
     <canvas class="petals" id="petals" aria-hidden="true"></canvas>
 
     <figure class="hero-photo">
@@ -397,7 +410,7 @@
 
   <!-- ============================================================ CINEMATIC BAND -->
   <section class="band" aria-label="Photograph of the couple">
-    <div class="band-img"><img src="images/band.jpg" alt="Maheshika and Moksha watching the sunset" width="1448" height="1086" loading="lazy"></div>
+    <div class="band-img" data-parallax="-0.08"><img src="images/band.jpg" alt="Maheshika and Moksha watching the sunset" width="1448" height="1086" loading="lazy"></div>
   </section>
 
   <!-- ============================================================ THE DAY -->

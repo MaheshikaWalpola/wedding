@@ -209,6 +209,16 @@ ul.plain li:last-child { border-bottom: 0; }
 .hero-photo { position: relative; z-index: 2; order: 2; margin: 0; justify-self: center; width: min(100%, 440px); }
 .hero-photo::before { content: ""; position: absolute; inset: -18px 18px 18px -18px; background: var(--royal-mist); border-radius: var(--r-card); z-index: 0; transform: translateY(var(--py, 0px)); }
 .hero-photo::after { content: ""; position: absolute; inset: 18px -18px -18px 18px; border: 1px solid var(--champagne); border-radius: var(--r-card); z-index: 3; pointer-events: none; transform: translateY(var(--py, 0px)); }
+/* jasmine strings hanging from the top corners of the hero: three on wide screens, one short one on phones */
+.strands { position: absolute; top: calc(var(--nav-h) - 8px); width: 130px; height: min(60vh, 560px); z-index: 3; pointer-events: none; }
+.strands-l { left: calc(50% - 50vw); }
+.strands-r { right: calc(50% - 50vw); transform: scaleX(-1); }
+.strands .swing { transform-box: fill-box; transform-origin: 50% 0; animation: sway 6.5s ease-in-out infinite alternate; }
+@keyframes sway { from { transform: rotate(-2deg); } to { transform: rotate(2deg); } }
+@media (max-width: 1440px) {
+  .strands { width: 64px; height: min(34vh, 300px); top: calc(var(--nav-h) - 4px); }
+  .strands-l { left: 0; } .strands-r { right: 0; }
+}
 .petals { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 1; pointer-events: none; }
 .hero .eyebrow { margin-bottom: 1.4rem; }
 
@@ -331,10 +341,11 @@ ul.plain li:last-child { border-bottom: 0; }
 .band-img { position: fixed; inset: 0; width: 100%; height: 100vh; height: 100svh; }
 .band-img img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 32%; }
 .band::after { content: ""; position: absolute; inset: 0; pointer-events: none; background: linear-gradient(180deg, rgba(13,29,79,.55) 0%, rgba(13,29,79,0) 26%, rgba(13,29,79,0) 70%, rgba(13,29,79,.6) 100%); }
-/* on phones the page still slides over the fixed picture, but the picture is fitted whole (letterboxed in the deep blue) instead of cropped */
+/* on phones a pinned picture would sit in blue bars (4:3 on a tall screen), so the picture drifts
+   slower than the page instead: it fills its band edge to edge with a slight crop at the sides */
 @media (max-width: 760px) {
-  .band { height: 78vh; min-height: 460px; }
-  .band-img img { object-fit: contain; object-position: 50% 50%; }
+  .band { height: 70vw; min-height: 0; clip-path: none; }
+  .band-img { position: absolute; left: -8vw; right: -8vw; top: -10vw; width: auto; height: 87vw; transform: translateY(var(--py, 0px)); will-change: transform; }
 }
 
 /* ============================================================ THE DAY (deep blue) */
@@ -370,6 +381,7 @@ ul.plain li:last-child { border-bottom: 0; }
   .tl2-icon { width: 72px; height: 72px; justify-self: start !important; }
 }
 /* the dress code and the map sit under the timeline */
+.scene-actions { display: flex; flex-wrap: wrap; gap: .8rem; margin-top: 1.2rem; }
 .day-panel { margin-top: 2.5rem; padding: clamp(1.8rem, 4vw, 2.8rem) clamp(1.2rem, 4vw, 3rem); border: 1px solid rgba(212,185,120,.6); border-radius: var(--r-card); background: linear-gradient(135deg, rgba(212,185,120,.14), rgba(255,255,255,.04)); display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; }
 .day-panel h4 { font-family: var(--sans); font-weight: 600; font-size: .72rem; letter-spacing: .3em; text-transform: uppercase; color: var(--champagne); margin-bottom: .6rem; }
 .day-panel p { color: rgba(250,246,238,.85); margin-bottom: .6rem; }
@@ -553,7 +565,7 @@ h2[data-split].reveal { opacity: 1; transform: none; }
   .shake { animation: none; }
   .rise, .reveal, .names .line-in, h2[data-split] .w > span { opacity: 1; transform: none; animation: none; transition: none; }
   .img-reveal::before { display: none; } .img-reveal img { transform: none; transition: none; }
-  .flame, .links.open a { animation: none; }
+  .strands .swing, .flame, .links.open a { animation: none; }
   .progress, .petals { display: none; }
   .tl2-spine span { transform: none; }
   .btn, .ritual, .info, ul.hotels a, .contact a, .gal img { transition: none; }
@@ -745,14 +757,16 @@ html.covered .img-reveal img { transform: scale(1.08); transition: none; }
   .hero .eyebrow { flex-direction: column; gap: .35rem; }
   .hero .eyebrow .sep { display: none; }
   .skyline { height: 200px; }
+  .strands { width: 52px; height: min(28vh, 220px); }
   .flourish { width: 78%; height: 46px; }
   .card { padding: 2rem 1.1rem; }
   .inv-name { font-size: 1.9rem; }
   .inv-gift br { display: none; }
   .card::before { inset: 7px; }
   .closing-with br { display: none; } /* the two lines would each break mid-name on a phone; one flowing sentence reads better */
-  .scene-actions { flex-direction: column; align-items: stretch; gap: .9rem; }
+  .scene-actions { flex-direction: column; align-items: stretch; gap: 1.2rem; }
   .scene-actions .btn { width: 100%; }
+  .scene-actions .btn-primary { box-shadow: 0 6px 14px rgba(28,63,160,.22); } /* the glow was reaching the next button */
   .contact { max-width: none; }
   .gal { box-shadow: 10px 10px 0 -1px var(--cream), 10px 10px 0 0 var(--gold-line); }
   .in-text { display: none; } .in-short { display: inline; }

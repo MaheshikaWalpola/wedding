@@ -18,6 +18,8 @@ document.addEventListener("DOMContentLoaded", () => {
   splitHeadings();
   setupReveals();
   setupCountdown();
+  drawStrands(document.getElementById("strands-l"));
+  drawStrands(document.getElementById("strands-r"));
   setupInvitation();
   setupSpine();
   setupProgress();
@@ -284,6 +286,47 @@ function setupCountdown() {
     clearTimeout(timer); timer = 0;
     if (on) tick();
   });
+}
+
+/* ---------- Jasmine strings: fine gold threads from the top corners of the hero, strung with
+   closed buds and small open jasmine, a little cluster at the tip. Three lanes on wide
+   screens (the 130px SVG), one lane in the narrow corner versions. Redrawn on resize. ---------- */
+
+const NS = "http://www.w3.org/2000/svg";
+const el = (tag, attrs) => { const n = document.createElementNS(NS, tag); for (const k in attrs) n.setAttribute(k, attrs[k]); return n; };
+const use = (id, x, y, w, h, extra) => el("use", Object.assign({ href: "#" + id, x: x - w / 2, y, width: w, height: h }, extra || {}));
+
+function drawStrands(svg) {
+  if (!svg) return;
+  let lastKey = "";
+  function render() {
+    if (!svg.isConnected || !svg.clientHeight) return;
+    const H = svg.clientHeight, W = svg.clientWidth;
+    const key = W + "x" + H;
+    if (key === lastKey) return;
+    lastKey = key;
+    svg.setAttribute("viewBox", `0 0 ${W} ${H}`);
+    svg.innerHTML = "";
+    const lanes = W >= 100 ? [[24, 0.62], [62, 0.92], [102, 0.76]] : [[W * 0.45, 0.95]];
+    lanes.forEach(([x, f], j) => {
+      const len = H * f;
+      const pos = el("g", { transform: `translate(${x} 0)` });
+      const g = el("g", { class: "swing" });
+      g.style.animationDelay = `${j * -2.1}s`;
+      pos.appendChild(g);
+      g.appendChild(el("path", { d: `M0 0 C ${j % 2 ? 8 : -8} ${len * 0.35}, ${j % 2 ? -6 : 6} ${len * 0.7}, 0 ${len}`, fill: "none", stroke: "#b8963f", "stroke-width": 0.8 }));
+      for (let y = 10, k = 0; y < len - 10; y += 11, k++) {
+        const dx = (j % 2 ? 1 : -1) * Math.sin((y / len) * Math.PI) * 7;
+        if (k % 3 === 2) g.appendChild(use("jasmine", dx, y - 4.5, 9, 9));
+        else g.appendChild(use("bud", dx, y - 1, 6, 10, { transform: `rotate(${k % 2 ? 22 : -22} ${dx} ${y})` }));
+      }
+      g.appendChild(use("jasmine", -4, len - 8, 10, 10)); g.appendChild(use("jasmine", 4, len - 5, 9, 9)); g.appendChild(use("jasmine", 0, len - 1, 11, 11));
+      svg.appendChild(pos);
+    });
+  }
+  render();
+  let raf;
+  window.addEventListener("resize", () => { cancelAnimationFrame(raf); raf = requestAnimationFrame(render); });
 }
 
 /* ---------- The sealed invitation cover (wax seal) ----------
