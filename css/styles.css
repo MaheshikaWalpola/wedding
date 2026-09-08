@@ -575,101 +575,179 @@ html.gated .img-reveal img { transform: scale(1.08); transition: none; }
 .shake { animation: shake var(--t-base) var(--ease); }
 @keyframes shake { 20%,60% { transform: translateX(-7px);} 40%,80% { transform: translateX(7px);} }
 
-/* ============================================================ SEALED INVITATION (the opening) */
-/* html.covered holds the hero intro while the overlay is up, the same way html.gated does */
+/* ============================================================ SEALED INVITATION (the opening)
+   The v19 cover and card, kept as they were (wildflower spray, swans, wreath medallion, arch
+   locket, corner flourishes, falling flowers) and recoloured to ivory, royal blue and champagne.
+   html.covered holds the hero intro while the overlay is up, the same way html.gated does. */
 html.covered :is(.rise, .names .line-in) { animation-play-state: paused; }
 html.covered .img-reveal::before { transform: none; visibility: visible; transition: none; }
 html.covered .img-reveal img { transform: scale(1.08); transition: none; }
 .card-overlay {
-  position: fixed; inset: 0; z-index: 90; overflow: hidden; color: var(--ivory);
-  background: radial-gradient(900px 560px at 50% 60%, rgba(212,185,120,.22), transparent 65%), radial-gradient(rgba(212,185,120,.12) 1px, transparent 1.4px), var(--royal-ink);
-  background-size: auto, 26px 26px, auto;
-  transition: opacity var(--t-base) var(--ease);
+  position: fixed; inset: 0; z-index: 90; overflow: hidden;
+  background: radial-gradient(ellipse at 10% 0%, rgba(184,150,63,.07), transparent 45%), radial-gradient(ellipse at 92% 100%, rgba(28,63,160,.06), transparent 45%), var(--ivory);
+  opacity: 1; transition: opacity .7s ease;
 }
 .card-overlay.hidden { display: none; }
 .card-overlay.leaving { opacity: 0; pointer-events: none; }
 .env-scene { position: absolute; inset: 0; display: grid; place-items: center; }
-.skip-link { position: absolute; top: max(1rem, env(safe-area-inset-top)); right: 1.2rem; z-index: 30; background: none; border: 1px solid rgba(212,185,120,.45); border-radius: 999px; color: var(--champagne); font-family: var(--sans); font-weight: 600; font-size: .7rem; letter-spacing: .2em; text-transform: uppercase; padding: .55rem 1rem; min-height: 40px; cursor: pointer; transition: border-color var(--t-fast), color var(--t-fast); }
-.skip-link:hover { color: #fff; border-color: var(--champagne); }
-.tap-hint { display: none; position: absolute; left: 0; right: 0; bottom: clamp(1.6rem, 7vh, 3.5rem); margin: 0; text-align: center; color: var(--champagne); font-size: .72rem; letter-spacing: .3em; text-transform: uppercase; font-weight: 600; animation: hint 2.4s ease-in-out infinite; transition: opacity var(--t-fast); }
+/* the wildflower sprays in the backdrop corners */
+.ovl-spray { position: absolute; pointer-events: none; opacity: .5; }
+.ovl-spray.bl { left: -8px; bottom: -8px; height: 58vh; width: auto; }
+.ovl-spray.tr { right: -8px; top: -8px; height: 50vh; width: auto; transform: rotate(180deg); }
+.skip-link { position: absolute; top: max(1.1rem, env(safe-area-inset-top)); right: 1.4rem; z-index: 30; background: none; border: 1px solid var(--gold-line); border-radius: 999px; color: var(--ink-soft); font-family: var(--sans); font-weight: 600; font-size: .7rem; letter-spacing: .22em; text-transform: uppercase; padding: .55rem 1rem; min-height: 40px; cursor: pointer; transition: border-color var(--t-fast), color var(--t-fast); }
+.skip-link:hover { color: var(--royal); border-color: var(--gold); }
+.tap-hint { display: none; position: absolute; left: 0; right: 0; bottom: clamp(2rem, 8vh, 4rem); margin: 0; text-align: center; color: var(--ink-soft); font-family: var(--sans); font-weight: 600; font-size: .72rem; letter-spacing: .34em; text-transform: uppercase; animation: hint 2.4s ease-in-out infinite; transition: opacity .4s; }
 @keyframes hint { 0%, 100% { opacity: .55; } 50% { opacity: 1; } }
-@media (min-height: 720px) { .tap-hint { display: block; } } /* only when it clears the cover */
+@media (min-height: 760px) { .tap-hint { display: block; } } /* only when it clears the cover */
 .opening .tap-hint { animation: none; opacity: 0; }
-/* the cover: an ivory card with the gold hairline frame and the wax seal; it lifts open from the top edge */
+
+/* the cover: white card, wildflower spray climbing the left side, the text beside it, a small gold wax seal */
 .cover {
   position: relative; grid-area: 1 / 1; z-index: 3;
-  width: min(86vw, 380px); min-height: min(560px, 82vh); max-height: 92vh;
-  display: flex; flex-direction: column; align-items: center; padding: clamp(1.4rem, 5vh, 2.6rem) 1.6rem clamp(1.4rem, 5vh, 2.4rem);
-  text-align: center; color: var(--ink); cursor: pointer;
-  background: linear-gradient(170deg, var(--paper), var(--ivory)); border-radius: var(--r-card);
-  box-shadow: 0 36px 70px -26px rgba(0,0,0,.6), var(--sh-2);
-  transform-origin: center top; backface-visibility: hidden;
-  transition: transform 1.15s cubic-bezier(.55,.06,.28,.99) .35s, opacity .3s ease .85s;
+  width: min(86vw, 380px); aspect-ratio: 1 / 1.38; max-height: 82vh; border-radius: 8px; cursor: pointer;
+  background-color: var(--paper);
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='p'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.45 0 0 0 0 0.33 0 0 0 0 0.2 0 0 0 0.035 0'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23p)'/%3E%3C/svg%3E"),
+    linear-gradient(170deg, #ffffff 0%, var(--ivory) 100%);
+  box-shadow: 0 36px 70px -26px rgba(31,26,20,.5), 0 12px 28px -14px rgba(31,26,20,.25), inset 0 1.5px 0 rgba(255,255,255,.95), inset 0 -1.5px 2px rgba(129,100,33,.18);
+  transform-origin: center top; /* the cover lifts open from the top edge */
+  backface-visibility: hidden;
+  transition: transform 1.15s cubic-bezier(.55,.06,.28,.99) .55s, opacity .3s ease 1.05s; /* the glow around the seal plays first */
 }
-.cover::before { content: ""; position: absolute; inset: 12px; border: 1px solid var(--gold-line); border-radius: calc(var(--r-card) - 8px); pointer-events: none; }
+.cover::before { content: ""; position: absolute; inset: 13px; border: 1px solid rgba(129,100,33,.16); border-radius: 4px; pointer-events: none; box-shadow: 0 1px 0 rgba(255,255,255,.85), inset 0 1px 0 rgba(129,100,33,.1), inset 0 -1px 0 rgba(255,255,255,.85); }
 .opening .cover { transform: perspective(1400px) rotateX(112deg); opacity: 0; pointer-events: none; }
-.cov-lamp { width: 44px; height: 38px; margin-bottom: .6rem; }
-.cov-hello { font-family: var(--serif); font-style: italic; font-weight: 300; font-size: clamp(1.1rem, 4vw, 1.35rem); color: var(--royal); min-height: 1.4em; margin: 0 0 .8rem; text-wrap: balance; }
-.cov-hello.long { font-size: 1rem; }
-.cov-name { font-family: var(--serif); font-weight: 300; font-size: clamp(2rem, 8vw, 2.6rem); line-height: 1.05; color: var(--ink); margin: 0; letter-spacing: -.01em; }
-.cov-and { font-family: var(--serif); font-style: italic; color: var(--gold-deep); font-size: 1.1rem; margin: .15rem 0; }
-.cov-eyebrow { margin: 1.1rem 0 .2rem; font-family: var(--sans); font-weight: 600; font-size: .66rem; letter-spacing: .28em; text-transform: uppercase; color: var(--gold-deep); }
-.cov-line { font-family: var(--serif); font-style: italic; color: var(--ink-soft); font-size: 1rem; margin: 0 0 1.4rem; }
-/* the wax seal: royal blue wax, champagne monogram, a slow champagne pulse until it is tapped */
+.cov-spray { position: absolute; left: -2%; bottom: -1%; height: 98%; width: auto; pointer-events: none; }
+.cov-text { position: absolute; top: 50%; right: 2%; transform: translateY(-50%); width: 74%; display: flex; flex-direction: column; align-items: center; gap: .3rem; text-align: center; padding: 0 .4rem; }
+.cov-swans { width: 82px; opacity: .95; }
+.cov-hello { font-family: var(--serif); font-style: italic; font-weight: 500; font-size: clamp(1.35rem, 5vw, 1.7rem); line-height: 1.3; text-wrap: balance; letter-spacing: .02em; color: var(--royal); margin: 0 0 .45rem; width: 100%; }
+.cov-hello.long { font-size: clamp(1.1rem, 4vw, 1.4rem); } /* long guest names step down so they never crowd the card */
+.cov-eyebrow { font-family: var(--sans); font-weight: 600; font-size: .68rem; letter-spacing: .3em; text-transform: uppercase; color: var(--ink-soft); margin: .35rem 0 0; }
+.cov-name { font-family: var(--sans); font-weight: 500; text-transform: uppercase; letter-spacing: .3em; font-size: clamp(1.05rem, 3.6vw, 1.3rem); color: var(--ink); margin: 0; }
+.cov-and { font-family: var(--serif); font-style: italic; color: var(--royal); font-size: 1.15rem; margin: -.2rem 0; }
+.cov-line { font-family: var(--serif); font-style: italic; font-size: 1.02rem; color: var(--ink-soft); margin: 0; }
+/* the small gold wax seal. Relative, not static: its ::before ring and ::after glow size against the seal */
 .wax-seal {
-  position: relative; z-index: 5; margin-top: auto; flex: none;
-  width: 96px; height: 96px; border-radius: 47% 53% 48% 52% / 51% 47% 53% 49%; border: 0; cursor: pointer;
-  font-family: var(--serif); font-style: italic; font-size: 1.5rem; font-weight: 500; color: var(--champagne);
-  background: radial-gradient(circle at 34% 30%, var(--royal-soft), var(--royal) 55%, var(--royal-deep));
-  box-shadow: inset 0 3px 6px rgba(255,255,255,.28), inset 0 -4px 8px rgba(0,0,0,.35), 0 8px 18px rgba(13,29,79,.4), 0 0 0 0 rgba(212,185,120,.45);
+  position: relative; z-index: 5; flex: none; width: 62px; height: 62px; margin-top: .7rem;
+  border-radius: 47% 53% 48% 52% / 51% 47% 53% 49%; border: 0; cursor: pointer;
+  font-family: var(--serif); font-style: italic; font-size: .95rem; font-weight: 600; color: #fff9ea;
+  text-shadow: 0 1px 1px rgba(90,64,20,.45);
+  background: radial-gradient(circle at 34% 30%, #ecd39a, var(--gold) 58%, var(--gold-deep));
+  box-shadow: inset 0 2px 5px rgba(255,244,214,.5), inset 0 -3px 6px rgba(90,64,20,.45), 0 5px 14px rgba(120,90,40,.3);
   animation: seal-pulse 2.4s ease-in-out infinite;
-  transition: transform var(--t-fast), opacity var(--t-fast);
+  transition: transform .3s, opacity .3s;
 }
-.wax-seal .amp { font-style: normal; font-weight: 400; font-size: .8em; margin: 0 .05em; }
-.wax-seal::before { content: ""; position: absolute; inset: 9px; border-radius: inherit; border: 1px solid rgba(212,185,120,.55); pointer-events: none; }
+.wax-seal .amp { font-weight: 400; color: #f7e6bd; }
+.wax-seal::before { content: ""; position: absolute; inset: 7px; border-radius: inherit; border: 1px solid rgba(255,246,224,.5); box-shadow: inset 0 1px 2px rgba(255,246,224,.5), inset 0 -1px 2px rgba(90,64,20,.5); pointer-events: none; }
+/* gold meets blue: a glow that completes around the seal on opening */
+.wax-seal::after { content: ""; position: absolute; inset: -16px; border-radius: 50%; background: conic-gradient(from 250deg, rgba(212,185,120,0) 0deg, rgba(212,185,120,.9) 70deg, rgba(236,211,154,.95) 165deg, rgba(63,98,201,.9) 195deg, rgba(28,63,160,.85) 290deg, rgba(28,63,160,0) 360deg); filter: blur(5px); opacity: 0; -webkit-mask: radial-gradient(circle, transparent 55%, #000 63%, #000 78%, transparent 86%); mask: radial-gradient(circle, transparent 55%, #000 63%, #000 78%, transparent 86%); pointer-events: none; }
+.opening .wax-seal::after { animation: seal-glow 1.15s ease-out forwards; }
+@keyframes seal-glow { 0% { opacity: 0; transform: rotate(-130deg) scale(.8); } 35% { opacity: 1; } 70% { opacity: 1; transform: rotate(0deg) scale(1.03); } 100% { opacity: 0; transform: rotate(25deg) scale(1.18); } }
 @keyframes seal-pulse {
-  0%, 100% { box-shadow: inset 0 3px 6px rgba(255,255,255,.28), inset 0 -4px 8px rgba(0,0,0,.35), 0 8px 18px rgba(13,29,79,.4), 0 0 0 0 rgba(212,185,120,.45); }
-  50% { box-shadow: inset 0 3px 6px rgba(255,255,255,.28), inset 0 -4px 8px rgba(0,0,0,.35), 0 8px 18px rgba(13,29,79,.4), 0 0 0 18px rgba(212,185,120,0); }
+  0%, 100% { box-shadow: inset 0 2px 5px rgba(255,244,214,.5), inset 0 -3px 6px rgba(90,64,20,.45), 0 5px 14px rgba(120,90,40,.3), 0 0 0 0 rgba(184,150,63,.4); }
+  50% { box-shadow: inset 0 2px 5px rgba(255,244,214,.5), inset 0 -3px 6px rgba(90,64,20,.45), 0 5px 14px rgba(120,90,40,.3), 0 0 0 18px rgba(184,150,63,0); }
 }
 .opening .wax-seal { transform: scale(.4); opacity: 0; }
-/* the card that rises out once the cover has opened */
+
+/* flowers drifting down once the seal is opened */
+.flowers { position: absolute; inset: 0; pointer-events: none; z-index: 15; }
+.flower { position: absolute; top: -7vh; opacity: 0; }
+.flower svg { width: 100%; height: 100%; display: block; }
+.opening .flower { animation: flower-fall var(--dur, 8s) linear var(--delay, 0s) infinite; }
+.opening .flower svg { animation: flower-sway 2.8s ease-in-out infinite alternate; }
+@keyframes flower-fall { 0% { transform: translateY(-7vh); opacity: 0; } 6% { opacity: .95; } 100% { transform: translateY(112vh); opacity: .7; } }
+@keyframes flower-sway { from { transform: translateX(-16px) rotate(-24deg); } to { transform: translateX(16px) rotate(24deg); } }
+
+/* the card that rises out of the cover */
 .env-card {
-  position: absolute; left: 50%; top: 50%; z-index: 2;
-  width: min(88vw, 400px); max-height: 88vh; overflow: auto;
-  background: var(--paper); border: 1px solid var(--gold-line); border-radius: var(--r-card);
-  padding: clamp(1.4rem, 3.2vh, 2.2rem) clamp(1.2rem, 4vw, 2rem); text-align: center; color: var(--ink);
-  box-shadow: 0 30px 80px -20px rgba(0,0,0,.6);
+  position: absolute; left: 50%; top: 50%; z-index: 2; /* behind the cover while tucked inside */
+  width: min(86vw, 370px); max-height: 86vh; overflow: auto;
+  background-color: var(--paper);
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='p'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.45 0 0 0 0 0.33 0 0 0 0 0.2 0 0 0 0.035 0'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23p)'/%3E%3C/svg%3E"),
+    linear-gradient(170deg, #ffffff 0%, var(--ivory) 100%);
+  border: 1px solid var(--gold); border-radius: 6px;
+  padding: clamp(1.3rem, 3.2vh, 2rem) clamp(1.3rem, 4vw, 2.1rem); text-align: center; color: var(--ink);
+  box-shadow: 0 30px 80px -20px rgba(0,0,0,.55), inset 0 1.5px 0 rgba(255,255,255,.85), inset 0 -1.5px 2px rgba(129,100,33,.28), inset 0 0 60px rgba(212,185,120,.14);
   transform: translate(-50%, -50%) scale(.88); opacity: 0;
   transition: transform 1s cubic-bezier(.22,.8,.3,1), opacity .6s ease;
 }
-.env-card::before { content: ""; position: absolute; inset: 10px; border: 1px solid var(--gold-line); border-radius: calc(var(--r-card) - 8px); pointer-events: none; }
-.env-card > * { position: relative; }
+/* inner frame, pressed into the paper like a letterpress groove */
+.env-card::before { content: ""; position: absolute; inset: 10px; border: 1px solid rgba(184,150,63,.55); border-radius: 3px; pointer-events: none; box-shadow: 0 1px 0 rgba(255,255,255,.75), inset 0 1px 0 rgba(129,100,33,.14), inset 0 -1px 0 rgba(255,255,255,.75); }
+/* giant faint monogram watermark behind the text */
+.env-card::after { content: "M\2009&\2009M"; position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-family: var(--serif); font-size: 7.5rem; font-weight: 600; letter-spacing: .02em; color: rgba(28,63,160,.05); pointer-events: none; user-select: none; }
+.env-card > * { position: relative; z-index: 1; }
+/* gold corner flourishes */
+.inv-corner { position: absolute; width: 44px; height: 44px; z-index: 1; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48' fill='none' stroke='%23b8963f' stroke-width='1.2'%3E%3Cpath d='M4 44 C4 20 20 4 44 4'/%3E%3Cpath d='M4 33 C4 17 17 4 33 4' opacity='0.5'/%3E%3Ccircle cx='4' cy='44' r='1.8' fill='%23b8963f' stroke='none'/%3E%3Ccircle cx='44' cy='4' r='1.8' fill='%23b8963f' stroke='none'/%3E%3Ccircle cx='16.5' cy='16.5' r='1.3' fill='%23d4b978' stroke='none'/%3E%3C/svg%3E"); background-size: contain; background-repeat: no-repeat; pointer-events: none; }
+.inv-corner.c1 { top: 16px; left: 16px; }
+.inv-corner.c2 { top: 16px; right: 16px; transform: rotate(90deg); }
+.inv-corner.c3 { bottom: 16px; right: 16px; transform: rotate(180deg); }
+.inv-corner.c4 { bottom: 16px; left: 16px; transform: rotate(270deg); }
 .risen .env-card { transform: translate(-50%, -50%) scale(.94); opacity: .7; }
 .presented .env-card { transform: translate(-50%, -50%) scale(1); opacity: 1; z-index: 20; }
-.ovl-photo { width: 96px; height: 120px; margin: 0 auto .8rem; border-radius: var(--r-sm); overflow: hidden; border: 3px solid var(--paper); outline: 1px solid var(--champagne); box-shadow: var(--sh-2); }
-.ovl-photo img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 22%; }
-.ovl-mono { font-family: var(--serif); font-style: italic; font-weight: 300; font-size: 1.4rem; color: var(--royal); margin: 0 0 .6rem; }
-.ovl-mono .amp { font-style: normal; color: var(--gold-deep); font-size: .8em; }
-.ovl-host { font-family: var(--sans); font-weight: 600; font-size: .7rem; letter-spacing: .18em; text-transform: uppercase; color: var(--ink); line-height: 1.9; margin: 0; }
-.ovl-mid { font-family: var(--serif); font-style: italic; font-size: .95rem; color: var(--ink-soft); margin: 0; line-height: 1.7; }
-.ovl-guest { font-family: var(--serif); font-style: italic; font-weight: 300; font-size: clamp(1.4rem, 5vw, 1.8rem); color: var(--royal); margin: .35rem 0; line-height: 1.25; text-wrap: balance; }
-.ovl-names { font-family: var(--serif); font-weight: 300; font-size: 1.6rem; color: var(--ink); margin: .4rem 0; }
-.ovl-names em { font-style: normal; color: var(--gold-deep); font-size: .8em; }
-.ovl-detail { font-family: var(--sans); font-weight: 600; font-size: .72rem; letter-spacing: .16em; text-transform: uppercase; color: var(--ink-soft); margin: .8rem 0 0; line-height: 2; }
-.ovl-detail span { display: block; }
-.ovl-detail .plain { text-transform: none; letter-spacing: .06em; font-weight: 400; }
-.ovl-rsvp { font-family: var(--serif); font-style: italic; color: var(--ink-soft); font-size: .95rem; margin: .7rem 0 0; }
-.ovl-rsvp a { color: var(--royal); }
+/* arch locket for the couple's photo */
+.inv-photo { width: 100px; height: 126px; margin: 0 auto .7rem; border-radius: 50px 50px 8px 8px; overflow: hidden; border: 3px solid var(--paper); outline: 1px solid var(--gold); box-shadow: 0 1px 0 rgba(255,255,255,.8), 0 10px 24px -12px rgba(13,29,79,.5), inset 0 0 0 1px rgba(184,150,63,.35); }
+.inv-photo img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 22%; display: block; }
+/* monogram over the blind-embossed wreath medallion */
+.inv-crest { position: relative; width: 100px; height: 100px; margin: 0 auto .25rem; display: flex; align-items: center; justify-content: center; }
+.inv-medallion { position: absolute; inset: 0; width: 100%; height: 100%; }
+.env-card .inv-monogram { font-family: var(--serif); font-size: 1.2rem; font-weight: 600; color: var(--royal); }
+.env-card .inv-monogram .amp { font-style: italic; color: var(--gold); font-weight: 400; }
+.env-card p.inv-copy { font-family: var(--serif); font-style: italic; font-size: .95rem; color: var(--ink-soft); margin: 0; line-height: 1.7; }
+.env-card .inv-names { font-family: var(--serif); font-size: 1.5rem; color: var(--royal); margin: .4rem 0; }
+.env-card .inv-names em { font-style: italic; color: var(--gold); }
+.env-card .inv-guest { font-family: var(--serif); font-style: normal; font-size: clamp(1.5rem, 5vw, 1.9rem); font-weight: 500; letter-spacing: .02em; color: var(--royal-deep); margin: .35rem 0; line-height: 1.25; text-wrap: balance; }
+.env-card .inv-detail { font-family: var(--sans); font-weight: 600; font-size: .74rem; letter-spacing: .18em; text-transform: uppercase; color: var(--ink-soft); margin: .8rem 0 0; line-height: 2; }
+.env-card .inv-detail .d-line { display: block; }
+.env-card .inv-detail .d-time { font-size: .88em; letter-spacing: .08em; white-space: nowrap; }
+.env-card .inv-detail a { color: var(--royal); font-weight: 600; text-decoration: underline; text-underline-offset: 3px; }
+/* formal host lines, like a printed invitation */
+.env-card .inv-host { font-family: var(--sans); font-weight: 600; font-size: .78rem; letter-spacing: .18em; text-transform: uppercase; color: var(--ink); line-height: 1.9; margin: 0; }
+.env-card .inv-host-mid { font-family: var(--serif); font-style: italic; font-size: .9rem; color: var(--ink-soft); line-height: 1.7; margin: 0; }
+.env-card .inv-rsvp { font-family: var(--sans); font-style: normal; font-weight: 600; margin: .7rem 0 0; font-size: .68rem; letter-spacing: .14em; text-transform: uppercase; color: var(--ink-soft); }
+.env-card .inv-rsvp a { color: var(--royal); font-weight: 600; text-decoration: underline; text-underline-offset: 3px; }
+/* gift note, one sentence per line */
+.inv-gift { font-family: var(--serif); font-style: italic; font-size: .66rem; line-height: 1.75; color: var(--gold-deep); margin: .6rem auto 0; }
 .env-card .btn { margin-top: 1rem; }
+/* compact card on phones: everything visible without scrolling */
 @media (max-width: 620px) {
+  .cov-text { width: 78%; right: 1%; }
   .env-card { max-height: 94dvh; padding: 1.1rem 1rem 1.2rem; }
-  .ovl-photo { width: 84px; height: 104px; margin-bottom: .5rem; }
-  .ovl-names { font-size: 1.35rem; } .ovl-guest { font-size: clamp(1.25rem, 5vw, 1.45rem); }
-  .ovl-detail { font-size: .64rem; line-height: 1.85; } .ovl-host { font-size: .62rem; }
+  .env-card::after { font-size: 5rem; }
+  .inv-photo { width: 88px; height: 110px; margin-bottom: .55rem; border-radius: 44px 44px 6px 6px; }
+  .inv-crest { width: 92px; height: 92px; margin-bottom: .15rem; }
+  .env-card .inv-monogram { font-size: 1.1rem; }
+  .env-card p.inv-copy { font-size: .82rem; }
+  .env-card .inv-names { font-size: 1.25rem; margin: .25rem 0; }
+  .env-card .inv-guest { font-size: clamp(1.25rem, 5vw, 1.45rem); margin: .25rem 0; }
+  .env-card .inv-detail { font-size: .62rem; line-height: 1.85; margin-top: .55rem; letter-spacing: .18em; }
+  .env-card .inv-host { font-size: .64rem; letter-spacing: .15em; line-height: 1.75; }
+  .env-card .inv-host-mid { font-size: .8rem; line-height: 1.5; }
+  .env-card .inv-rsvp { font-size: .6rem; margin-top: .5rem; }
+  .inv-gift { font-size: .55rem; margin-top: .45rem; }
+  .env-card .btn { margin-top: .8rem; padding: .65rem 1.7rem; }
+  .inv-corner { width: 34px; height: 34px; }
 }
+/* short laptop screens: compress the card so it never scrolls */
 @media (max-height: 880px) and (min-width: 621px) {
   .env-card { max-height: 92vh; }
-  .ovl-photo { width: 84px; height: 104px; } .ovl-names { font-size: 1.4rem; } .ovl-guest { font-size: 1.4rem; }
+  .inv-photo { width: 84px; height: 106px; margin-bottom: .5rem; border-radius: 42px 42px 6px 6px; }
+  .inv-crest { width: 84px; height: 84px; margin-bottom: .15rem; }
+  .env-card .inv-monogram { font-size: 1rem; }
+  .env-card .inv-host { font-size: .7rem; line-height: 1.7; }
+  .env-card .inv-host-mid { font-size: .82rem; line-height: 1.5; }
+  .env-card p.inv-copy { font-size: .85rem; }
+  .env-card .inv-guest { font-size: 1.4rem; margin: .25rem 0; }
+  .env-card .inv-names { font-size: 1.3rem; margin: .25rem 0; }
+  .env-card .inv-detail { font-size: .66rem; line-height: 1.8; margin-top: .5rem; }
+  .env-card .inv-rsvp { margin-top: .5rem; font-size: .62rem; }
+  .inv-gift { font-size: .6rem; margin-top: .45rem; }
+  .env-card .btn { margin-top: .7rem; padding: .6rem 1.6rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .wax-seal, .tap-hint { animation: none; }
+  .opening .flower, .opening .flower svg, .opening .wax-seal::after { animation: none; }
+  .env-card, .cover { transition: none; }
+  .opening .cover { display: none; }
 }
 
 /* ============================================================ QUICK ACTIONS (phones) */

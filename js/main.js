@@ -310,8 +310,8 @@ function setupInvitation() {
     if (overlay.classList.contains("opening")) return;
     overlay.classList.add("opening");
     if (REDUCED) { overlay.classList.add("risen", "presented"); return; }
-    setTimeout(() => overlay.classList.add("risen"), 700);
-    setTimeout(() => overlay.classList.add("presented"), 1400);
+    setTimeout(() => overlay.classList.add("risen"), 950);
+    setTimeout(() => overlay.classList.add("presented"), 1700);
   }
   function done() {
     overlay.classList.add("leaving");

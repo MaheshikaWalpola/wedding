@@ -12,7 +12,7 @@ The facts that change (URLs, deployment, open questions) live in `../SYSTEM.md`.
 
 | File | What it is |
 |---|---|
-| `index.html` | The site. PIN code → sealed invitation cover (`?g=guestid` greets the guest by name) → one page: hero, invitation, couple, story, the day, RSVP form, seat finder, traditions, travel & stay, Q&A, gallery, contacts |
+| `index.html` | The site. PIN code → the v19 sealed invitation cover and card, recoloured (`?g=guestid` greets the guest by name) → one page: hero, invitation, couple, story, the day, RSVP form, seat finder, traditions, travel & stay, Q&A, gallery, contacts |
 | `photos.html` | Guest uploads (resized in the browser, saved to the Drive folder) and the album |
 | `qr.html` | Printable table card with the QR code to the photos page. Not linked from the site |
 | `info.html`, `location.html`, `faq.html`, `contact.html`, `seating.html`, `rsvp.html`, `gallery.html` | Redirect stubs for the old multi-page URLs. `_redirects` does the same on Cloudflare |
