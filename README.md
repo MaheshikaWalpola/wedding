@@ -1,124 +1,63 @@
-# Maheshika & Moksha — Wedding Website 💍
+# Maheshika & Moksha — Sri Lankan wedding website
 
-A static wedding site (plain HTML/CSS/JS, no framework) with a Google Apps
-Script + Google Sheets backend for RSVPs, seat lookups, and personalized
-invitation links.
+A one-page guest site (plus a photos page): plain HTML/CSS/JS, no framework, with a
+Google Apps Script + Google Sheets backend for RSVPs, the seat finder, personal
+invitation links and the guest photo album.
 
-**21 December 2026 · Anantara Kalutara Resort, Sri Lanka**
+**Monday 21 December 2026 · Anantara Kalutara Resort, Sri Lanka**
+
+The facts that change (URLs, deployment, open questions) live in `../SYSTEM.md`.
 
 ## Pages
 
-| Page | What it does |
+| File | What it is |
 |---|---|
-| `index.html` | Home — hero, countdown, and the personalized invitation overlay (`?g=guestid`) |
-| `info.html` | Schedule (poruwa ceremony + reception) and dress code — placeholders marked with `<!-- EDIT: ... -->` |
-| `location.html` | Embedded Google Map to the resort + travel notes |
-| `seating.html` | Seat finder — a guest types their name, sees their table |
-| `gallery.html` | Guest photo wall — guests upload photos (resized in-browser) that land in a "Wedding Guest Photos" folder in your Drive and appear on the page. Hide any photo by setting its row's **Show** cell to `no` in the **Guest Photos** tab |
-| `contact.html` | Contact cards for the couple's family |
-| `rsvp.html` | RSVP form — name, attending, guest count |
+| `index.html` | The site. PIN code → sealed invitation cover (`?g=guestid` greets the guest by name) → one page: hero, invitation, couple, story, the day, RSVP form, seat finder, traditions, travel & stay, Q&A, gallery, contacts |
+| `photos.html` | Guest uploads (resized in the browser, saved to the Drive folder) and the album |
+| `qr.html` | Printable table card with the QR code to the photos page. Not linked from the site |
+| `info.html`, `location.html`, `faq.html`, `contact.html`, `seating.html`, `rsvp.html`, `gallery.html` | Redirect stubs for the old multi-page URLs. `_redirects` does the same on Cloudflare |
 
-## Try it right now (demo mode)
+## Scripts
 
-The site ships with `DEMO_MODE: true` in [js/config.js](js/config.js) and six
-sample guests, so everything works with no backend:
+| File | Does |
+|---|---|
+| `js/config.js` | The only wiring point: the deployed `/exec` URL and `DEMO_MODE` |
+| `js/api.js` | Every backend call; answers from `SAMPLE_GUESTS` while `DEMO_MODE` is true |
+| `js/main.js` | PIN gate, sealed cover, nav, reveals, countdown, petals, parallax |
+| `js/guest.js` | Personal greeting, RSVP form, seat finder |
+| `js/photos.js` | Uploads and the album on `photos.html` |
+
+## Try it locally
 
 ```bash
-cd wedding_planner
 python3 -m http.server 8788
-# open http://localhost:8788
+# open http://localhost:8788 — the PIN is in ../SYSTEM.md
 ```
 
-- **Seat finder:** try `Nimali Perera`, `Kasun`, or `Ruwan`.
-- **Personalized invite:** open `http://localhost:8788/index.html?g=nimali01`
-  (also try `kasun02`, `sachini03`, `dilhara04`, `amaya05`, `ruwan06`).
-- **RSVP:** submits succeed and are logged to the browser console.
+- **Personal link:** `http://localhost:8788/?g=<GuestID>` (from the Sheet), or
+  `?name=Anyone` to preview the greeting without the Sheet.
+- **Demo mode:** set `DEMO_MODE: true` in `js/config.js` and the seat finder,
+  greeting and RSVP work against the six sample guests with no backend
+  (try `Nimali Perera`, `?g=nimali01`).
 
-## Connect your Google Sheet (go live)
+## Backend
 
-The backend is built for the "Wedding" planner spreadsheet — it reads
-guests straight from the existing **Guest List & RSVP** tab.
+`apps-script/Code.gs` is bound to the wedding Sheet. It reads guests from the tab
+whose name contains *guest list*, creates `RSVP Responses` and `Guest Photos`
+itself, and saves photos to the Drive folder named in `PHOTOS_FOLDER_NAME`.
+The full guest list never leaves the Sheet: every request returns at most one guest.
 
-### 1. Open the Sheet and paste the script
-
-1. The spreadsheet must be a native Google Sheet, not an uploaded .xlsx.
-   If the title bar shows an `.XLSX` badge: **File → Save as Google
-   Sheets** first, and use the converted copy from then on.
-2. In the menu: **Extensions → Apps Script**.
-3. Delete the placeholder code and paste in the whole of
-   [apps-script/Code.gs](apps-script/Code.gs). Save (💾).
-
-### 2. Run the one-time setup
-
-1. In the Apps Script editor, select the function **`setupWebsite`** in the
-   toolbar dropdown and click **Run**.
-2. Google will ask for permission the first time — click **Review
-   permissions → your account → Advanced → Go to … (unsafe) → Allow**.
-   (It's your own script reading your own sheet; the warning is standard.)
-3. This adds **Table**, **GuestID** and **Seat Note** columns to the
-   Guest List & RSVP tab (existing columns are untouched), generates a
-   unique GuestID for every guest, and creates an **RSVP Responses** tab
-   for website submissions. Safe to re-run any time — e.g. after adding
-   new guests, to give them ids too.
-
-### 3. Deploy as a web app
-
-1. Click **Deploy → New deployment**.
-2. Click the gear ⚙ next to "Select type" and choose **Web app**.
-3. Set:
-   - **Execute as:** Me
-   - **Who has access:** Anyone
-4. Click **Deploy** and copy the **Web app URL**
-   (it looks like `https://script.google.com/macros/s/AKfy.../exec`).
-
-### 4. Point the site at it
-
-In [js/config.js](js/config.js):
-
-```js
-const CONFIG = {
-  SCRIPT_URL: "https://script.google.com/macros/s/AKfy.../exec", // your URL
-  DEMO_MODE: false,
-};
-```
-
-That's it. The seat finder and invitation links now query your Sheet one
-guest at a time (the full list never reaches the browser), and website
-RSVPs appear as rows in the **RSVP Responses** tab — your own RSVP and
-Meal Preference columns in the guest list remain yours to manage.
-
-> **Note:** if you later edit `Code.gs`, you must publish the change with
-> **Deploy → Manage deployments → ✏️ Edit → Version: New version → Deploy**.
-> Just saving the file does not update the live web app.
-
-### Managing guests
-
-Everything lives in the **Guest List & RSVP** tab:
-
-- **Full Name** is what the seat finder matches against — guests type it,
-  so use the names guests know themselves by.
-- **Table** — fill in as you finalise seating. Until it has a value, the
-  seat finder shows that guest a friendly "not assigned yet" message.
-- **GuestID** is what goes in each personalized link:
-  `https://your-site.pages.dev/?g=sonu-brother-x4k2`. Run `setupWebsite`
-  again after adding new guests to generate ids for them. The
-  `listInviteLinks` function prints every guest's link for copy-pasting.
-- **Seat Note** is optional; it shows under the table number in the
-  seat finder.
-
-## Deploy to Cloudflare Pages
-
-1. Push this folder to a GitHub repository.
-2. In the Cloudflare dashboard: **Workers & Pages → Create → Pages →
-   Connect to Git**, pick the repo.
-3. Framework preset: **None**. Build command: *(leave empty)*.
-   Build output directory: `/`.
-4. Deploy — you'll get `https://<project>.pages.dev`.
+Setup, redeploying and the sheet-side helpers (`setupWebsite`, `writeInviteLinks`,
+`listInviteLinks`) are described at the top of `Code.gs` and in `OWNERS-MANUAL.md`.
+Remember: after editing `Code.gs`, **Deploy → Manage deployments → Edit →
+Version: New version → Deploy**. Saving alone does not go live.
 
 ## Editing the details
 
-- Schedule times, dress code, RSVP deadline, and travel notes are all
-  marked with `<!-- EDIT: ... -->` comments in the HTML.
-- Colours and fonts live in the `:root` block at the top of
-  [css/styles.css](css/styles.css).
-- The countdown target date is in [js/main.js](js/main.js).
+- Times, dress code, hotels, contacts and the RSVP deadline are plain text in
+  `index.html`; the cover card near the top of the file repeats the date, time
+  and deadline.
+- The countdown target is in `js/main.js`; the calendar file is `assets/wedding.ics`.
+- Colours and fonts live in the `:root` block at the top of `css/styles.css`.
+- Photos: `images/couple-full.jpg` (hero), `images/couple.jpg` (couple section
+  and cover card), `images/band.jpg`, `images/gallery-1.jpg` to `gallery-6.jpg`.

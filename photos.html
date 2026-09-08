@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#faf6ee">
+  <title>Photos · Maheshika &amp; Moksha</title>
+  <meta name="description" content="Share your photos from Maheshika and Moksha's wedding in Kalutara, and see everyone else's.">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='30' fill='%231c3fa0'/%3E%3Cpath d='M32 14l6 14 14 4-14 4-6 14-6-14-14-4 14-4z' fill='%23d4b978'/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Manrope:wght@300;400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+  <!-- Before first paint: same PIN gate as index.html. If this device has not entered the code yet,
+       hold the page until main.js shows the gate. Cleared by main.js, or if main.js fails to load. -->
+  <script>try{if(!/[?&]g=/.test(location.search)&&localStorage.getItem("mnm-key")!=="1"&&window.crypto&&crypto.subtle)document.documentElement.classList.add("gated")}catch(e){}</script>
+  <script src="js/config.js" defer></script>
+  <script src="js/api.js" defer></script>
+  <script src="js/main.js" defer onerror="document.documentElement.classList.remove('gated')"></script>
+  <script src="js/photos.js" defer></script>
+</head>
+<body class="page-photos">
+
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs>
+      <symbol id="ic-arrow" viewBox="0 0 24 24"><path d="M5 12h14m-6-6 6 6-6 6" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+      <symbol id="ic-camera" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8.5A1.5 1.5 0 0 1 5.5 7h2l1.2-2h6.6L16.5 7h2A1.5 1.5 0 0 1 20 8.5V18a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 4 18Z"/><circle cx="12" cy="13" r="3.4"/></g></symbol>
+      <symbol id="ic-download" viewBox="0 0 24 24"><path d="M12 4v11m-5-5 5 5 5-5M5 19h14" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+      <symbol id="ic-chat" viewBox="0 0 24 24"><path d="M5 18.5 4 20.5l3.4-1.1A8.5 8.5 0 1 0 5 18.5Z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></symbol>
+    </defs>
+  </svg>
+
+  <div class="progress" id="progress" aria-hidden="true"></div>
+
+  <header class="nav solid" id="nav">
+    <a class="brand" href="index.html" aria-label="Back to the main page">
+      <span class="brand-mark">M<i>&amp;</i>M</span>
+    </a>
+    <nav class="links" id="links" aria-label="Sections">
+      <a href="index.html#invitation">Invitation</a>
+      <a href="index.html#story">Our Story</a>
+      <a href="index.html#day">The Day</a>
+      <a href="index.html#rituals">Traditions</a>
+      <a href="index.html#travel">Travel &amp; Stay</a>
+      <a href="index.html#faq">Q&amp;A</a>
+      <a href="index.html#seating">Seating</a>
+      <a href="photos.html" class="active">Photos</a>
+      <a href="index.html#rsvp" class="nav-rsvp">RSVP</a>
+    </nav>
+    <button class="burger" id="burger" aria-label="Open menu" aria-expanded="false" aria-controls="links">
+      <span></span><span></span>
+    </button>
+  </header>
+
+  <nav class="pills" aria-label="Quick actions">
+    <a class="pill pill-rsvp" href="index.html#rsvp"><svg class="ic" aria-hidden="true"><use href="#ic-chat"/></svg><span>RSVP</span></a>
+    <a class="pill on" href="#add"><svg class="ic" aria-hidden="true"><use href="#ic-camera"/></svg><span>Add photos</span></a>
+    <a class="pill in-btn" href="https://maheshika-moksha-in.pages.dev" target="_blank" rel="noopener" aria-label="Open the Indian wedding website">
+      <span class="in-flag" aria-hidden="true">🇮🇳</span><span class="in-text">Indian Wedding</span><span class="in-short">India</span>
+    </a>
+  </nav>
+
+  <main>
+  <section class="section photos-hero">
+    <div class="wrap narrow">
+      <p class="eyebrow center reveal">Moments</p>
+      <h2 class="center reveal" data-split>Our album, filled by you</h2>
+      <p class="center lede reveal">Every photo you add here goes straight into our Google Drive album. Add as many as you like.</p>
+
+      <div class="upload-panel reveal" id="add">
+        <svg class="upload-icon" aria-hidden="true"><use href="#ic-camera"/></svg>
+        <h3>Add your photos</h3>
+        <p class="upload-text">Choose a few pictures from your phone. We shrink them a little so they send quickly, even on a slow connection.</p>
+        <form id="upload-form" class="upload-form" novalidate>
+          <input id="upload-name" type="text" name="name" placeholder="Your name (optional)" aria-label="Your name (optional)" autocomplete="name" maxlength="60">
+          <input id="upload-files" type="file" accept="image/*" multiple hidden>
+          <button type="button" id="upload-pick" class="btn btn-primary btn-big"><span>Choose photos</span><svg class="ic" aria-hidden="true"><use href="#ic-arrow"/></svg></button>
+        </form>
+        <p id="upload-status" class="upload-status" aria-live="polite"></p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section wall-section">
+    <div class="wrap">
+      <p class="eyebrow center reveal">The album</p>
+      <h2 class="center reveal" data-split>What everyone has shared</h2>
+      <div class="wall" id="wall"></div>
+      <p class="wall-empty" id="wall-empty">The album opens with the first photo. Be the one who adds it.</p>
+      <p class="center small" id="wall-note"></p>
+    </div>
+  </section>
+  </main>
+
+  <nav class="quick-bar" aria-label="Quick actions">
+    <a href="index.html#rsvp"><svg class="ic" aria-hidden="true"><use href="#ic-chat"/></svg><span>RSVP</span></a>
+    <a href="photos.html" class="on"><svg class="ic" aria-hidden="true"><use href="#ic-camera"/></svg><span>Add photos</span></a>
+    <a href="https://maheshika-moksha-in.pages.dev" target="_blank" rel="noopener"><span class="in-flag" aria-hidden="true">🇮🇳</span><span>India</span></a>
+  </nav>
+
+  <footer class="page-foot">
+    <a href="index.html"><svg class="ic" aria-hidden="true" style="transform:scaleX(-1)"><use href="#ic-arrow"/></svg><span>Back to the wedding page</span></a>
+  </footer>
+</body>
+</html>

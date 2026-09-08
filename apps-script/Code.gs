@@ -155,12 +155,13 @@ function savePhoto(data) {
   var mime = String(data.mimeType || 'image/jpeg');
   if (mime.indexOf('image/') !== 0) return { ok: false, error: 'Not an image' };
 
-  var blob = Utilities.newBlob(
-    Utilities.base64Decode(b64),
-    mime,
-    String(data.filename || 'guest-photo.jpg')
-  );
+  // The guest's name (optional on the site) goes into the file name and the Drive
+  // description, so the Drive folder itself shows who added each photo.
+  var by = String(data.name || '').replace(/[\/\\:*?"<>|]/g, ' ').replace(/\s+/g, ' ').trim() || 'A guest';
+  var original = String(data.filename || 'guest-photo.jpg');
+  var blob = Utilities.newBlob(Utilities.base64Decode(b64), mime, by + ' - ' + original);
   var file = getOrCreatePhotosFolder().createFile(blob);
+  file.setDescription('Added by ' + by + ' via the wedding website');
   file.setSharing(DriveApp.Access.ANYONE_WITH_LINK, DriveApp.Permission.VIEW);
 
   getOrCreatePhotosSheet().appendRow([

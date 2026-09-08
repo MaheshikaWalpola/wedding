@@ -11,7 +11,7 @@ Data: your **"Wedding" Google Sheet** (the one WITHOUT the .XLSX badge)
 | If you change… | Then… |
 |---|---|
 | **The Google Sheet** (tables, guests, hiding photos) | Nothing! It's live instantly. |
-| **Website text/pages** (schedule, dress code…) | The change must be pushed to GitHub — easiest: ask Claude. It's live ~1 minute after pushing. |
+| **Website text** (schedule, dress code…) | The change must be pushed to GitHub — easiest: ask Claude. It's live ~1 minute after pushing. |
 | **The backend code** (`apps-script/Code.gs`) | Paste into Apps Script, Save, and **Deploy → Manage deployments → ✏️ → New version → Deploy**. |
 
 ---
@@ -19,22 +19,22 @@ Data: your **"Wedding" Google Sheet** (the one WITHOUT the .XLSX badge)
 ## Everyday things
 
 ### 🔎 Test that everything works (5-minute health check)
-1. Open https://maheshika-moksha.pages.dev — countdown ticking?
-2. Open https://maheshika-moksha.pages.dev/?g=amma-gqjr — invitation card with "Amma"?
-3. Find Your Seat → type `Amma` → result appears?
-4. RSVP → send a test reply → appears as a new row in the **RSVP Responses** tab? (Delete the row after.)
-5. Gallery → upload any photo → appears on the wall and in the **Guest Photos** tab? (Set its **Show** cell to `no` after, or delete the row.)
+1. Open https://maheshika-moksha.pages.dev — code `2112` → sealed cover → card → page, countdown ticking?
+2. Open https://maheshika-moksha.pages.dev/?g=amma-gqjr — cover says "Dear Amma", no code asked?
+3. Find your seat (on the page) → type `Amma` → result appears?
+4. RSVP (on the page) → send a test reply → appears as a new row in the **RSVP Responses** tab? (Delete the row after.)
+5. Photos page → upload any photo → appears in the album and in the **Guest Photos** tab? (Set its **Show** cell to `no` after, or delete the row.)
 
 ### 💌 Send a guest their invitation
 1. Open the **Guest List & RSVP** tab.
 2. Find the guest's row → copy their **Invite Link** (last column).
-3. Paste it into WhatsApp/SMS/email to that guest. Done — the link shows *their* name on the invitation card.
+3. Paste it into WhatsApp/SMS/email to that guest. Done — the link opens without the code and shows *their* name on the cover, the card and the RSVP form.
 
 ### ✉️ See who has RSVP'd
 - Open the **RSVP Responses** tab. Newest at the bottom: name, yes/no, guest count, message.
 - Your own **RSVP** column in the Guest List is separate — update it yourself as you confirm people (that keeps your dashboard numbers working).
 
-### 📸 Manage the photo wall
+### 📸 Manage the photo album
 - **See all photos:** the **Guest Photos** tab lists every upload; files live in Drive → **Wedding Guest Photos** folder.
 - **Hide a photo from the site:** change its **Show** cell to `no`. (Back to `yes` to restore.)
 - **Delete a photo forever:** delete its row in the tab AND the file in the Drive folder.
@@ -68,21 +68,21 @@ Tell Claude what to change — e.g. *"change the poruwa time to 6 PM"*, *"replac
 
 ### Do-it-yourself way (GitHub website)
 1. Go to https://github.com/MaheshikaWalpola/wedding
-2. Click the file (e.g. `info.html` (Wedding Day)) → click the **✏️ pencil** icon.
+2. Click the file (almost everything is in `index.html`) → click the **✏️ pencil** icon.
 3. Make your change → green **Commit changes** button.
 4. Wait ~1 minute — the live site updates by itself.
 
 ### What lives where
 | Change this… | …in this file |
 |---|---|
-| Schedule times & descriptions | `info.html` (Wedding Day) (look for `<!-- EDIT: ... -->`) |
-| Dress code | `info.html` (Wedding Day) |
-| RSVP deadline (21 October 2026) | `rsvp.html` |
-| Travel note | `location.html` |
-| Contact names/numbers | `contact.html` |
-| Welcome text on home page | `index.html` |
+| Schedule times & descriptions | `index.html`, "The Day" section (and the cover card near the top, and `assets/wedding.ics`) |
+| Dress code | `index.html`, "The Day" section |
+| RSVP deadline (21 October 2026) | `index.html`: invitation card, cover card, RSVP section, Q&A |
+| Travel, hotels, Q&A | `index.html` |
+| Contact names/numbers | `index.html`, closing section (WhatsApp links) |
 | Colours & fonts | `css/styles.css` (top `:root` block) |
 | Countdown target time | `js/main.js` |
+| The site code (PIN) | `js/main.js` (`PIN_HASH`, see `../SYSTEM.md`) |
 
 ---
 
@@ -108,9 +108,10 @@ Functions you might run from the dropdown:
 |---|---|
 | Seat finder can't find a guest | Check the **Full Name** spelling in the sheet — guest must type a part of it (or exactly it) |
 | Seat finder says "a few guests match" | Guest should type their fuller name |
-| Invite link shows "Dear Guest" | The `?g=...` code doesn't match a **GuestID** — copy the link fresh from the Invite Link column |
+| Invite link shows "Dear family & friends" | The `?g=...` code doesn't match a **GuestID** — copy the link fresh from the Invite Link column |
 | RSVP says "didn't go through" | Check Apps Script deployment: **Who has access** must be **Anyone** |
-| Photo uploaded but not on the wall | Check the **Show** cell is `yes`; give Drive a minute for new photos |
+| Photo uploaded but not in the album | Check the **Show** cell is `yes`; give Drive a minute for new photos |
+| Guest asks for the code | It is `2112`, or send them their personal link instead |
 | Site not updating after a change | Website changes need a GitHub push; sheet changes are instant |
 
 ---

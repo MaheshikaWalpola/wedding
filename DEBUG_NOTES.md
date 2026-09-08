@@ -1,3 +1,7 @@
+> Written for the v14 cover. The v20 rebuild (September 2026) keeps the same rule: the
+> wax seal is `position: relative` in the cover's flow, so its `::before` ring still uses
+> the seal as its containing block.
+
 # Debug notes — mystery oval ring on the v14 invitation cover (RESOLVED)
 
 ## The bug
