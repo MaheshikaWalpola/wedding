@@ -595,8 +595,8 @@ html.covered .img-reveal img { transform: scale(1.08); transition: none; }
 .env-scene { position: absolute; inset: 0; display: grid; place-items: center; }
 /* the wildflower sprays in the backdrop corners */
 .ovl-spray { position: absolute; pointer-events: none; opacity: .5; }
-.ovl-spray.bl { left: -8px; bottom: -8px; height: 58vh; width: auto; }
-.ovl-spray.tr { right: -8px; top: -8px; height: 50vh; width: auto; transform: rotate(180deg); }
+.ovl-spray.bl { left: -2%; bottom: -2%; height: 92vh; width: auto; }
+.ovl-spray.tr { right: -2%; top: -2%; height: 82vh; width: auto; transform: rotate(180deg); }
 .skip-link { position: absolute; top: max(1.1rem, env(safe-area-inset-top)); right: 1.4rem; z-index: 30; background: none; border: 1px solid var(--gold-line); border-radius: 999px; color: var(--ink-soft); font-family: var(--sans); font-weight: 600; font-size: .7rem; letter-spacing: .22em; text-transform: uppercase; padding: .55rem 1rem; min-height: 40px; cursor: pointer; transition: border-color var(--t-fast), color var(--t-fast); }
 .skip-link:hover { color: var(--royal); border-color: var(--gold); }
 .tap-hint { display: none; position: absolute; left: 0; right: 0; bottom: clamp(2rem, 8vh, 4rem); margin: 0; text-align: center; color: var(--ink-soft); font-family: var(--sans); font-weight: 600; font-size: .72rem; letter-spacing: .34em; text-transform: uppercase; animation: hint 2.4s ease-in-out infinite; transition: opacity .4s; }
@@ -607,7 +607,7 @@ html.covered .img-reveal img { transform: scale(1.08); transition: none; }
 /* the cover: white card, wildflower spray climbing the left side, the text beside it, a small gold wax seal */
 .cover {
   position: relative; grid-area: 1 / 1; z-index: 3;
-  width: min(86vw, 380px); aspect-ratio: 1 / 1.38; max-height: 82vh; border-radius: 8px; cursor: pointer;
+  width: min(94vw, 460px); aspect-ratio: 1 / 1.42; max-height: 88vh; border-radius: 8px; cursor: pointer;
   background-color: var(--paper);
   background-image:
     url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='p'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.45 0 0 0 0 0.33 0 0 0 0 0.2 0 0 0 0.035 0'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23p)'/%3E%3C/svg%3E"),
@@ -619,20 +619,21 @@ html.covered .img-reveal img { transform: scale(1.08); transition: none; }
 }
 .cover::before { content: ""; position: absolute; inset: 13px; border: 1px solid rgba(129,100,33,.16); border-radius: 4px; pointer-events: none; box-shadow: 0 1px 0 rgba(255,255,255,.85), inset 0 1px 0 rgba(129,100,33,.1), inset 0 -1px 0 rgba(255,255,255,.85); }
 .opening .cover { transform: perspective(1400px) rotateX(112deg); opacity: 0; pointer-events: none; }
-.cov-spray { position: absolute; left: -2%; bottom: -1%; height: 98%; width: auto; pointer-events: none; }
-.cov-text { position: absolute; top: 50%; right: 2%; transform: translateY(-50%); width: 74%; display: flex; flex-direction: column; align-items: center; gap: .3rem; text-align: center; padding: 0 .4rem; }
-.cov-swans { width: 82px; opacity: .95; }
-.cov-hello { font-family: var(--serif); font-style: italic; font-weight: 500; font-size: clamp(1.35rem, 5vw, 1.7rem); line-height: 1.3; text-wrap: balance; letter-spacing: .02em; color: var(--royal); margin: 0 0 .45rem; width: 100%; }
-.cov-hello.long { font-size: clamp(1.1rem, 4vw, 1.4rem); } /* long guest names step down so they never crowd the card */
-.cov-eyebrow { font-family: var(--sans); font-weight: 600; font-size: .68rem; letter-spacing: .3em; text-transform: uppercase; color: var(--ink-soft); margin: .35rem 0 0; }
-.cov-name { font-family: var(--sans); font-weight: 500; text-transform: uppercase; letter-spacing: .3em; font-size: clamp(1.05rem, 3.6vw, 1.3rem); color: var(--ink); margin: 0; }
-.cov-and { font-family: var(--serif); font-style: italic; color: var(--royal); font-size: 1.15rem; margin: -.2rem 0; }
-.cov-line { font-family: var(--serif); font-style: italic; font-size: 1.02rem; color: var(--ink-soft); margin: 0; }
+.cov-spray { position: absolute; left: -7%; bottom: -1%; height: 96%; width: auto; pointer-events: none; }
+/* the text column starts right of the spray's reach, so no flower crosses a letter */
+.cov-text { position: absolute; top: 50%; left: 33%; right: 4%; transform: translateY(-50%); display: flex; flex-direction: column; align-items: center; gap: .35rem; text-align: center; padding: 0; }
+.cov-swans { width: 96px; opacity: .95; }
+.cov-hello { font-family: var(--serif); font-style: italic; font-weight: 500; font-size: clamp(1.6rem, 6vw, 2.1rem); line-height: 1.25; text-wrap: balance; letter-spacing: .02em; color: var(--royal); margin: 0 0 .5rem; width: 100%; }
+.cov-hello.long { font-size: clamp(1.25rem, 4.6vw, 1.6rem); } /* long guest names step down so they never crowd the card */
+.cov-eyebrow { font-family: var(--sans); font-weight: 600; font-size: .78rem; letter-spacing: .3em; text-transform: uppercase; color: var(--ink-soft); margin: .5rem 0 0; }
+.cov-name { font-family: var(--sans); font-weight: 500; text-transform: uppercase; letter-spacing: .3em; font-size: clamp(1.25rem, 4.4vw, 1.6rem); color: var(--ink); margin: 0; }
+.cov-and { font-family: var(--serif); font-style: italic; color: var(--royal); font-size: 1.35rem; margin: -.15rem 0; }
+.cov-line { font-family: var(--serif); font-style: italic; font-size: 1.2rem; color: var(--ink-soft); margin: 0; }
 /* the small gold wax seal. Relative, not static: its ::before ring and ::after glow size against the seal */
 .wax-seal {
-  position: relative; z-index: 5; flex: none; width: 62px; height: 62px; margin-top: .7rem;
+  position: relative; z-index: 5; flex: none; width: 74px; height: 74px; margin-top: .9rem;
   border-radius: 47% 53% 48% 52% / 51% 47% 53% 49%; border: 0; cursor: pointer;
-  font-family: var(--serif); font-style: italic; font-size: .95rem; font-weight: 600; color: #fff9ea;
+  font-family: var(--serif); font-style: italic; font-size: 1.1rem; font-weight: 600; color: #fff9ea;
   text-shadow: 0 1px 1px rgba(90,64,20,.45);
   background: radial-gradient(circle at 34% 30%, #ecd39a, var(--gold) 58%, var(--gold-deep));
   box-shadow: inset 0 2px 5px rgba(255,244,214,.5), inset 0 -3px 6px rgba(90,64,20,.45), 0 5px 14px rgba(120,90,40,.3);
@@ -660,7 +661,7 @@ html.covered .img-reveal img { transform: scale(1.08); transition: none; }
 @keyframes flower-fall { 0% { transform: translateY(-7vh); opacity: 0; } 6% { opacity: .95; } 100% { transform: translateY(112vh); opacity: .7; } }
 @keyframes flower-sway { from { transform: translateX(-16px) rotate(-24deg); } to { transform: translateX(16px) rotate(24deg); } }
 
-@media (max-width: 620px) { .cov-text { width: 78%; right: 1%; } }
+@media (max-width: 620px) { .cov-text { left: 31%; right: 3%; } .ovl-spray.tr { height: 60vh; } }
 @media (prefers-reduced-motion: reduce) {
   .wax-seal, .tap-hint { animation: none; }
   .opening .flower, .opening .flower svg, .opening .wax-seal::after { animation: none; }
