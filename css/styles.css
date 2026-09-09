@@ -472,14 +472,18 @@ ul.hotels small, .contact small { font-size: .82rem; color: var(--ink-mute); let
 .info p { font-size: .95rem; color: var(--ink-soft); margin: 0; }
 .info a { color: var(--royal); text-decoration: underline; text-decoration-color: rgba(28,63,160,.35); text-underline-offset: .2em; }
 .tip .btn { margin-top: 1rem; }
-/* the guest-guide panel at the end of Travel & Stay: eyebrow, title, one sentence on what the guide holds, the big button */
-.tip-guide .eyebrow { font-size: .74rem; margin-bottom: .5rem; }
-.tip-guide p { margin-bottom: .2rem; }
-@media (max-width: 760px) { .tip-guide .eyebrow { justify-content: center; } .tip-guide .btn { width: 100%; } }
 .tip { display: grid; grid-template-columns: 250px 1fr; gap: 1.6rem; align-items: center; margin-top: 3rem; padding: 1.6rem 1.8rem; background: var(--royal-mist); border-radius: var(--r-card); }
 .tip-art { width: 250px; height: auto; opacity: .95; }
 .tip h4 { color: var(--royal-deep); font-size: 1.35rem; margin-bottom: .2rem; }
 .tip p { margin: 0; color: var(--ink-soft); }
+/* the guest-guide panel at the end of Travel & Stay, centred on the blue: the island art on top, then
+   eyebrow, title, one sentence on what the guide holds, and the big button (after .tip, so it wins) */
+.tip-guide { grid-template-columns: 1fr; justify-items: center; text-align: center; gap: 1.2rem; padding: 2.4rem 1.8rem 2.6rem; }
+.tip-guide .tip-art { width: min(100%, 340px); margin: 0 auto; }
+.tip-guide > div { max-width: 620px; }
+.tip-guide .eyebrow { font-size: .74rem; margin-bottom: .5rem; justify-content: center; }
+.tip-guide p { margin-bottom: .2rem; text-wrap: balance; }
+@media (max-width: 560px) { .tip-guide { padding: 2rem 1.2rem 2.2rem; } .tip-guide .btn { width: 100%; } }
 @media (max-width: 900px) { .info-grid { grid-template-columns: 1fr 1fr; } }
 @media (max-width: 760px) { .travel-grid { grid-template-columns: 1fr; } .tip { grid-template-columns: 1fr; text-align: center; } .tip-art { width: min(100%, 320px); margin: 0 auto; } }
 @media (max-width: 560px) { .info-grid { grid-template-columns: 1fr; } }
