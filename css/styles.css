@@ -768,6 +768,8 @@ ul.famous li { font-size: .98rem; color: var(--ink-soft); }
 .stay { margin-top: 2rem; padding-top: 1.4rem; border-top: 1px solid var(--gold-line); }
 .stay h3 { font-size: 1.35rem; color: var(--royal); margin-bottom: .6rem; }
 .stay-list { color: var(--ink-soft); line-height: 2; margin: 0; }
+.stay-item + .stay-item::before { content: ", "; } /* the commas come from CSS so phones can drop them */
+@media (max-width: 560px) { .stay-item + .stay-item::before { content: none; } }
 .stay-list small { color: var(--ink-mute); font-size: .85em; }
 .guide-box { background: var(--paper); border: 1px solid var(--gold-line); border-radius: var(--r-card); padding: clamp(1.2rem, 3vw, 2rem); margin-top: 2.5rem; box-shadow: var(--sh-1); }
 .guide-box .guide-grid { margin-top: 0; }
@@ -778,6 +780,20 @@ ul.famous li { font-size: .98rem; color: var(--ink-soft); }
 .closing-line { font-family: var(--serif); font-size: 1.3rem; color: var(--royal); margin: 3rem 0 0; line-height: 1.6; }
 .closing-line em { font-style: italic; color: var(--ink-soft); font-size: .85em; }
 @media (max-width: 760px) { .guide-grid.two { grid-template-columns: 1fr; } .days li { grid-template-columns: 1fr; gap: .3rem; } .glance div { grid-template-columns: 1fr; gap: .2rem; } }
+/* phones: shorter intros, tighter cards, and one hotel per line instead of a comma list */
+@media (max-width: 560px) {
+  .page-guide .lede { font-size: 1rem; margin-bottom: 1.6rem; }
+  .page-guide .section { padding: 2.8rem 0; }
+  .guide-box { padding: .9rem; }
+  .guide-grid .info { padding: 1rem 1.05rem; }
+  .glance { margin-top: 1.6rem; }
+  .glance div { padding: .7rem .9rem; }
+  .stay-list { line-height: 1.6; }
+  .stay-item { display: block; padding: .4rem 0; border-top: 1px solid var(--gold-line); }
+  .stay-item:first-child { border-top: 0; }
+  .stay-item small { display: block; }
+  .numbers ul.plain li { flex-direction: column; gap: .1rem; }
+}
 
 /* ============================================================ PHONES */
 @media (max-width: 560px) {
