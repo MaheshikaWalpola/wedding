@@ -177,14 +177,22 @@ function savePhoto(data) {
   return { ok: true };
 }
 
-/** Returns the visible photos, newest first. */
+/** Returns the visible photos, newest first.
+ *  A photo shows only if its sheet row says Show = yes AND the file is still in the
+ *  photos folder. So deleting (or moving out) a file in Drive removes it from the
+ *  album without touching the sheet. One folder listing per request, which is far
+ *  cheaper than looking up every file by id. */
 function listPhotos() {
   var values = getOrCreatePhotosSheet().getDataRange().getValues();
+  var inFolder = {};
+  var files = getOrCreatePhotosFolder().getFiles();
+  while (files.hasNext()) inFolder[files.next().getId()] = true;
   var photos = [];
   for (var i = 1; i < values.length; i++) {
     var fileId = String(values[i][2] || '').trim();
     if (!fileId) continue;
     if (String(values[i][3]).toLowerCase().trim() !== 'yes') continue;
+    if (!inFolder[fileId]) continue; // trashed, or no longer in the folder
     photos.push({
       by: String(values[i][1] || 'A guest'),
       url: 'https://drive.google.com/thumbnail?id=' + fileId + '&sz=w1200',
