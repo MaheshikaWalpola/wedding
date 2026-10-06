@@ -15,9 +15,9 @@ which sits outside this repository on purpose and is not published.
 |---|---|
 | `index.html` | The site. PIN code → the v19 sealed invitation cover, recoloured (`?g=guestid` greets the guest by name) → one page: hero, invitation card (Indian card style, the old words), couple, story, celebrations (programme in the v19 zigzag timeline, dress code, map), RSVP form, seat finder, traditions, travel & stay, Q&A, gallery, contacts |
 | `photos.html` | Guest uploads (resized in the browser, saved to the Drive folder) and the album |
-| `guide.html` | The guest guide to Sri Lanka: a suggested week, things to do, where to stay, getting around, the visa, emergency numbers |
+| `guide.html` | The guest guide to Sri Lanka: the visa, getting around, things to do near the venue and across the island, where to stay, people we know, numbers to save |
 | `qr.html` | Printable table card with the QR code to the photos page. Not linked from the site |
-| `info.html`, `location.html`, `faq.html`, `contact.html`, `seating.html`, `rsvp.html`, `gallery.html` | Redirect stubs for the old multi-page URLs. `_redirects` does the same on Cloudflare |
+| `_redirects` | Cloudflare: the old multi-page URLs (`/info`, `/rsvp`, `/gallery`, …) redirect to the matching section or to `/photos` |
 
 ## Scripts
 

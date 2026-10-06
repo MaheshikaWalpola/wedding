@@ -289,8 +289,9 @@ function setupCountdown() {
 }
 
 /* ---------- Jasmine strings: fine gold threads from the top corners of the hero, strung with
-   closed buds and small open jasmine, a little cluster at the tip. Three lanes on wide
-   screens (the 130px SVG), one lane in the narrow corner versions. Redrawn on resize. ---------- */
+   closed buds and small open jasmine, a little cluster at the tip. Three lanes when the SVG is
+   120px or wider (the 150px version in css/styles.css), one lane in the 80px and 44px corner
+   versions. Change the widths there and the threshold here together. Redrawn on resize. ---------- */
 
 const NS = "http://www.w3.org/2000/svg";
 const el = (tag, attrs) => { const n = document.createElementNS(NS, tag); for (const k in attrs) n.setAttribute(k, attrs[k]); return n; };
