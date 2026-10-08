@@ -83,7 +83,7 @@ Tell Claude what to change — e.g. *"change the poruwa time to 6 PM"*, *"replac
 | Contact names/numbers | `index.html`, closing section (WhatsApp links) |
 | Colours & fonts | `css/styles.css` (top `:root` block) |
 | Countdown target time | `js/main.js` |
-| The site code (PIN) | `js/main.js` (`PIN_HASH`, see `../SYSTEM.md`) |
+| The site code (PIN) | the `SITE_PIN` Script Property in the Apps Script editor (Project Settings → Script properties); not in any site file |
 
 ---
 

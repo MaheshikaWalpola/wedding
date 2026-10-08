@@ -2,28 +2,47 @@
  * Maheshika & Moksha — Wedding Site Backend (Google Apps Script)
  * ==============================================================
  * Built for the "Wedding" planner spreadsheet. It reads guests from the
- * existing "Guest List & RSVP" tab and serves three things:
+ * existing "Guest List & RSVP" tab and serves these:
+ *   GET  ?action=verify&key=<code>  -> is this the site code? (the PIN gate)
  *   GET  ?action=seat&name=<name>   -> one guest's table (seat finder)
  *   GET  ?action=invite&g=<guestid> -> one guest's name (personalized invite)
+ *   GET  ?action=photos             -> the album (photos marked Show = yes)
  *   POST <JSON body>                -> appends a row to "RSVP Responses"
+ *   POST {action:"photo", ...}      -> saves one photo to the Drive folder
  *
  * The full guest list never leaves the Sheet — every request returns
  * at most one guest.
  *
+ * THE SITE CODE (PIN):
+ *   The four-digit code on the invitation lives ONLY in a Script Property
+ *   named SITE_PIN (Apps Script editor -> Project Settings -> Script
+ *   properties). It is in no file of the website. Every request except
+ *   "invite" must carry key=<code>, or key=g:<guestid> from a personal
+ *   link; anything else is refused. After MAX_WRONG_KEYS_PER_MINUTE wrong
+ *   keys in a minute, every key is refused until that minute is over, so
+ *   guessing all ten thousand codes takes many hours instead of minutes.
+ *   Uploads and RSVPs are capped per ten minutes and per six hours.
+ *   To change the code: edit SITE_PIN, no redeploy needed. Guests whose
+ *   device remembered the old code see the gate once more.
+ *
  * SETUP:
  *   1. In the (converted, native Google) spreadsheet:
  *      Extensions -> Apps Script, paste this file, save.
- *   2. Run setupWebsite() once (accept the permission prompts). It:
+ *   2. Project Settings -> Script properties -> Add: SITE_PIN = the code.
+ *      Run checkSetup() to confirm (it never prints the code).
+ *   3. Run setupWebsite() once (accept the permission prompts). It:
  *        - adds "Table", "GuestID" and "Seat Note" columns to the
  *          Guest List & RSVP tab (only if missing),
  *        - generates a unique GuestID for every guest that lacks one
  *          (these become the personalized links: ?g=<GuestID>),
  *        - creates the "RSVP Responses" tab for website submissions.
  *      It never changes your existing columns or rows.
- *   3. Deploy -> New deployment -> Web app:
+ *   4. Deploy -> New deployment -> Web app:
  *        Execute as: Me    |    Who has access: Anyone
- *   4. Copy the web app URL into js/config.js (SCRIPT_URL) and set
+ *   5. Copy the web app URL into js/config.js (SCRIPT_URL) and set
  *      DEMO_MODE to false.
+ *   Every later change to this file: Deploy -> Manage deployments ->
+ *   Edit -> Version: New version -> Deploy. Saving alone does not go live.
  *
  * AFTERWARDS:
  *   - Fill in the "Table" column as you finalise seating; until a guest
@@ -52,20 +71,89 @@ var COL_NOTE = 'Seat Note';
 // that photo from the website.
 var PHOTOS_TAB = 'Guest Photos';
 var PHOTOS_FOLDER_NAME = 'Wedding Guest Photos';
-var MAX_PHOTO_BASE64_CHARS = 9000000; // ~6.5 MB image, far above the ~500 KB the site sends
+var MAX_PHOTO_BASE64_CHARS = 3000000; // ~2.2 MB image; the site sends ~500 KB (1600 px JPEG)
+
+// The site code and the limits. The code itself is read from the SITE_PIN
+// Script Property (see the header); it must never be written in this file.
+var PIN_PROPERTY = 'SITE_PIN';
+var MAX_WRONG_KEYS_PER_MINUTE = 10;  // then every key is refused until the minute is over
+var MAX_UPLOADS_PER_10_MIN = 150;    // a wedding evening sends far fewer; a flood sends far more
+var MAX_UPLOADS_PER_6_HOURS = 2000;
+var MAX_RSVPS_PER_10_MIN = 30;
+var MAX_RSVPS_PER_6_HOURS = 300;
 
 /* ------------------------------------------------------------------ */
-/* GET — seat finder & invitation lookup                               */
+/* GET — PIN check, seat finder, invitation lookup, album              */
 /* ------------------------------------------------------------------ */
 
 function doGet(e) {
-  var action = String((e.parameter.action || '')).toLowerCase();
+  var p = (e && e.parameter) || {};
+  var action = String(p.action || '').toLowerCase();
 
-  if (action === 'seat')   return jsonResponse(findSeatByName(e.parameter.name));
-  if (action === 'invite') return jsonResponse(findGuestById(e.parameter.g));
+  if (action === 'verify') return jsonResponse(checkKey(p.key));
+  if (action === 'invite') return jsonResponse(findGuestById(p.g)); // the id is its own key
+
+  var auth = checkKey(p.key);
+  if (!auth.ok) return jsonResponse(auth);
+
+  if (action === 'seat')   return jsonResponse(findSeatByName(p.name));
   if (action === 'photos') return jsonResponse(listPhotos());
 
   return jsonResponse({ ok: false, error: 'Unknown action' });
+}
+
+/* ------------------------------------------------------------------ */
+/* The site code                                                       */
+/* ------------------------------------------------------------------ */
+
+function sitePin() {
+  return String(PropertiesService.getScriptProperties().getProperty(PIN_PROPERTY) || '').trim();
+}
+
+/**
+ * Is this key allowed in? A key is the site code, or "g:<guestid>" from a
+ * personal link. Answers { ok: true }, or { ok: false, auth: false } with one
+ * of: wrong (bad key), slow (too many wrong keys this minute, every key is
+ * refused), or error (the code is not set up). Wrong keys are counted in a
+ * shared one-minute window — Apps Script cannot tell visitors apart, so the
+ * window is shared by everyone, which is why it refuses for a minute at most
+ * and never locks anyone out for longer.
+ */
+function checkKey(key) {
+  var k = String(key || '').trim();
+  var pin = sitePin();
+  if (!pin) return { ok: false, auth: false, error: 'The site code is not set up yet' };
+  if (!k) return { ok: false, auth: false, wrong: true };
+
+  var cache = CacheService.getScriptCache();
+  var wrong = Number(cache.get('wrong-keys') || 0);
+  if (wrong >= MAX_WRONG_KEYS_PER_MINUTE) return { ok: false, auth: false, slow: true };
+
+  if (k === pin) return { ok: true };
+  if (k.indexOf('g:') === 0) {
+    try { if (findGuestById(k.slice(2)).found) return { ok: true }; } catch (err) { /* no guest list on this site */ }
+  }
+
+  cache.put('wrong-keys', String(wrong + 1), 60);
+  return { ok: false, auth: false, wrong: true };
+}
+
+/**
+ * Counts one more <what> (uploads, rsvps) in the current ten-minute and
+ * six-hour windows and says whether either cap is already reached. The
+ * windows are fixed (not sliding), so a cap clears at the next window.
+ */
+function overLimit(what, perTenMinutes, perSixHours) {
+  var cache = CacheService.getScriptCache();
+  var now = Date.now();
+  var shortKey = what + '-10m-' + Math.floor(now / 600000);
+  var longKey = what + '-6h-' + Math.floor(now / 21600000);
+  var short = Number(cache.get(shortKey) || 0);
+  var long = Number(cache.get(longKey) || 0);
+  if (short >= perTenMinutes || long >= perSixHours) return true;
+  cache.put(shortKey, String(short + 1), 600);
+  cache.put(longKey, String(long + 1), 21600);
+  return false;
 }
 
 /**
@@ -122,13 +210,25 @@ function doPost(e) {
   try {
     var data = JSON.parse(e.postData.contents);
 
-    if (data.action === 'photo') return jsonResponse(savePhoto(data));
+    var auth = checkKey(data.key);
+    if (!auth.ok) return jsonResponse(auth);
+
+    if (data.action === 'photo') {
+      if (overLimit('uploads', MAX_UPLOADS_PER_10_MIN, MAX_UPLOADS_PER_6_HOURS)) {
+        return jsonResponse({ ok: false, error: 'The album is very busy right now. Please try again in a few minutes.' });
+      }
+      return jsonResponse(savePhoto(data));
+    }
 
     // Bounded, plain-text values only: the sheet is the couple's, not the guest's.
     var name = String(data.name || '').trim().slice(0, 120);
     if (!name) return jsonResponse({ ok: false, error: 'Missing name' });
     var attending = String(data.attending || '').toLowerCase() === 'no' ? 'no' : 'yes';
     var guests = Math.min(20, Math.max(1, Math.round(Number(data.guests) || 1)));
+
+    if (overLimit('rsvps', MAX_RSVPS_PER_10_MIN, MAX_RSVPS_PER_6_HOURS)) {
+      return jsonResponse({ ok: false, error: 'Too many replies at once. Please try again in a few minutes.' });
+    }
 
     getOrCreateRsvpSheet().appendRow([
       new Date(),
@@ -301,6 +401,22 @@ function jsonResponse(obj) {
 /* ------------------------------------------------------------------ */
 /* One-time setup — run this manually from the Apps Script editor      */
 /* ------------------------------------------------------------------ */
+
+/**
+ * Logs whether the site code is set (without printing it) and whether the
+ * photos folder can be found. Run it after setting SITE_PIN, and whenever
+ * the gate says "The site code is not set up yet".
+ */
+function checkSetup() {
+  var pin = sitePin();
+  Logger.log(pin
+    ? 'SITE_PIN is set (' + pin.length + ' digits).'
+    : 'SITE_PIN is NOT set: Project Settings -> Script properties -> Add SITE_PIN.');
+  if (pin && !/^\d{4}$/.test(pin)) Logger.log('Warning: the website expects exactly four digits.');
+  Logger.log('Photos folder: "' + getOrCreatePhotosFolder().getName() + '"');
+  var wrong = CacheService.getScriptCache().get('wrong-keys');
+  Logger.log('Wrong keys this minute: ' + (wrong || 0) + ' (refusing after ' + MAX_WRONG_KEYS_PER_MINUTE + ').');
+}
 
 /**
  * Adds the website columns (Table, GuestID, Seat Note) to the guest tab

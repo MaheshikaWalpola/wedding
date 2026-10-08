@@ -15,6 +15,60 @@ const Api = (() => {
     return String(s || "").trim().toLowerCase().replace(/\s+/g, " ");
   }
 
+  /* --- The site key ---
+     What the device remembers once the gate is passed: the four-digit code the guest
+     typed, or "g:<guestid>" from a personal link. The backend checks it on every call
+     (it keeps the code in a Script Property; no file of this site holds it). The key
+     is kept in memory as well, so a device whose storage is unavailable still works
+     for the rest of the visit. The old "1" flag from before October 2026 is not a key:
+     those devices see the gate once more. */
+  const KEY_NAME = "mnm-key";
+  const KEY_SHAPE = /^(\d{4}|g:.+)$/;
+  let memoryKey = "";
+
+  function key() {
+    if (memoryKey) return memoryKey;
+    try {
+      const k = localStorage.getItem(KEY_NAME) || "";
+      return KEY_SHAPE.test(k) ? k : "";
+    } catch (e) { return ""; }
+  }
+  function rememberKey(k) {
+    memoryKey = k;
+    try { localStorage.setItem(KEY_NAME, k); } catch (e) {}
+  }
+  function forgetKey() {
+    memoryKey = "";
+    try { localStorage.removeItem(KEY_NAME); } catch (e) {}
+  }
+
+  /* Reads a backend answer. If the backend says the remembered key is wrong (the code
+     was changed after this device saved it), the key is dropped and the page reloads
+     once so the gate shows again instead of every form failing quietly. */
+  async function answer(res, what) {
+    if (!res.ok) throw new Error(`${what} failed (${res.status})`);
+    const out = await res.json();
+    if (out && out.auth === false && out.wrong && key()) {
+      forgetKey();
+      try {
+        if (!sessionStorage.getItem("mnm-regate")) { sessionStorage.setItem("mnm-regate", "1"); location.reload(); }
+      } catch (e) {}
+    }
+    return out;
+  }
+  const withKey = (url) => `${url}&key=${encodeURIComponent(key())}`;
+
+  /* --- PIN gate: code -> { ok } or { ok: false, wrong | slow | error } --- */
+  async function verifyKey(code) {
+    if (CONFIG.DEMO_MODE) {
+      console.info("[demo] any four digits open the gate; the real code is checked by the backend");
+      return demoDelay({ ok: true });
+    }
+    const res = await fetch(`${CONFIG.SCRIPT_URL}?action=verify&key=${encodeURIComponent(code)}`);
+    if (!res.ok) throw new Error(`Code check failed (${res.status})`);
+    return res.json();
+  }
+
   /* --- Seat finder: name -> { found, name, table, note } --- */
   async function findSeat(name) {
     const query = normalize(name);
@@ -30,10 +84,8 @@ const Api = (() => {
       return demoDelay({ found: false });
     }
 
-    const url = `${CONFIG.SCRIPT_URL}?action=seat&name=${encodeURIComponent(name)}`;
-    const res = await fetch(url);
-    if (!res.ok) throw new Error(`Lookup failed (${res.status})`);
-    return res.json();
+    const url = withKey(`${CONFIG.SCRIPT_URL}?action=seat&name=${encodeURIComponent(name)}`);
+    return answer(await fetch(url), "Lookup");
   }
 
   /* --- Invitation: guest id -> { found, name } --- */
@@ -64,10 +116,9 @@ const Api = (() => {
 
     const res = await fetch(CONFIG.SCRIPT_URL, {
       method: "POST",
-      body: JSON.stringify(payload),
+      body: JSON.stringify({ ...payload, key: key() }),
     });
-    if (!res.ok) throw new Error(`Submission failed (${res.status})`);
-    return res.json();
+    return answer(res, "Submission");
   }
 
   /* --- Guest photo wall: list visible photos --- */
@@ -75,9 +126,7 @@ const Api = (() => {
     if (CONFIG.DEMO_MODE) {
       return demoDelay({ ok: true, photos: [] });
     }
-    const res = await fetch(`${CONFIG.SCRIPT_URL}?action=photos`);
-    if (!res.ok) throw new Error(`Photo list failed (${res.status})`);
-    return res.json();
+    return answer(await fetch(withKey(`${CONFIG.SCRIPT_URL}?action=photos`)), "Photo list");
   }
 
   /* --- Guest photo wall: upload one photo (base64, already resized) --- */
@@ -88,11 +137,10 @@ const Api = (() => {
     }
     const res = await fetch(CONFIG.SCRIPT_URL, {
       method: "POST",
-      body: JSON.stringify({ action: "photo", ...payload }),
+      body: JSON.stringify({ action: "photo", ...payload, key: key() }),
     });
-    if (!res.ok) throw new Error(`Upload failed (${res.status})`);
-    return res.json();
+    return answer(res, "Upload");
   }
 
-  return { findSeat, getGuest, submitRsvp, getPhotos, uploadPhoto };
+  return { key, rememberKey, forgetKey, verifyKey, findSeat, getGuest, submitRsvp, getPhotos, uploadPhoto };
 })();

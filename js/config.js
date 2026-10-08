@@ -8,7 +8,8 @@
 
 const CONFIG = {
   SCRIPT_URL: "https://script.google.com/macros/s/AKfycby1MQP6pJmovAYBpL794PmHpWrf8I3HoMHtWS0blxIq0Kfbw8obqfXQZynzMUI1cyy1Gg/exec",
-  DEMO_MODE: false, // live: queries your Google Sheet one guest at a time
+  DEMO_MODE: false, // live: queries your Google Sheet one guest at a time; the backend checks the site code
+  // (in demo mode any four digits open the gate, since there is no backend to ask)
 };
 
 /* Sample guests used only while DEMO_MODE is true.

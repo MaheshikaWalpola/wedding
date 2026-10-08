@@ -10,7 +10,9 @@ const configured = () => CONFIG.DEMO_MODE || (typeof CONFIG.SCRIPT_URL === "stri
 
 document.addEventListener("DOMContentLoaded", () => {
   setupUpload();
-  loadWall();
+  // The album needs the site key, so behind the gate it waits for the code to be accepted.
+  if (document.documentElement.classList.contains("gated")) document.addEventListener("mnm:unlock", loadWall, { once: true });
+  else loadWall();
 });
 
 function setupUpload() {

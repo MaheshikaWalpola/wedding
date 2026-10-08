@@ -598,6 +598,8 @@ html.gated .img-reveal img { transform: scale(1.08); transition: none; }
 .pin-input { width: 200px; padding: .7rem; text-align: center; font-family: var(--serif); font-size: 1.9rem; letter-spacing: .5em; text-indent: .5em; background: var(--paper); color: var(--ink); border: 1px solid var(--gold); border-radius: var(--r-sm); outline: none; box-shadow: var(--sh-2); }
 .pin-input:focus { border-color: var(--royal); box-shadow: 0 0 0 4px rgba(28,63,160,.16); }
 .pin-err { min-height: 1.4em; font-size: .84rem; color: var(--royal); margin-top: .8rem; }
+.pin-box.busy .pin-input { opacity: .55; pointer-events: none; } /* while the backend checks the code */
+.pin-box.busy .pin-err { color: var(--ink-mute); }
 .shake { animation: shake var(--t-base) var(--ease); }
 @keyframes shake { 20%,60% { transform: translateX(-7px);} 40%,80% { transform: translateX(7px);} }
 
