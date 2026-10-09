@@ -45,6 +45,20 @@ document.addEventListener("DOMContentLoaded", () => {
 const isGated = () => { const c = document.documentElement.classList; return c.contains("gated") || c.contains("covered"); };
 const guestParam = () => new URLSearchParams(location.search).get("g");
 
+/* After the gate (and the cover) opens, put the page back where it belongs. On iPhones the
+   keyboard for the code scrolls the page down behind the fixed overlay, so without this the
+   hero opened with the photo tucked under the menu bar (seen 9 Oct 2026). A #hash link still
+   lands on its section. */
+function settleScroll() {
+  const root = document.documentElement;
+  const prev = root.style.scrollBehavior;
+  root.style.scrollBehavior = "auto";
+  let target = null;
+  try { target = location.hash.length > 1 ? document.querySelector(location.hash) : null; } catch (e) {}
+  if (target) target.scrollIntoView(); else window.scrollTo(0, 0);
+  root.style.scrollBehavior = prev;
+}
+
 function setupPinGate() {
   const root = document.documentElement;
   const ungate = () => root.classList.remove("gated");
@@ -88,8 +102,10 @@ function setupPinGate() {
 
     if (res && res.ok) {
       Api.rememberKey(v);
+      input.blur();
       gate.classList.add("open");
       document.body.classList.remove("no-scroll");
+      settleScroll();
       ungate(); // the hero intro starts while the gate fades out
       document.dispatchEvent(new Event("mnm:unlock"));
       setTimeout(() => gate.remove(), T_BASE);
@@ -245,6 +261,7 @@ function setupReveals() {
       entries.forEach((en) => {
         if (!en.isIntersecting) return;
         const el = en.target;
+        if (el.classList.contains("in")) return; // already shown by showVisible below
         const delay = el.classList.contains("reveal") ? Math.min(k++, 6) * 70 : 0;
         if (delay) el.style.transitionDelay = `${delay}ms`;
         el.classList.add("in");
@@ -257,6 +274,26 @@ function setupReveals() {
     { threshold: 0, rootMargin: "0px 0px -10% 0px" }
   );
   els.forEach((el) => io.observe(el));
+  // Belt and braces (9 Oct 2026): a page that opens straight onto a section (the guide, a #hash
+  // link, a reload further down) could sit blank until the first scroll when the observer's
+  // first callback came late. Whatever is on screen a moment after load is shown without it.
+  // A plain timer, because animation frames do not run while a tab is in the background.
+  const showVisible = () => {
+    const limit = window.innerHeight * 0.9;
+    let k = 0;
+    els.forEach((el) => {
+      if (el.classList.contains("in")) return;
+      const r = el.getBoundingClientRect();
+      if (r.top >= limit || r.bottom <= 0) return;
+      const delay = el.classList.contains("reveal") ? Math.min(k++, 6) * 70 : 0;
+      if (delay) el.style.transitionDelay = `${delay}ms`;
+      el.classList.add("in");
+      settle(el, delay);
+      io.unobserve(el);
+      if (--pending === 0) io.disconnect();
+    });
+  };
+  setTimeout(showVisible, 300);
 }
 
 /* ---------- Countdown to the poruwa ----------
@@ -375,6 +412,7 @@ function setupInvitation() {
   function done() {
     overlay.classList.add("leaving");
     document.body.classList.remove("no-scroll");
+    settleScroll();
     root.classList.remove("covered"); // the hero intro starts while the overlay fades out
     document.dispatchEvent(new Event("mnm:enter"));
     setTimeout(() => overlay.remove(), T_BASE + 150);
