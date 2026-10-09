@@ -7,7 +7,7 @@
    ============================================================ */
 
 const CONFIG = {
-  SCRIPT_URL: "https://script.google.com/macros/s/AKfycby1MQP6pJmovAYBpL794PmHpWrf8I3HoMHtWS0blxIq0Kfbw8obqfXQZynzMUI1cyy1Gg/exec",
+  SCRIPT_URL: "https://script.google.com/macros/s/AKfycbw-d1V7pCtVNTb3OsuF02hMlYcfArnbQ0meTBXmZQHtgvRUu2vp3ocKwBZZARWVkTqfQQ/exec",
   DEMO_MODE: false, // live: queries your Google Sheet one guest at a time; the backend checks the site code
   // (in demo mode any four digits open the gate, since there is no backend to ask)
 };

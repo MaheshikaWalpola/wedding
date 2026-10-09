@@ -50,7 +50,6 @@ function setupRsvp() {
       name: (data.get("name") || "").trim(),
       attending: data.get("attending"),
       guests: Number(data.get("guests") || 1),
-      song: "", // the song request left the form in v20; the column stays in the sheet, so the backend still gets the field
       message: (data.get("message") || "").trim(),
     };
     if (payload.name.length < 2) { say("Please tell us your name.", "error"); document.getElementById("rsvp-name").focus(); return; }

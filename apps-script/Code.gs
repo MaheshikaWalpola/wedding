@@ -1,8 +1,9 @@
 /**
  * Maheshika & Moksha — Wedding Site Backend (Google Apps Script)
  * ==============================================================
- * Built for the "Wedding" planner spreadsheet. It reads guests from the
- * existing "Guest List & RSVP" tab and serves these:
+ * Bound to the "Wedding Planner Sri Lanka" spreadsheet (since 9 Oct 2026 the
+ * website's own sheet, separate from the "Wedding" planner). It reads guests
+ * from the "Guest List" tab and serves these:
  *   GET  ?action=verify&key=<code>  -> is this the site code? (the PIN gate)
  *   GET  ?action=seat&name=<name>   -> one guest's table (seat finder)
  *   GET  ?action=invite&g=<guestid> -> one guest's name (personalized invite)
@@ -236,7 +237,6 @@ function doPost(e) {
       attending,
       guests,
       String(data.message || '').slice(0, 2000),
-      String(data.song || '').slice(0, 200), // kept for older forms; the current site sends nothing here
     ]);
 
     return jsonResponse({ ok: true });
@@ -382,7 +382,7 @@ function getOrCreateRsvpSheet() {
   var sheet = ss.getSheetByName(RSVP_TAB);
   if (!sheet) {
     sheet = ss.insertSheet(RSVP_TAB);
-    sheet.appendRow(['Timestamp', 'Name', 'Attending', 'Guests', 'Message', 'Song']);
+    sheet.appendRow(['Timestamp', 'Name', 'Attending', 'Guests', 'Message']);
     sheet.getRange('1:1').setFontWeight('bold');
   }
   return sheet;
