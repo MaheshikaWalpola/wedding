@@ -755,10 +755,13 @@ html.covered .img-reveal img { transform: scale(1.08); transition: none; }
 .page-foot a { display: inline-flex; align-items: center; gap: .6rem; text-decoration: none; font-family: var(--sans); font-weight: 600; font-size: .74rem; letter-spacing: .2em; text-transform: uppercase; color: var(--royal); }
 
 /* ============================================================ GUEST GUIDE PAGE */
-.page-guide .photos-hero { padding-bottom: clamp(3rem, 6vw, 5rem); }
+/* the guide and Q&A pages are one long read, so their sections sit closer than the main page's (10 Oct 2026) */
+.page-guide .photos-hero { padding-bottom: clamp(1.6rem, 3vw, 2.4rem); }
+.page-guide .section:not(.photos-hero) { padding: clamp(2.6rem, 4.5vw, 3.6rem) 0; }
 .guide-alt { background: var(--cream); }
 .lede-wide { max-width: 760px; text-wrap: pretty; } /* a one-line lede on desktop (the dinner custom) */
 .glance { display: grid; gap: .6rem; margin: 2.5rem auto 1rem; max-width: 640px; text-align: left; }
+.glance + .glance { margin-top: .6rem; } /* the visa box follows the others as one more row (10 Oct 2026) */
 .glance div { display: grid; grid-template-columns: 120px 1fr; gap: 1rem; align-items: baseline; padding: .8rem 1.1rem; background: var(--paper); border: 1px solid var(--gold-line); border-radius: var(--r-sm); }
 .glance span { font-family: var(--sans); font-weight: 600; font-size: .7rem; letter-spacing: .2em; text-transform: uppercase; color: var(--gold-deep); }
 .glance strong { font-weight: 400; color: var(--ink); }
