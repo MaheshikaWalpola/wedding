@@ -298,6 +298,7 @@ ul.plain li:last-child { border-bottom: 0; }
 .inv-lamp { width: 46px; height: 40px; margin: 0 auto 1.2rem; display: block; }
 .inv-hosts { font-family: var(--serif); font-size: clamp(1.15rem, 2.2vw, 1.45rem); color: var(--ink); margin-bottom: .2rem; line-height: 1.35; text-wrap: balance; }
 .inv-hosts em, .inv-name em { font-style: normal; color: var(--gold-deep); }
+.inv-gift a { color: var(--royal); text-decoration: underline; text-decoration-color: rgba(28,63,160,.35); text-underline-offset: .2em; }
 .inv-with { font-family: var(--sans); letter-spacing: .3em; text-transform: uppercase; font-size: .72rem; font-weight: 600; color: var(--gold-deep); margin: .4rem 0 .6rem; }
 .inv-line { color: var(--ink-soft); font-size: 1rem; line-height: 1.7; margin: 1rem 0 .6rem; }
 .inv-guest { font-family: var(--serif); font-style: italic; font-weight: 300; font-size: clamp(1.7rem, 3.4vw, 2.4rem); color: var(--royal-deep); margin: .2rem 0; line-height: 1.15; text-wrap: balance; }
