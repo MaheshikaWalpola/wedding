@@ -506,7 +506,8 @@ function writeInviteLinks() {
   for (var r = layout.rowIndex + 1; r < values.length; r++) {
     var id = String(values[r][layout.cols.id] || '').trim();
     if (!id) continue;
-    sheet.getRange(r + 1, linkCol + 1).setValue(SITE_URL + '/?g=' + id);
+    var name = String(values[r][layout.cols.name] || '').trim();
+    sheet.getRange(r + 1, linkCol + 1).setValue(inviteLink(id, name));
     written++;
   }
   Logger.log('writeInviteLinks done — wrote ' + written + ' links.');
@@ -517,6 +518,16 @@ function writeInviteLinks() {
  */
 function listInviteLinks() {
   getGuestRows().forEach(function (g) {
-    if (g.id) Logger.log(g.name + ': ' + SITE_URL + '/?g=' + g.id);
+    if (g.id) Logger.log(g.name + ': ' + inviteLink(g.id, g.name));
   });
+}
+
+/**
+ * A personal link carries the guest's name as well as the id (since 10 Oct 2026), so the
+ * cover greets them the instant it opens instead of after the backend has answered. The
+ * site still looks the id up and corrects the name if it was changed in the sheet. Links
+ * without the name keep working; they just show the greeting a moment later.
+ */
+function inviteLink(id, name) {
+  return SITE_URL + '/?g=' + encodeURIComponent(id) + (name ? '&n=' + encodeURIComponent(name) : '');
 }

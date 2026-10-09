@@ -11,16 +11,22 @@ document.addEventListener("DOMContentLoaded", () => {
 /* ---------- Personal invitation links ----------
    ?g=<GuestID> (from the Sheet, see listInviteLinks in Code.gs) puts the guest's name
    on the sealed cover and its card, above the couple's names, on the invitation card
-   and in the RSVP form.
+   and in the RSVP form. Links written since 10 Oct 2026 also carry &n=<name> for an
+   instant greeting (see setupGreeting).
    ?name=Anyone previews the greeting without the Sheet. */
 
 function setupGreeting() {
   const params = new URLSearchParams(location.search);
-  const guestId = params.get("g");
+  const guestId = (params.get("g") || "").trim();
   const preview = params.get("name");
   if (!guestId && !preview) return;
 
+  let shown = "";
   const show = (name) => {
+    name = String(name || "").trim();
+    if (!name || name === shown) return;
+    const previous = shown;
+    shown = name;
     const greet = document.getElementById("hero-greet");
     const card = document.getElementById("inv-guest");
     const hello = document.getElementById("cov-hello");
@@ -28,10 +34,24 @@ function setupGreeting() {
     if (greet) { greet.querySelector("b").textContent = name; greet.hidden = false; }
     if (card) card.textContent = name;
     if (hello) { hello.textContent = "Dear " + name; hello.classList.toggle("long", name.length > 18); }
-    if (rsvpName && !rsvpName.value) rsvpName.value = name;
+    if (rsvpName && (!rsvpName.value || rsvpName.value === previous)) rsvpName.value = name;
   };
-  if (preview) { show(preview.trim()); return; }
-  Api.getGuest(guestId).then((r) => { if (r && r.found && r.name) show(r.name); }).catch(() => {});
+  if (preview) { show(preview); return; }
+
+  // Links written since 10 Oct 2026 carry the name (&n=), so the greeting is instant; a name
+  // the backend confirmed is remembered on the device for older links. The lookup still
+  // runs and corrects the name if it was changed in the sheet.
+  const cacheKey = "mnm-guest-" + guestId;
+  let cached = "";
+  try { cached = localStorage.getItem(cacheKey) || ""; } catch (e) {}
+  const fromLink = params.get("n");
+  if (fromLink) show(fromLink); else if (cached) show(cached);
+
+  Api.getGuest(guestId).then((r) => {
+    if (!r || !r.found || !r.name) return;
+    show(r.name);
+    try { localStorage.setItem(cacheKey, r.name); } catch (e) {}
+  }).catch(() => {});
 }
 
 /* ---------- RSVP: the form writes one row to the "RSVP Responses" tab ---------- */

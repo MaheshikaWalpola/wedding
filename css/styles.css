@@ -847,3 +847,39 @@ html.covered .img-reveal img { transform: scale(1.08); transition: none; }
   /* body-sized copy never drops below 16px on phones */
   .small, .cd-label, .inv-when p, .inv-gift, .tl2-body p, .ritual p, .info p, ul.hotels small, .contact small, .closing-with, .foot a, .form-status, .field > label .opt { font-size: 1rem; }
 }
+
+/* ============================================================ PRINT (the guest guide as a PDF, 10 Oct 2026)
+   assets/guest-guide.pdf is printed from guide.html with these rules (make-guide-pdf.sh at the
+   workspace root). Chrome's "Save as PDF" on the page gives the same result. */
+.guide-pdf { margin: -1.6rem auto 2.4rem; }
+.guide-pdf small { display: block; margin-top: .6rem; color: var(--ink-mute); font-size: .82rem; }
+@media print {
+  @page { size: A4; margin: 14mm 12mm; }
+  html { scroll-behavior: auto; }
+  body { background: #fff; color: #1b1a17; padding-bottom: 0; }
+  .nav, .pills, .quick-bar, .page-foot, .progress, .pin-gate, .guide-pdf, .burger, .card-overlay { display: none !important; }
+  html.gated :is(main, .nav, .pills, .progress) { visibility: visible; }
+  .reveal, .img-reveal, h2[data-split], h2[data-split] .w > span, .rise { opacity: 1 !important; transform: none !important; animation: none !important; transition: none !important; }
+  .page-photos .photos-hero { padding-top: 0; background-image: none; }
+  .page-guide .section, .page-guide .section:not(.photos-hero) { padding: .9rem 0 1.2rem; }
+  .section { break-inside: auto; }
+  .guide-alt, .faq, .travel { background: #fff; }
+  .eyebrow { margin-bottom: .2rem; }
+  h2 { font-size: 1.6rem; margin-bottom: .3rem; }
+  .lede, .page-guide .lede { margin-bottom: .8rem; font-size: .95rem; }
+  .glance { margin: .6rem auto .4rem; max-width: none; }
+  .glance div, .info, .stay, .numbers, .guide-box.dinner ul.plain li { break-inside: avoid; box-shadow: none; border-color: #d9cfb6; }
+  .guide-box { break-inside: auto; box-shadow: none; border-color: #d9cfb6; } /* the boxes may split across pages; the cards inside do not */
+  .info-grid, .guide-grid { align-items: start; } /* cards only as tall as their text, so rows pack onto the page */
+  .eyebrow, h2, .lede, .stay h3, h4 { break-after: avoid; } /* a heading never sits alone at the foot of a page */
+  .glance div { padding: .45rem .8rem; grid-template-columns: 100px 1fr; }
+  .info-grid, .guide-grid { grid-template-columns: 1fr 1fr; gap: .6rem; }
+  .info { padding: .7rem .85rem; }
+  .info h4 { font-size: .98rem; margin-bottom: .2rem; }
+  .info p, .guide-grid .info ul.plain li, .stay-list, .glance strong, .guide-box.dinner p, .guide-box.dinner ul.plain li { font-size: .82rem; line-height: 1.45; }
+  .stay { margin-top: .8rem; padding-top: .6rem; }
+  .stay h3 { font-size: 1.05rem; margin-bottom: .3rem; }
+  .stay-list { line-height: 1.6; }
+  a { color: #1c3fa0; text-decoration: none; }
+  .glance a, .guide-grid a, .stay-list a { text-decoration: none; }
+}
