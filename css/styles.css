@@ -766,7 +766,7 @@ html.covered .img-reveal img { transform: scale(1.08); transition: none; }
 .glance span { font-family: var(--sans); font-weight: 600; font-size: .7rem; letter-spacing: .2em; text-transform: uppercase; color: var(--gold-deep); }
 .glance strong { font-weight: 400; color: var(--ink); }
 .glance a, .guide-grid a, .stay-list a { color: var(--royal); text-decoration: underline; text-decoration-color: rgba(28,63,160,.35); text-underline-offset: .2em; }
-.guide-grid { margin-top: 2.5rem; }
+.guide-grid { margin-top: 2.5rem; align-items: start; } /* cards only as tall as their text: a long card no longer stretches its neighbours (10 Oct 2026) */
 .guide-grid .info p + p { margin-top: .6rem; }
 .guide-grid .info ul.plain li { padding: .45rem 0; font-size: .95rem; }
 /* Where to stay: three groups, each a comma-separated run of hotel links */
@@ -851,7 +851,8 @@ html.covered .img-reveal img { transform: scale(1.08); transition: none; }
 /* ============================================================ PRINT (the guest guide as a PDF, 10 Oct 2026)
    assets/guest-guide.pdf is printed from guide.html with these rules (make-guide-pdf.sh at the
    workspace root). Chrome's "Save as PDF" on the page gives the same result. */
-.guide-pdf { margin: -1.6rem auto 2.4rem; }
+.guide-pdf { margin: 2rem auto 1.4rem; }
+.guide-pdf-top { margin-top: -1.6rem; margin-bottom: 2.4rem; } /* the one under the intro tucks up under the lede */
 .guide-pdf small { display: block; margin-top: .6rem; color: var(--ink-mute); font-size: .82rem; }
 @media print {
   @page { size: A4; margin: 14mm 12mm; }
