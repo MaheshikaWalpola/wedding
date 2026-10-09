@@ -1,11 +1,10 @@
 # Cloudflare Pages redirects. The site became one page in the v20 rebuild (September 2026);
 # links shared before then, and the printed QR cards pointing at /gallery, keep working.
+# /faq is a real page again since 10 Oct 2026 (faq.html), so it has no redirect.
 /info            /#celebrations       301
 /info.html       /#celebrations       301
 /location        /#travel    301
 /location.html   /#travel    301
-/faq             /#faq       301
-/faq.html        /#faq       301
 /contact         /#closing   301
 /contact.html    /#closing   301
 /seating         /#seating   301
