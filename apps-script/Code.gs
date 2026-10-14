@@ -8,7 +8,8 @@
  *   GET  ?action=seat&name=<name>   -> one guest's table (seat finder)
  *   GET  ?action=invite&g=<guestid> -> one guest's name (personalized invite)
  *   GET  ?action=photos             -> the album (photos marked Show = yes)
- *   POST <JSON body>                -> appends a row to "RSVP Responses"
+ *   POST <JSON body>                -> appends a row to "RSVP Responses" and
+ *                                      writes Yes/No into the guest's RSVP cell
  *   POST {action:"photo", ...}      -> saves one photo to the Drive folder
  *
  * The full guest list never leaves the Sheet — every request returns
@@ -59,6 +60,7 @@
 // list"), so an emoji prefix like "👥 Guest List & RSVP" still works.
 var GUEST_TAB_MATCH = 'guest list';
 var RSVP_TAB = 'RSVP Responses';
+var RSVP_HEADER = ['Timestamp', 'Name', 'Attending', 'Guests', 'Message', 'GuestID'];
 
 // Header titles in the Guest List & RSVP tab. If you rename a column,
 // update it here and re-deploy.
@@ -231,13 +233,26 @@ function doPost(e) {
       return jsonResponse({ ok: false, error: 'Too many replies at once. Please try again in a few minutes.' });
     }
 
+    // A reply from a personal link carries key "g:<guestid>"; keeping the id with the
+    // reply lets the RSVP column in the guest tab be filled without guessing by name.
+    var guestId = String(data.key || '').indexOf('g:') === 0 ? String(data.key).slice(2).trim().slice(0, 40) : '';
+
     getOrCreateRsvpSheet().appendRow([
       new Date(),
       name,
       attending,
       guests,
       String(data.message || '').slice(0, 2000),
+      guestId,
     ]);
+
+    // Mirror the answer into the guest tab's RSVP column (since 14 Oct 2026). A problem
+    // here must never lose the reply, which is already saved above.
+    try {
+      var guestSheet = getGuestSheet();
+      var guestValues = guestSheet.getDataRange().getValues();
+      applyRsvpToGuest(guestSheet, guestValues, getGuestLayout(guestValues), guestId, name, attending);
+    } catch (ignore) { /* no guest list (Indian site) or no RSVP column */ }
 
     return jsonResponse({ ok: true });
   } catch (err) {
@@ -382,8 +397,21 @@ function getOrCreateRsvpSheet() {
   var sheet = ss.getSheetByName(RSVP_TAB);
   if (!sheet) {
     sheet = ss.insertSheet(RSVP_TAB);
-    sheet.appendRow(['Timestamp', 'Name', 'Attending', 'Guests', 'Message']);
+    sheet.appendRow(RSVP_HEADER);
     sheet.getRange('1:1').setFontWeight('bold');
+    return sheet;
+  }
+  var first = sheet.getRange(1, 1, 1, RSVP_HEADER.length).getValues()[0];
+  if (String(first[0] || '').trim() !== RSVP_HEADER[0]) {
+    // The header row was deleted at some point (seen 15 Oct 2026: row 1 was a reply), so
+    // put it back above the replies. An earlier version of this function had already
+    // written "GuestID" into F1 of that reply; it is cleared so it is not read as an id.
+    if (String(first[5] || '').trim() === 'GuestID') sheet.getRange(1, 6).clearContent();
+    sheet.insertRowBefore(1);
+    sheet.getRange(1, 1, 1, RSVP_HEADER.length).setValues([RSVP_HEADER]).setFontWeight('bold');
+  } else if (String(first[5] || '').trim() === '') {
+    // Tabs created before 14 Oct 2026 have five headers; the GuestID one is added here.
+    sheet.getRange(1, 6).setValue('GuestID').setFontWeight('bold');
   }
   return sheet;
 }
@@ -558,6 +586,92 @@ function renewGuestIds() {
   }
   Logger.log('renewGuestIds done — ' + renewed + ' new ids, ' + kept + ' kept (Invitation = Sent).');
   writeInviteLinks();
+}
+
+/* ---- RSVP replies -> the RSVP column of the guest tab (14 Oct 2026) ---- */
+
+/** 0-based index of the guest tab column whose header contains "RSVP", or -1. */
+function rsvpColumn(values, layout) {
+  var header = values[layout.rowIndex];
+  for (var h = 0; h < header.length; h++) {
+    if (String(header[h] || '').toLowerCase().indexOf('rsvp') !== -1) return h;
+  }
+  return -1;
+}
+
+/**
+ * Finds the guest a reply belongs to: by GuestID when the reply came through a
+ * personal link, else by name — an exact match first, then the one guest whose
+ * name contains what was typed (or the other way round). Several loose matches
+ * mean nobody is picked. Returns the 0-based row index into `values`, or -1.
+ */
+function matchGuestRow(values, layout, guestId, name) {
+  var c = layout.cols;
+  var first = layout.rowIndex + 1;
+  var id = normalize(guestId);
+  if (id && c.id !== -1) {
+    for (var r = first; r < values.length; r++) {
+      if (normalize(values[r][c.id]) === id) return r;
+    }
+  }
+  var wanted = normalize(name);
+  if (!wanted) return -1;
+  for (var r2 = first; r2 < values.length; r2++) {
+    if (normalize(values[r2][c.name]) === wanted) return r2;
+  }
+  var found = -1, count = 0;
+  for (var r3 = first; r3 < values.length; r3++) {
+    var n = normalize(values[r3][c.name]);
+    if (n && (n.indexOf(wanted) !== -1 || wanted.indexOf(n) !== -1)) { found = r3; count++; }
+  }
+  return count === 1 ? found : -1;
+}
+
+/**
+ * Writes one reply into the guest's RSVP cell as "Yes" or "No". Called by doPost
+ * the moment a reply arrives and by syncRsvps for the whole tab. Returns one line
+ * saying what happened, for the log.
+ */
+function applyRsvpToGuest(sheet, values, layout, guestId, name, attending) {
+  var col = rsvpColumn(values, layout);
+  if (col === -1) return 'no RSVP column in the guest tab';
+  var r = matchGuestRow(values, layout, guestId, name);
+  if (r === -1) return 'no matching guest';
+  var answer = normalize(attending) === 'no' ? 'No' : 'Yes';
+  sheet.getRange(r + 1, col + 1).setValue(answer);
+  return String(values[r][layout.cols.name]).trim() + ' -> ' + answer;
+}
+
+/**
+ * Copies every reply in "RSVP Responses" into the RSVP column of the guest tab,
+ * oldest first, so a guest who replied twice ends up with the latest answer.
+ * Replies that match no guest are listed at the end of the log for you to enter
+ * by hand. New replies are mirrored by doPost as they arrive; run this to catch
+ * up on replies from before 14 Oct 2026 or after editing names.
+ */
+function syncRsvps() {
+  var guestSheet = getGuestSheet();
+  var values = guestSheet.getDataRange().getValues();
+  var layout = getGuestLayout(values);
+  if (rsvpColumn(values, layout) === -1) throw new Error('Could not find an "RSVP" column in the guest tab');
+
+  var rsvp = getOrCreateRsvpSheet().getDataRange().getValues();
+  var head = rsvp[0] || [];
+  var cName = head.indexOf('Name'), cAttending = head.indexOf('Attending'), cId = head.indexOf('GuestID');
+  if (cName === -1 || cAttending === -1) throw new Error('The RSVP Responses tab has no Name / Attending headers');
+
+  var written = 0, unmatched = [];
+  for (var i = 1; i < rsvp.length; i++) {
+    var name = String(rsvp[i][cName] || '').trim();
+    var id = cId === -1 ? '' : String(rsvp[i][cId] || '').trim();
+    if (!name && !id) continue;
+    var attending = String(rsvp[i][cAttending] || '').trim();
+    var result = applyRsvpToGuest(guestSheet, values, layout, id, name, attending);
+    if (result === 'no matching guest') unmatched.push(name + ' (' + attending + ')'); else written++;
+    Logger.log((name || id) + ': ' + result);
+  }
+  Logger.log('syncRsvps done — ' + written + ' replies written to the guest tab, ' + unmatched.length +
+    ' without a matching guest' + (unmatched.length ? ': ' + unmatched.join('; ') : '.'));
 }
 
 /**
