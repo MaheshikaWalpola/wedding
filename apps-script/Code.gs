@@ -440,7 +440,7 @@ function setupWebsite() {
     }
   });
 
-  // Generate ids like "amma-k3x9" for guests that don't have one yet.
+  // Generate ids like "k3x9" for guests that don't have one yet.
   layout = getGuestLayout(values);
   var c = layout.cols;
   var used = {};
@@ -452,7 +452,7 @@ function setupWebsite() {
   for (var r2 = layout.rowIndex + 1; r2 < values.length; r2++) {
     var name = String(values[r2][c.name] || '').trim();
     if (!name || String(values[r2][c.id] || '').trim()) continue;
-    var guestId = makeGuestId(name, used);
+    var guestId = makeGuestId(used);
     used[guestId] = true;
     sheet.getRange(r2 + 1, c.id + 1).setValue(guestId);
     added++;
@@ -464,19 +464,21 @@ function setupWebsite() {
   Logger.log('setupWebsite done — generated ' + added + ' new GuestIDs.');
 }
 
-/** "Sonu (Brother)" -> "sonu-brother-x4k2" (short random suffix, unique). */
-function makeGuestId(name, used) {
-  var slug = normalize(name)
-    .replace(/[^a-z0-9]+/g, '-')
-    .replace(/^-+|-+$/g, '')
-    .slice(0, 24);
+/**
+ * A short random id like "x4k2": four characters from an alphabet without the
+ * look-alikes (no i/l/1, o/0). Until 14 Oct 2026 the id started with a slug of
+ * the name ("sonu-brother-x4k2"); that put nicknames into the links guests
+ * receive, so the name part was dropped. Ids already in the sheet keep working,
+ * the lookup is by exact id. Nearly a million combinations, and the backend
+ * refuses every key for a minute after MAX_WRONG_KEYS_PER_MINUTE wrong ones.
+ */
+function makeGuestId(used) {
   var alphabet = 'abcdefghjkmnpqrstuvwxyz23456789';
   while (true) {
-    var suffix = '';
+    var id = '';
     for (var i = 0; i < 4; i++) {
-      suffix += alphabet.charAt(Math.floor(Math.random() * alphabet.length));
+      id += alphabet.charAt(Math.floor(Math.random() * alphabet.length));
     }
-    var id = slug + '-' + suffix;
     if (!used[id]) return id;
   }
 }
@@ -511,6 +513,51 @@ function writeInviteLinks() {
     written++;
   }
   Logger.log('writeInviteLinks done — wrote ' + written + ' links.');
+}
+
+/**
+ * Gives every guest whose invitation has NOT gone out a fresh id, then rewrites
+ * the Invite Link column. A row whose "Invitation" cell says Sent keeps its id,
+ * so links already in guests' hands stay valid; everyone else gets a new short
+ * id and a new link. Safe to run any time, e.g. after renaming guests
+ * (Maheshika, 14 Oct 2026: names change from time to time, and the ids made
+ * before that day carried the name as it was then). Logs every old -> new id.
+ */
+function renewGuestIds() {
+  var sheet = getGuestSheet();
+  var values = sheet.getDataRange().getValues();
+  var layout = getGuestLayout(values);
+  var c = layout.cols;
+  if (c.id === -1) throw new Error('Run setupWebsite first: there is no GuestID column yet');
+
+  // The column that says Sent / Pending: its header contains "invitation"
+  // ("Invite Link" does not, so the links column is never mistaken for it).
+  var header = values[layout.rowIndex];
+  var sentCol = -1;
+  for (var h = 0; h < header.length; h++) {
+    if (String(header[h] || '').toLowerCase().indexOf('invitation') !== -1) { sentCol = h; break; }
+  }
+  if (sentCol === -1) throw new Error('Could not find an "Invitation" column (the one that says Sent)');
+
+  var used = {};
+  for (var r = layout.rowIndex + 1; r < values.length; r++) {
+    var existing = String(values[r][c.id] || '').trim();
+    if (existing) used[existing] = true;
+  }
+  var renewed = 0, kept = 0;
+  for (var r2 = layout.rowIndex + 1; r2 < values.length; r2++) {
+    var name = String(values[r2][c.name] || '').trim();
+    if (!name) continue;
+    if (String(values[r2][sentCol] || '').trim().toLowerCase().indexOf('sent') === 0) { kept++; continue; }
+    var old = String(values[r2][c.id] || '').trim();
+    var guestId = makeGuestId(used);
+    used[guestId] = true;
+    sheet.getRange(r2 + 1, c.id + 1).setValue(guestId);
+    Logger.log(name + ': ' + (old || '(no id)') + ' -> ' + guestId);
+    renewed++;
+  }
+  Logger.log('renewGuestIds done — ' + renewed + ' new ids, ' + kept + ' kept (Invitation = Sent).');
+  writeInviteLinks();
 }
 
 /**
