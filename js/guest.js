@@ -48,6 +48,15 @@ function setupGreeting() {
   if (fromLink) show(fromLink); else if (cached) show(cached);
 
   Api.getGuest(guestId).then((r) => {
+    if (r && r.found === false) {
+      // A link whose id is no longer in the sheet (renewed by renewGuestIds, or mistyped).
+      // main.js has already stored it as the device's key, and every RSVP, seat and photo
+      // call would fail with it, so drop the key and open the plain page: the gate shows.
+      Api.forgetKey();
+      try { localStorage.removeItem(cacheKey); } catch (e) {}
+      location.replace(location.pathname + location.hash);
+      return;
+    }
     if (!r || !r.found || !r.name) return;
     show(r.name);
     try { localStorage.setItem(cacheKey, r.name); } catch (e) {}

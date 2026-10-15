@@ -51,7 +51,13 @@ const Api = (() => {
     if (out && out.auth === false && out.wrong && key()) {
       forgetKey();
       try {
-        if (!sessionStorage.getItem("mnm-regate")) { sessionStorage.setItem("mnm-regate", "1"); location.reload(); }
+        if (!sessionStorage.getItem("mnm-regate")) {
+          sessionStorage.setItem("mnm-regate", "1");
+          // A personal link with a dead id must not come back with the same ?g=, or
+          // main.js would store the same bad key again; reload the plain page instead.
+          if (/[?&]g=/.test(location.search)) location.replace(location.pathname + location.hash);
+          else location.reload();
+        }
       } catch (e) {}
     }
     return out;
