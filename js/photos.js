@@ -30,24 +30,32 @@ function setupUpload() {
   });
 
   fileInput.addEventListener("change", async () => {
-    const files = Array.from(fileInput.files || []).filter((f) => f.type.startsWith("image/"));
+    // Files with no type (some Android file managers) are let through: the decode step decides.
+    const files = Array.from(fileInput.files || []).filter((f) => !f.type || f.type.startsWith("image/"));
     if (!files.length) return;
     if (files.length > MAX_FILES) { say(`Up to ${MAX_FILES} photos at a time, please.`, "error"); fileInput.value = ""; return; }
     pick.disabled = true;
     let sent = 0;
+    const unreadable = []; // e.g. a HEIC picked on Android or Windows, which the browser cannot decode
     try {
       for (const file of files) {
-        say(`Sending ${sent + 1} of ${files.length}…`, "busy");
-        const { base64, dataUrl } = await shrink(file);
-        const out = await Api.uploadPhoto({ name: (nameInput.value || "").trim(), filename: file.name.replace(/\.[^.]+$/, "") + ".jpg", mimeType: "image/jpeg", data: base64 });
-        if (!out.ok) throw new Error(out.error || "rejected");
-        addTile(dataUrl, (nameInput.value || "").trim() || "You", true);
+        say(`Sending ${sent + unreadable.length + 1} of ${files.length}…`, "busy");
+        let shrunk;
+        try { shrunk = await shrink(file); } catch (e) { unreadable.push(file.name); continue; } // skip it, keep going
+        const out = await Api.uploadPhoto({ name: (nameInput.value || "").trim(), filename: file.name.replace(/\.[^.]+$/, "") + ".jpg", mimeType: "image/jpeg", data: shrunk.base64 });
+        if (!out.ok) { const e = new Error(""); e.reason = out.error; throw e; }
+        addTile(shrunk.dataUrl, (nameInput.value || "").trim() || "You", true);
         sent++;
       }
-      say(sent === 1 ? "Thank you! Your photo is in the album." : `Thank you! ${sent} photos are in the album.`, "ok");
-      form.reset();
+      const thanks = sent === 0 ? "" : sent === 1 ? "Thank you! Your photo is in the album." : `Thank you! ${sent} photos are in the album.`;
+      const skipped = unreadable.length ? `${unreadable.length === 1 ? "One photo" : unreadable.length + " photos"} could not be read (${unreadable.join(", ")}). A JPEG or PNG will work.` : "";
+      say([thanks, skipped].filter(Boolean).join(" "), sent ? "ok" : "error");
+      if (sent) form.reset();
     } catch (e) {
-      say(sent ? `${sent} sent, then something went wrong. Please try the rest again.` : "Sorry, that did not go through. Please try again in a moment.", "error");
+      // The backend's own reason ("The album is very busy…", "Image too large") beats the generic
+      // line; a browser error ("Failed to fetch") is never shown.
+      const why = (e && e.reason) || "";
+      say(sent ? `${sent} sent, then ${why ? why.replace(/^The /, "the ") : "something went wrong. Please try the rest again."}` : why || "Sorry, that did not go through. Please try again in a moment.", "error");
     } finally {
       pick.disabled = false;
       fileInput.value = "";
@@ -60,8 +68,10 @@ async function loadWall() {
   if (!configured()) { note.textContent = "The album opens together with the uploads."; return; }
   try {
     const out = await Api.getPhotos();
+    if (!out || out.ok === false) throw new Error("refused"); // e.g. the backend's wrong-code minute: say so, not "no photos yet"
     (out.photos || []).forEach((p) => addTile(p.url, p.by, false));
   } catch (e) {
+    document.getElementById("wall-empty").hidden = true; // not "no photos yet": it could not be asked
     note.textContent = "The album could not load just now. Please try again in a moment.";
   }
 }

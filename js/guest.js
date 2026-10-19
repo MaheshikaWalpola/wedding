@@ -70,7 +70,19 @@ function setupRsvp() {
   if (!form) return;
   const status = document.getElementById("rsvp-status");
   const button = form.querySelector("button[type='submit']");
-  const say = (text, kind) => { status.textContent = text; status.className = "form-status" + (kind ? " " + kind : ""); };
+  const label = button.querySelector("span");
+  const idleLabel = label.textContent;
+  const say = (text, kind) => { status.textContent = text; status.className = "form-status above" + (kind ? " " + kind : ""); };
+
+  // While the reply travels (the backend can take several seconds on a cold start), the
+  // button itself says so, with a spinner, and stays fully visible: guests who saw only a
+  // faded button and a small grey line below it refreshed and sent the same reply again
+  // (seen 19 Oct 2026: three rows from one guest).
+  const sending = (on) => {
+    button.disabled = on;
+    button.classList.toggle("sending", on);
+    label.textContent = on ? "Sending…" : idleLabel;
+  };
 
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
@@ -84,19 +96,24 @@ function setupRsvp() {
     if (payload.name.length < 2) { say("Please tell us your name.", "error"); document.getElementById("rsvp-name").focus(); return; }
     if (!payload.attending) { say("Please let us know if you can make it.", "error"); return; }
 
-    button.disabled = true;
-    say("Sending your reply…", "busy");
+    if (document.activeElement && document.activeElement.blur) document.activeElement.blur(); // closes a phone keyboard
+    sending(true);
+    say("Sending your reply… this can take a few seconds.", "busy");
     try {
       const res = await Api.submitRsvp(payload);
-      if (!res || !res.ok) throw new Error("rejected");
+      if (!res || !res.ok) { const e = new Error(""); e.reason = res && res.error; throw e; }
       say(payload.attending === "yes"
         ? "Thank you! We cannot wait to see you on the 21st of December."
         : "Thank you for letting us know. You will be missed.", "ok");
       form.reset();
     } catch (err) {
-      say("Sorry, your reply did not go through. Please try again in a moment, or message us on WhatsApp.", "error");
+      // The backend's own reason ("Too many replies at once…") is more useful than the
+      // generic line: a guest told to try again in a few minutes does not retry at once.
+      // A browser error ("Failed to fetch") is never shown; the generic line covers it.
+      say((err && err.reason) || "Sorry, your reply did not go through. Please try again in a moment, or message us on WhatsApp.", "error");
     } finally {
-      button.disabled = false;
+      sending(false);
+      status.scrollIntoView({ block: "nearest", behavior: "smooth" });
     }
   });
 }
@@ -123,7 +140,10 @@ function setupSeatFinder() {
     try {
       const res = await Api.findSeat(name);
       say("");
-      if (res.found) {
+      if (res.ok === false) {
+        // Refused, not unknown: the backend is in its wrong-code minute (or has no code set up).
+        say(res.slow ? "The site is busy just now. Please try again in a minute." : "Something went wrong. Please try again in a moment.", "error");
+      } else if (res.found) {
         const hasTable = res.table !== null && res.table !== undefined && res.table !== "";
         result.querySelector(".seat-guest").textContent = res.name;
         result.querySelector(".seat-word").hidden = !hasTable;

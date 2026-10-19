@@ -106,6 +106,11 @@ ul.plain li:last-child { border-bottom: 0; }
 .btn:hover .ic { transform: translateX(3px); }
 .btn:active { transform: translateY(0); }
 .btn[disabled] { opacity: .6; pointer-events: none; }
+/* a form button while its request is on its way: label "Sending…", a spinner instead of the arrow, not faded (19 Oct 2026) */
+.btn.sending[disabled] { opacity: 1; }
+.btn.sending .ic { display: none; }
+.btn.sending::before { content: ""; width: 1em; height: 1em; flex: none; border-radius: 50%; border: 2px solid rgba(255,255,255,.35); border-top-color: #fff; animation: spin .8s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
 .btn-primary { background: var(--royal); color: #fff; box-shadow: 0 10px 26px rgba(28,63,160,.28); }
 .btn-primary:hover { background: var(--royal-deep); box-shadow: 0 14px 32px rgba(28,63,160,.36); }
 .btn-primary::after { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(110deg, transparent 35%, rgba(255,255,255,.22) 50%, transparent 65%); transform: translateX(-130%); transition: transform var(--t-slow) var(--ease); }
@@ -423,6 +428,7 @@ ul.plain li:last-child { border-bottom: 0; }
 .form-status.ok { color: var(--royal); font-family: var(--serif); font-size: 1.1rem; }
 .form-status.error { color: var(--error); }
 .form-status.busy { color: var(--ink-mute); }
+.form-status.above { margin: .2rem 0 .9rem; } /* the RSVP status sits above its button, clear of a phone keyboard */
 .seat-form { display: flex; gap: .7rem; align-items: stretch; }
 .seat-form .field { flex: 1; }
 .seat-form .btn { align-self: end; }

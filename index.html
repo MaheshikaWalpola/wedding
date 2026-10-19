@@ -341,15 +341,15 @@
 
       <div class="card reveal">
         <svg class="inv-lamp" aria-hidden="true"><use href="#lamp"/></svg>
-        <p class="inv-hosts">Mrs. Geethgaya Walpola <em>&amp;</em> Mr. Mahi Jayanatha Walpola</p>
+        <p class="inv-hosts">Mr. <em>&amp;</em> Mrs. Walpola</p>
         <p class="inv-with">together with</p>
-        <p class="inv-hosts">Mrs. Nagalakshmi Yetukuri <em>&amp;</em> Mr. Sreenivasulu Bodaka</p>
+        <p class="inv-hosts">Mr. <em>&amp;</em> Mrs. Bodaka</p>
         <p class="inv-line">warmly request the presence of</p>
         <p class="inv-guest" id="inv-guest">Our Family &amp; Friends</p>
         <p class="inv-line">to witness the marriage of their loving children</p>
-        <p class="inv-name">Maheshika Hansamalee Walpola</p>
+        <p class="inv-name">Maheshika</p>
         <p class="inv-with">and</p>
-        <p class="inv-name">Moksha Prashanth Bodaka</p>
+        <p class="inv-name">Moksha</p>
         <div class="inv-when">
           <p><strong>Monday, December 21st 2026</strong><br>4.00 PM onwards · Poruwa ceremony at 5.25 PM<br><a href="https://www.google.com/maps?q=Anantara+Kalutara+Resort,+Kalutara,+Sri+Lanka" target="_blank" rel="noopener">Anantara Kalutara Resort</a></p>
         </div>
@@ -556,10 +556,11 @@
             <label for="rsvp-message">A note for us <span class="opt">(optional)</span></label>
             <textarea id="rsvp-message" name="message" placeholder="Your well wishes, a song you would love to dance to, or anything else you would like to tell us" maxlength="600"></textarea>
           </div>
+          <!-- The status line sits above the button (since 19 Oct 2026) so a phone keyboard never hides it -->
+          <p id="rsvp-status" class="form-status above" aria-live="polite"></p>
           <div class="form-actions">
             <button type="submit" class="btn btn-primary btn-big"><span>Send RSVP</span><svg class="ic" aria-hidden="true"><use href="#ic-arrow"/></svg></button>
           </div>
-          <p id="rsvp-status" class="form-status" aria-live="polite"></p>
         </form>
       </div>
     </div>

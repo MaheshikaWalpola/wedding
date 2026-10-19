@@ -8,8 +8,9 @@
  *   GET  ?action=seat&name=<name>   -> one guest's table (seat finder)
  *   GET  ?action=invite&g=<guestid> -> one guest's name (personalized invite)
  *   GET  ?action=photos             -> the album (photos marked Show = yes)
- *   POST <JSON body>                -> appends a row to "RSVP Responses" and
- *                                      writes Yes/No into the guest's RSVP cell
+ *   POST <JSON body>                -> adds a row to "RSVP Responses" (or replaces
+ *                                      the same guest's earlier reply) and writes
+ *                                      Yes/No into the guest's RSVP cell
  *   POST {action:"photo", ...}      -> saves one photo to the Drive folder
  *
  * The full guest list never leaves the Sheet — every request returns
@@ -80,10 +81,13 @@ var MAX_PHOTO_BASE64_CHARS = 3000000; // ~2.2 MB image; the site sends ~500 KB (
 // Script Property (see the header); it must never be written in this file.
 var PIN_PROPERTY = 'SITE_PIN';
 var MAX_WRONG_KEYS_PER_MINUTE = 10;  // then every key is refused until the minute is over
-var MAX_UPLOADS_PER_10_MIN = 150;    // a wedding evening sends far fewer; a flood sends far more
+// Caps raised 19 Oct 2026 (uploads 150 -> 300, RSVPs 30/300 -> 60/600): the ten minutes
+// after a group photo or a reminder message can reach the old ones; a flood sends thousands.
+var MAX_UPLOADS_PER_10_MIN = 300;
 var MAX_UPLOADS_PER_6_HOURS = 2000;
-var MAX_RSVPS_PER_10_MIN = 30;
-var MAX_RSVPS_PER_6_HOURS = 300;
+var MAX_RSVPS_PER_10_MIN = 60;
+var MAX_RSVPS_PER_6_HOURS = 600;
+var RSVP_REPLACE_WINDOW_MS = 5 * 60 * 1000; // a second reply under the same name within this replaces the first
 
 /* ------------------------------------------------------------------ */
 /* GET — PIN check, seat finder, invitation lookup, album              */
@@ -237,14 +241,14 @@ function doPost(e) {
     // reply lets the RSVP column in the guest tab be filled without guessing by name.
     var guestId = String(data.key || '').indexOf('g:') === 0 ? String(data.key).slice(2).trim().slice(0, 40) : '';
 
-    getOrCreateRsvpSheet().appendRow([
-      new Date(),
-      name,
-      attending,
-      guests,
-      String(data.message || '').slice(0, 2000),
-      guestId,
-    ]);
+    // A repeat reply from the same guest replaces their earlier row instead of adding
+    // one (since 19 Oct 2026): guests who took a slow send for a stuck page refreshed
+    // and sent the same reply three times, and the tab held all three.
+    var rsvpSheet = getOrCreateRsvpSheet();
+    var row = [new Date(), name, attending, guests, String(data.message || '').slice(0, 2000), guestId];
+    var earlier = findEarlierReply(rsvpSheet, guestId, name);
+    if (earlier) rsvpSheet.getRange(earlier, 1, 1, row.length).setValues([row]);
+    else rsvpSheet.appendRow(row);
 
     // Mirror the answer into the guest tab's RSVP column (since 14 Oct 2026). A problem
     // here must never lose the reply, which is already saved above.
@@ -306,7 +310,8 @@ function listPhotos() {
   for (var i = 1; i < values.length; i++) {
     var fileId = String(values[i][2] || '').trim();
     if (!fileId) continue;
-    if (String(values[i][3]).toLowerCase().trim() !== 'yes') continue;
+    var show = String(values[i][3]).toLowerCase().trim();
+    if (show !== 'yes' && show !== 'true') continue; // "true": the column turned into checkboxes
     if (!inFolder[fileId]) continue; // trashed, or no longer in the folder
     photos.push({
       by: String(values[i][1] || 'A guest'),
@@ -414,6 +419,30 @@ function getOrCreateRsvpSheet() {
     sheet.getRange(1, 6).setValue('GuestID').setFontWeight('bold');
   }
   return sheet;
+}
+
+/**
+ * The 1-based row of the reply a new one should replace, or 0 to append. The most
+ * recent reply with the same GuestID (a personal link) always counts, whenever it
+ * was sent: the guest changed their mind, and the newer answer is the one that
+ * matters. Without an id, only the same name within RSVP_REPLACE_WINDOW_MS (five
+ * minutes) counts: a refresh-and-resend lands within a minute or two, while two
+ * guests who share a name almost never reply in the same five minutes.
+ */
+function findEarlierReply(sheet, guestId, name) {
+  var values = sheet.getDataRange().getValues();
+  var id = normalize(guestId);
+  var wanted = normalize(name);
+  var since = Date.now() - RSVP_REPLACE_WINDOW_MS;
+  for (var r = values.length - 1; r >= 1; r--) {           // newest first; row 0 is the header
+    var rowId = normalize(values[r][5]);
+    if (id && rowId === id) return r + 1;
+    if (!id && !rowId && wanted && normalize(values[r][1]) === wanted) {
+      var when = new Date(values[r][0]).getTime();
+      if (when >= since) return r + 1;
+    }
+  }
+  return 0;
 }
 
 function normalize(s) {
