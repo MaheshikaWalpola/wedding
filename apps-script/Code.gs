@@ -76,6 +76,7 @@ var COL_NOTE = 'Seat Note';
 var PHOTOS_TAB = 'Guest Photos';
 var PHOTOS_FOLDER_NAME = 'Wedding Guest Photos';
 var MAX_PHOTO_BASE64_CHARS = 3000000; // ~2.2 MB image; the site sends ~500 KB (1600 px JPEG)
+var ALBUM_LIMIT = 300; // the album page lists this many of the newest photos; Drive keeps them all
 
 // The site code and the limits. The code itself is read from the SITE_PIN
 // Script Property (see the header); it must never be written in this file.
@@ -319,7 +320,9 @@ function listPhotos() {
     });
   }
   photos.reverse();
-  return { ok: true, photos: photos.slice(0, 200) };
+  // The album shows the newest ALBUM_LIMIT photos; every upload stays in Drive and in the
+  // sheet whatever the count (Maheshika, 19 Oct 2026: 300, was 200).
+  return { ok: true, photos: photos.slice(0, ALBUM_LIMIT) };
 }
 
 function getOrCreatePhotosSheet() {
