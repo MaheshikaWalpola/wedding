@@ -77,7 +77,7 @@ Tell Claude what to change — e.g. *"change the poruwa time to 6 PM"*, *"replac
 |---|---|
 | Programme times & descriptions | `index.html`, "Celebrations" section (and the invitation card, and `assets/wedding.ics`) |
 | Dress code | `index.html`, "Celebrations" section |
-| RSVP deadline (15 November 2026) | `index.html`: invitation card; `faq.html`: "When should I reply?" |
+| RSVP deadline (30 November 2026) | `index.html`: invitation card; `faq.html`: "When should I reply?" |
 | Travel, hotels, Q&A | `index.html` |
 | The guest guide (itinerary, hotels, tips) | `guide.html` |
 | Contact names/numbers | `index.html`, closing section (WhatsApp links) |
