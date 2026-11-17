@@ -773,7 +773,9 @@ html.covered .img-reveal img { transform: scale(1.08); transition: none; }
 .glance strong { font-weight: 400; color: var(--ink); }
 .glance a, .guide-grid a, .stay-list a { color: var(--royal); text-decoration: underline; text-decoration-color: rgba(28,63,160,.35); text-underline-offset: .2em; }
 .guide-grid { margin-top: 2.5rem; align-items: start; } /* cards only as tall as their text: a long card no longer stretches its neighbours (10 Oct 2026) */
-#people .guide-grid { align-items: stretch; } /* People we know: cards in a row share one height (17 Nov 2026) */
+#people .guide-grid { align-items: stretch; grid-template-columns: repeat(4, 1fr); } /* People we know: four cards in one row, sharing one height (17 Nov 2026); the 900px and 560px rules below still narrow it on phones */
+@media (max-width: 900px) { #people .guide-grid { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 560px) { #people .guide-grid { grid-template-columns: 1fr; } }
 .guide-grid .info p + p { margin-top: .6rem; }
 .guide-grid .info ul.plain li { padding: .45rem 0; font-size: .95rem; }
 /* Where to stay: three groups, each a comma-separated run of hotel links */
